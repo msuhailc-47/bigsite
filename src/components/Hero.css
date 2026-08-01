@@ -1,0 +1,103 @@
+.hero {
+  position: relative; min-height: 100vh; display: flex; align-items: center;
+  justify-content: center; overflow: hidden;
+  background: linear-gradient(135deg, #060f1d 0%, #0a1628 40%, #0e1b30 100%);
+}
+.hero-particles { position: absolute; inset: 0; z-index: 1; }
+.hero-particle {
+  position: absolute; border-radius: 50%;
+  background: rgba(0, 180, 216, 0.3);
+  animation: heroFloat linear infinite;
+}
+@keyframes heroFloat {
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
+}
+.hero-glow {
+  position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+  width: 800px; height: 800px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,180,216,0.08) 0%, transparent 70%);
+  z-index: 1;
+}
+.hero-grid-bg {
+  position: absolute; inset: 0; z-index: 1; opacity: 0.03;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.hero-content {
+  position: relative; z-index: 2; text-align: center;
+  max-width: 900px; padding: 0 24px;
+  animation: fadeInUp 0.8s ease forwards;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 20px; border-radius: 50px; font-size: 0.85rem; font-weight: 500;
+  background: rgba(0,180,216,0.1); border: 1px solid rgba(0,180,216,0.2);
+  color: var(--accent); margin-bottom: 32px;
+  animation: fadeInUp 0.6s ease 0.1s both;
+}
+.hero-title { margin-bottom: 20px; animation: fadeInUp 0.6s ease 0.2s both; }
+.hero-title-main {
+  display: block; font-family: 'Outfit', sans-serif; font-size: 5rem; font-weight: 900;
+  background: linear-gradient(135deg, #ffffff 0%, #00b4d8 50%, #10b981 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  line-height: 1; letter-spacing: -2px;
+}
+.hero-title-sub {
+  display: block; font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 600;
+  color: var(--accent-gold); letter-spacing: 6px; text-transform: uppercase; margin-top: 8px;
+}
+.hero-tagline {
+  font-size: 1.4rem; font-weight: 600; color: var(--accent);
+  margin-bottom: 16px; letter-spacing: 1px;
+  animation: fadeInUp 0.6s ease 0.3s both;
+}
+.hero-subtitle {
+  font-size: 1.1rem; color: var(--text-muted); line-height: 1.8;
+  max-width: 700px; margin: 0 auto 40px;
+  animation: fadeInUp 0.6s ease 0.4s both;
+}
+.hero-actions {
+  display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+  margin-bottom: 50px;
+  animation: fadeInUp 0.6s ease 0.5s both;
+}
+.hero-stats {
+  display: flex; align-items: center; justify-content: center; gap: 32px;
+  padding: 24px 40px; border-radius: 16px;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(10px);
+  animation: fadeInUp 0.6s ease 0.6s both;
+}
+.hero-stat { text-align: center; }
+.hero-stat-num {
+  display: block; font-family: 'Outfit', sans-serif; font-size: 1.8rem;
+  font-weight: 800; color: var(--text-heading);
+}
+.hero-stat-label { font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+.hero-stat-divider { width: 1px; height: 40px; background: var(--border); }
+.hero-scroll-indicator {
+  position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+  z-index: 2; color: var(--text-muted); animation: bounce 2s ease infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(10px); }
+}
+@media (max-width: 768px) {
+  .hero-title-main { font-size: 3rem; }
+  .hero-title-sub { font-size: 0.7rem; letter-spacing: 3px; }
+  .hero-tagline { font-size: 1.1rem; }
+  .hero-subtitle { font-size: 0.95rem; }
+  .hero-stats { gap: 16px; padding: 16px 20px; flex-wrap: wrap; }
+  .hero-stat-num { font-size: 1.4rem; }
+}
+@media (max-width: 480px) {
+  .hero-title-main { font-size: 2.4rem; }
+  .hero-stats { gap: 12px; }
+  .hero-stat-divider { display: none; }
+}

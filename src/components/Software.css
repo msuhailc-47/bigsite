@@ -1,0 +1,41 @@
+.software { background: var(--primary); position: relative; overflow: hidden; }
+.software-grid-pattern {
+  position: absolute; inset: 0; opacity: 0.02;
+  background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.sw-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; position: relative; z-index: 2; }
+.sw-grid > :nth-child(n+5) { }
+.sw-card {
+  border-radius: 16px; background: var(--surface-card); border: 1px solid var(--border);
+  overflow: hidden; transition: all 0.3s ease;
+}
+.sw-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--border-hover); }
+.sw-mockup { border-bottom: 1px solid var(--border); padding: 12px; }
+.sw-mockup-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.sw-dots { display: flex; gap: 4px; }
+.sw-dots span { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.15); }
+.sw-mockup-title { height: 6px; border-radius: 3px; width: 60px; }
+.sw-mockup-body { display: flex; gap: 8px; min-height: 100px; }
+.sw-mock-sidebar { width: 30%; border-radius: 6px; padding: 8px; display: flex; flex-direction: column; gap: 4px; justify-content: center; }
+.sw-mock-bar { height: 4px; border-radius: 2px; }
+.sw-mock-content { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+.sw-mock-chart {
+  flex: 1; border-radius: 6px; display: flex; align-items: flex-end;
+  gap: 3px; padding: 8px 6px 6px;
+}
+.sw-mock-col { flex: 1; border-radius: 2px 2px 0 0; transition: height 0.5s ease; }
+.sw-card:hover .sw-mock-col { height: 80% !important; }
+.sw-mock-rows { display: flex; flex-direction: column; gap: 3px; }
+.sw-mock-row { height: 6px; border-radius: 3px; }
+.sw-card-info { padding: 20px; }
+.sw-card-icon {
+  width: 44px; height: 44px; border-radius: 12px; margin-bottom: 12px;
+  display: flex; align-items: center; justify-content: center;
+}
+.sw-card-info h3 { font-size: 1rem; margin-bottom: 6px; }
+.sw-card-info p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+.sw-cta { text-align: center; margin-top: 48px; position: relative; z-index: 2; }
+@media (max-width: 1024px) { .sw-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .sw-grid { grid-template-columns: 1fr; } }

@@ -1,0 +1,57 @@
+.gallery-sec { background: var(--primary); }
+.gal-tabs { display: flex; justify-content: center; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; }
+.gal-photos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.gal-photo-card {
+  position: relative; aspect-ratio: 4/3; border-radius: 12px; overflow: hidden;
+  background: linear-gradient(135deg, rgba(0,180,216,0.1), rgba(16,185,129,0.1));
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  color: var(--text-muted); cursor: pointer; border: 1px solid var(--border);
+}
+.gal-photo-card span { font-size: 0.85rem; font-weight: 500; }
+.gal-photo-overlay {
+  position: absolute; inset: 0; background: rgba(10,22,40,0.8);
+  display: flex; align-items: center; justify-content: center; opacity: 0;
+  transition: all 0.3s ease; backdrop-filter: blur(4px);
+}
+.gal-photo-overlay span {
+  padding: 8px 20px; border-radius: 50px; border: 1px solid var(--accent);
+  color: var(--accent); font-weight: 600; font-size: 0.85rem; transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+.gal-photo-card:hover .gal-photo-overlay { opacity: 1; }
+.gal-photo-card:hover .gal-photo-overlay span { transform: translateY(0); }
+
+.gal-videos-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.gal-video-card {
+  position: relative; aspect-ratio: 16/9; border-radius: 16px; overflow: hidden;
+  background: linear-gradient(135deg, rgba(0,180,216,0.15), rgba(139,92,246,0.15));
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+  color: var(--text); cursor: pointer; border: 1px solid var(--border); transition: all 0.3s ease;
+}
+.gal-video-card:hover { transform: scale(1.02); border-color: var(--accent); box-shadow: var(--shadow-lg); }
+.gal-video-card span { font-weight: 600; font-size: 1.1rem; }
+
+.gal-achievements { display: flex; flex-direction: column; gap: 16px; max-width: 700px; margin: 0 auto; }
+.gal-ach-item {
+  display: flex; align-items: stretch; gap: 20px; padding: 20px;
+  border-radius: 14px; background: var(--surface-card); border: 1px solid var(--border);
+}
+.gal-ach-year {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  padding-right: 20px; border-right: 1px solid var(--border); color: var(--accent); font-weight: 700;
+  font-family: 'Outfit', sans-serif; font-size: 1.1rem; min-width: 90px;
+}
+.gal-ach-content { display: flex; gap: 16px; flex: 1; align-items: flex-start; }
+.gal-ach-icon { color: var(--accent-gold); flex-shrink: 0; margin-top: 2px; }
+.gal-ach-content h4 { font-size: 1.05rem; margin-bottom: 6px; }
+.gal-ach-content p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+
+@media (max-width: 768px) {
+  .gal-photos-grid { grid-template-columns: repeat(2, 1fr); }
+  .gal-videos-grid { grid-template-columns: 1fr; }
+  .gal-ach-item { flex-direction: column; gap: 12px; }
+  .gal-ach-year { border-right: none; border-bottom: 1px solid var(--border); padding-right: 0; padding-bottom: 12px; flex-direction: row; justify-content: flex-start; }
+}
+@media (max-width: 480px) {
+  .gal-photos-grid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,6 @@
+/* App styles handled by index.css and component-specific css files */
+.app-container {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
