@@ -22,7 +22,7 @@ export default function Downloads({ lang }) {
                 <span className="dl-size">{item.size}</span>
               </div>
               <button className="dl-btn">
-                <Download size={16} /> Download
+                <Download size={16} /> {t.downloads.download}
               </button>
             </div>
           ))}

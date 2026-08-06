@@ -10,7 +10,13 @@ const translations = {
       subtitle: 'Dorek International Enterprises LLP is a leading parent company powering multiple brands and delivering complete engineering solutions across Kerala.',
       getStarted: 'Get Started',
       contactUs: 'Contact Us',
-      portalLogin: 'Portal Login'
+      portalLogin: 'Portal Login',
+      stats: {
+        divisions: 'Divisions',
+        districts: 'Districts',
+        associates: 'Associates',
+        sectors: 'Sectors'
+      }
     },
     about: {
       label: 'About Us',
@@ -166,24 +172,61 @@ const translations = {
       title: 'Join Our Team',
       subtitle: 'Build your career with one of Kerala\'s fastest-growing enterprise groups.',
       categories: ['Current Openings', 'Internships', 'Training Programs'],
-      applyOnline: 'Apply Online'
+      applyOnline: 'Apply Online',
+      apply: 'Apply',
+      enroll: 'Enroll',
+      certified: 'Certified',
+      jobs: [
+        { title: 'Sales Executive', dept: 'Sales', location: 'Ernakulam', type: 'Full-time' },
+        { title: 'Electrical Engineer', dept: 'Engineering', location: 'Thrissur', type: 'Full-time' },
+        { title: 'Software Developer', dept: 'Technology', location: 'Kochi', type: 'Full-time' },
+        { title: 'Store Manager', dept: 'Retail', location: 'Kozhikode', type: 'Full-time' }
+      ],
+      internships: [
+        { title: 'Marketing Intern', duration: '3 Months', dept: 'Marketing' },
+        { title: 'Engineering Intern', duration: '6 Months', dept: 'Engineering' },
+        { title: 'IT Intern', duration: '3 Months', dept: 'Technology' }
+      ],
+      training: [
+        { title: 'Electrical Systems Training', desc: 'Comprehensive training on electrical installations and maintenance.', cert: true },
+        { title: 'Solar EPC Certification', desc: 'Professional certification for solar power plant engineering.', cert: true },
+        { title: 'Retail Management', desc: 'Store operations, inventory, and customer service training.', cert: false }
+      ]
     },
     news: {
       label: 'News & Events',
       title: 'Latest News & Events',
       subtitle: 'Stay updated with the latest developments, achievements, and events at Dorek International.',
-      categories: ['Latest News', 'Board Meetings', 'Alliance Summit', 'Events', 'Gallery']
+      categories: ['Latest News', 'Board Meetings', 'Alliance Summit', 'Events', 'Gallery'],
+      readMore: 'Read More',
+      items: [
+        { cat: 'News', date: 'July 28, 2025', title: 'Dorek International Expands to 5 New Districts', excerpt: 'Dorek International announced expansion of Doorcarts network to five new districts across Kerala.', featured: true },
+        { cat: 'Event', date: 'July 15, 2025', title: 'Alliance Summit 2025 Successfully Concluded', excerpt: 'Over 200 associates and partners gathered for the annual Alliance Summit.' },
+        { cat: 'Meeting', date: 'June 30, 2025', title: 'Q2 Board Meeting Highlights', excerpt: 'Board approved new franchise guidelines and investment policies.' },
+        { cat: 'News', date: 'June 20, 2025', title: 'Software Division Launches Mobile App', excerpt: 'New mobile application for field operations and delivery tracking.' }
+      ]
     },
     gallery: {
       label: 'Gallery',
       title: 'Media Gallery',
       subtitle: 'Explore our journey through photos, videos, and milestones.',
-      tabs: ['Photos', 'Videos', 'Achievements']
+      tabs: ['Photos', 'Videos', 'Achievements'],
+      view: 'View',
+      photos: ['Corporate Office', 'Team Meeting', 'Product Display', 'Store Opening', 'Training Session', 'Alliance Summit', 'Award Ceremony', 'Exhibition', 'Community Event'],
+      videos: ['Corporate Overview', 'Product Demo', 'Franchise Guide', 'Training Highlights'],
+      achievements: [
+        { year: '2024', title: 'Best Emerging Enterprise Award', desc: 'Recognized for outstanding business growth and innovation.' },
+        { year: '2023', title: 'Top Franchise Network in Kerala', desc: 'Acknowledged for fastest franchise network expansion.' },
+        { year: '2023', title: 'Technology Excellence Award', desc: 'For in-house ERP and CRM software development.' },
+        { year: '2022', title: 'Best Customer Service Award', desc: 'Recognized for outstanding after-sales support.' },
+        { year: '2021', title: 'Startup Recognition', desc: 'Featured among top emerging startups in Kerala.' }
+      ]
     },
     downloads: {
       label: 'Downloads',
       title: 'Download Center',
       subtitle: 'Access brochures, catalogs, forms, and policy documents.',
+      download: 'Download',
       items: [
         { name: 'Company Brochure', type: 'PDF', size: '4.2 MB' },
         { name: 'Corporate Profile', type: 'PDF', size: '6.8 MB' },
@@ -224,6 +267,9 @@ const translations = {
       label: 'Contact Us',
       title: 'Get In Touch',
       subtitle: 'We\'d love to hear from you. Reach out to us for inquiries, partnerships, or support.',
+      addressLabel: 'Address',
+      phoneLabel: 'Phone Number',
+      emailLabel: 'Email Address',
       address: 'Dorek International Enterprises LLP\nKerala, India',
       phone: '+91 XXXXX XXXXX',
       email: 'info@dorek.in',
@@ -257,16 +303,21 @@ const translations = {
         { name: 'Customer Login', icon: 'UserCircle' },
         { name: 'Investor Login', icon: 'TrendingUp' }
       ],
-      username: 'Username / Email',
+      partnerPortal: 'Partner & Employee Portal',
+      username: 'Username / Portal ID',
       password: 'Password',
+      enterId: 'Enter your ID',
+      rememberMe: 'Remember me',
       login: 'Login',
       forgot: 'Forgot Password?',
       comingSoon: 'Coming Soon'
     },
     chat: {
-      title: 'Dorek AI Assistant',
-      placeholder: 'Type your question...',
+      title: 'Dorek Assistant',
+      placeholder: 'Type a message...',
       greeting: 'Hello! 👋 Welcome to Dorek International. How can I help you today?',
+      reply: 'Thank you for your message. A representative will get back to you shortly.',
+      online: 'Online',
       options: ['Products & Services', 'Business Opportunities', 'Franchise Info', 'Contact Sales']
     }
   },
@@ -281,7 +332,13 @@ const translations = {
       subtitle: 'ഡോറെക് ഇന്റർനാഷണൽ എന്റർപ്രൈസസ് LLP കേരളത്തിലുടനീളം ഒന്നിലധികം ബ്രാൻഡുകൾക്കും സമ്പൂർണ്ണ എഞ്ചിനീയറിംഗ് സൊല്യൂഷനുകൾക്കും ശക്തി പകരുന്ന ഒരു മുൻനിര മാതൃ കമ്പനിയാണ്.',
       getStarted: 'ആരംഭിക്കുക',
       contactUs: 'ബന്ധപ്പെടുക',
-      portalLogin: 'പോർട്ടൽ ലോഗിൻ'
+      portalLogin: 'പോർട്ടൽ ലോഗിൻ',
+      stats: {
+        divisions: 'വിഭാഗങ്ങൾ',
+        districts: 'ജില്ലകൾ',
+        associates: 'അസോസിയേറ്റുകൾ',
+        sectors: 'മേഖലകൾ'
+      }
     },
     about: {
       label: 'ഞങ്ങളെക്കുറിച്ച്',
@@ -407,23 +464,60 @@ const translations = {
       title: 'ഞങ്ങളുടെ ടീമിൽ ചേരുക',
       subtitle: 'കേരളത്തിലെ ഏറ്റവും വേഗത്തിൽ വളരുന്ന എന്റർപ്രൈസ് ഗ്രൂപ്പുകളിലൊന്നിൽ നിങ്ങളുടെ കരിയർ കെട്ടിപ്പടുക്കുക.',
       categories: ['നിലവിലെ ഒഴിവുകൾ', 'ഇന്റേൺഷിപ്പുകൾ', 'ട്രെയിനിംഗ് പ്രോഗ്രാമുകൾ'],
-      applyOnline: 'ഓൺലൈനായി അപേക്ഷിക്കുക'
+      applyOnline: 'ഓൺലൈനായി അപേക്ഷിക്കുക',
+      apply: 'അപേക്ഷിക്കുക',
+      enroll: 'എൻറോൾ ചെയ്യുക',
+      certified: 'സർട്ടിഫൈഡ്',
+      jobs: [
+        { title: 'സെയിൽസ് എക്സിക്യൂട്ടീവ്', dept: 'സെയിൽസ്', location: 'എറണാകുളം', type: 'ഫുൾ-ടൈം' },
+        { title: 'ഇലക്ട്രിക്കൽ എഞ്ചിനീയർ', dept: 'എഞ്ചിനീയറിംഗ്', location: 'തൃശ്ശൂർ', type: 'ഫുൾ-ടൈം' },
+        { title: 'സോഫ്റ്റ്വെയർ ഡെവലപ്പർ', dept: 'ടെക്നോളജി', location: 'കൊച്ചി', type: 'ഫുൾ-ടൈം' },
+        { title: 'സ്റ്റോർ മാനേജർ', dept: 'റീട്ടെയ്ൽ', location: 'കോഴിക്കോട്', type: 'ഫുൾ-ടൈം' }
+      ],
+      internships: [
+        { title: 'മാർക്കറ്റിംഗ് ഇന്റേൺ', duration: '3 മാസം', dept: 'മാർക്കറ്റിംഗ്' },
+        { title: 'എഞ്ചിനീയറിംഗ് ഇന്റേൺ', duration: '6 മാസം', dept: 'എഞ്ചിനീയറിംഗ്' },
+        { title: 'ഐടി ഇന്റേൺ', duration: '3 മാസം', dept: 'ടെക്നോളജി' }
+      ],
+      training: [
+        { title: 'ഇലക്ട്രിക്കൽ സിസ്റ്റംസ് പരിശീലനം', desc: 'ഇലക്ട്രിക്കൽ ഇൻസ്റ്റലേഷനുകളെയും അറ്റകുറ്റപ്പണികളെയും കുറിച്ചുള്ള സമഗ്ര പരിശീലനം.', cert: true },
+        { title: 'സോളാർ EPC സർട്ടിഫിക്കേഷൻ', desc: 'സോളാർ പവർ പ്ലാന്റ് എഞ്ചിനീയറിംഗിനുള്ള പ്രൊഫഷണൽ സർട്ടിഫിക്കേഷൻ.', cert: true },
+        { title: 'റീട്ടെയ്ൽ മാനേജ്മെന്റ്', desc: 'സ്റ്റോർ ഓപ്പറേഷൻസ്, ഇൻവെന്ററി, ഉപഭോക്തൃ സേവന പരിശീലനം.', cert: false }
+      ]
     },
     news: {
       label: 'വാർത്തയും ഇവന്റുകളും',
       title: 'ഏറ്റവും പുതിയ വാർത്തയും ഇവന്റുകളും',
-      subtitle: 'ഡോറെക് ഇന്റർനാഷണലിലെ ഏറ്റവും പുതിയ സംഭവവികാസങ്ങൾ, നേട്ടങ്ങൾ, ഇവന്റുകൾ എന്നിവ അറിയുക.'
+      subtitle: 'ഡോറെക് ഇന്റർനാഷണലിലെ ഏറ്റവും പുതിയ സംഭവവികാസങ്ങൾ, നേട്ടങ്ങൾ, ഇവന്റുകൾ എന്നിവ അറിയുക.',
+      readMore: 'കൂടുതൽ വായിക്കുക',
+      items: [
+        { cat: 'വാർത്ത', date: 'ജൂലൈ 28, 2025', title: 'ഡോറെക് ഇന്റർനാഷണൽ 5 പുതിയ ജില്ലകളിലേക്ക് വിപുലീകരിക്കുന്നു', excerpt: 'കേരളത്തിലെ അഞ്ച് പുതിയ ജില്ലകളിലേക്ക് ഡോർകാർട്ട്സ് ശൃംഖല വിപുലീകരിക്കുന്നതായി ഡോറെക് ഇന്റർനാഷണൽ പ്രഖ്യാപിച്ചു.', featured: true },
+        { cat: 'ഇവന്റ്', date: 'ജൂലൈ 15, 2025', title: 'അലയൻസ് സമ്മിറ്റ് 2025 വിജയകരമായി സമാപിച്ചു', excerpt: 'വാർഷിക അലയൻസ് സമ്മിറ്റിനായി 200-ലധികം അസോസിയേറ്റുകളും പങ്കാളികളും ഒത്തുചേർന്നു.' },
+        { cat: 'യോഗം', date: 'ജൂൺ 30, 2025', title: 'Q2 ബോർഡ് യോഗ ഹൈലൈറ്റുകൾ', excerpt: 'പുതിയ ഫ്രാഞ്ചൈസ് മാർഗ്ഗനിർദ്ദേശങ്ങൾക്കും നിക്ഷേപ നയങ്ങൾക്കും ബോർഡ് അംഗീകാരം നൽകി.' },
+        { cat: 'വാർത്ത', date: 'ജൂൺ 20, 2025', title: 'സോഫ്റ്റ്വെയർ ഡിവിഷൻ മൊബൈൽ ആപ്പ് പുറത്തിറക്കി', excerpt: 'ഫീൽഡ് ഓപ്പറേഷനുകൾക്കും ഡെലിവറി ട്രാക്കിംഗിനുമുള്ള പുതിയ മൊബൈൽ ആപ്ലിക്കേഷൻ.' }
+      ]
     },
     gallery: {
       label: 'ഗാലറി',
       title: 'മീഡിയ ഗാലറി',
       subtitle: 'ഞങ്ങളുടെ യാത്ര ഫോട്ടോകൾ, വീഡിയോകൾ, നാഴികക്കല്ലുകൾ എന്നിവയിലൂടെ പര്യവേക്ഷണം ചെയ്യുക.',
-      tabs: ['ഫോട്ടോകൾ', 'വീഡിയോകൾ', 'നേട്ടങ്ങൾ']
+      tabs: ['ഫോട്ടോകൾ', 'വീഡിയോകൾ', 'നേട്ടങ്ങൾ'],
+      view: 'കാണുക',
+      photos: ['കോർപ്പറേറ്റ് ഓഫീസ്', 'ടീം മീറ്റിംഗ്', 'ഉൽപ്പന്ന പ്രദർശനം', 'സ്റ്റോർ ഓപ്പണിംഗ്', 'ട്രെയിനിംഗ് സെഷൻ', 'അലയൻസ് സമ്മിറ്റ്', 'അവാർഡ് ചടങ്ങ്', 'എക്സിബിഷൻ', 'കമ്മ്യൂണിറ്റി ഇവന്റ്'],
+      videos: ['കോർപ്പറേറ്റ് അവലോകനം', 'ഉൽപ്പന്ന ഡെമോ', 'ഫ്രാഞ്ചൈസ് ഗൈഡ്', 'ട്രെയിനിംഗ് ഹൈലൈറ്റുകൾ'],
+      achievements: [
+        { year: '2024', title: 'മികച്ച ഉയർന്നുവരുന്ന എന്റർപ്രൈസ് അവാർഡ്', desc: 'മികച്ച ബിസിനസ് വളർച്ചയ്ക്കും നവീകരണത്തിനും അംഗീകാരം.' },
+        { year: '2023', title: 'കേരളത്തിലെ മികച്ച ഫ്രാഞ്ചൈസ് ശൃംഖല', desc: 'ഏറ്റവും വേഗത്തിലുള്ള ഫ്രാഞ്ചൈസ് ശൃംഖല വിപുലീകരണത്തിനുള്ള അംഗീകാരം.' },
+        { year: '2023', title: 'ടെക്നോളജി എക്സലൻസ് അവാർഡ്', desc: 'ഇൻ-ഹൗസ് ERP, CRM സോഫ്റ്റ്വെയർ വികസനത്തിന്.' },
+        { year: '2022', title: 'മികച്ച ഉപഭോക്തൃ സേവന അവാർഡ്', desc: 'മികച്ച ആഫ്റ്റർ-സെയിൽസ് പിന്തുണയ്ക്കുള്ള അംഗീകാരം.' },
+        { year: '2021', title: 'സ്റ്റാർട്ടപ്പ് അംഗീകാരം', desc: 'കേരളത്തിലെ മികച്ച ഉയർന്നുവരുന്ന സ്റ്റാർട്ടപ്പുകളിൽ ഇടം നേടി.' }
+      ]
     },
     downloads: {
       label: 'ഡൗൺലോഡുകൾ',
       title: 'ഡൗൺലോഡ് സെന്റർ',
       subtitle: 'ബ്രോഷറുകൾ, കാറ്റലോഗുകൾ, ഫോമുകൾ, പോളിസി ഡോക്യുമെന്റുകൾ എന്നിവ ആക്സസ് ചെയ്യുക.',
+      download: 'ഡൗൺലോഡ്',
       items: [
         { name: 'കമ്പനി ബ്രോഷർ', type: 'PDF', size: '4.2 MB' },
         { name: 'കോർപ്പറേറ്റ് പ്രൊഫൈൽ', type: 'PDF', size: '6.8 MB' },
@@ -464,6 +558,9 @@ const translations = {
       label: 'ബന്ധപ്പെടുക',
       title: 'ബന്ധപ്പെടുക',
       subtitle: 'അന്വേഷണങ്ങൾ, പങ്കാളിത്തങ്ങൾ, അല്ലെങ്കിൽ പിന്തുണ എന്നിവയ്ക്കായി ഞങ്ങളെ ബന്ധപ്പെടുക.',
+      addressLabel: 'വിലാസം',
+      phoneLabel: 'ഫോൺ നമ്പർ',
+      emailLabel: 'ഇമെയിൽ വിലാസം',
       address: 'ഡോറെക് ഇന്റർനാഷണൽ എന്റർപ്രൈസസ് LLP\nകേരളം, ഇന്ത്യ',
       phone: '+91 XXXXX XXXXX',
       email: 'info@dorek.in',
@@ -497,16 +594,21 @@ const translations = {
         { name: 'കസ്റ്റമർ ലോഗിൻ', icon: 'UserCircle' },
         { name: 'ഇൻവെസ്റ്റർ ലോഗിൻ', icon: 'TrendingUp' }
       ],
-      username: 'യൂസർനെയിം / ഇമെയിൽ',
+      partnerPortal: 'പങ്കാളി & ജീവനക്കാരുടെ പോർട്ടൽ',
+      username: 'യൂസർനെയിം / പോർട്ടൽ ID',
       password: 'പാസ്‌വേഡ്',
+      enterId: 'നിങ്ങളുടെ ID നൽകുക',
+      rememberMe: 'എന്നെ ഓർമ്മിക്കുക',
       login: 'ലോഗിൻ',
       forgot: 'പാസ്‌വേഡ് മറന്നോ?',
       comingSoon: 'ഉടൻ വരുന്നു'
     },
     chat: {
-      title: 'ഡോറെക് AI അസിസ്റ്റന്റ്',
-      placeholder: 'നിങ്ങളുടെ ചോദ്യം ടൈപ്പ് ചെയ്യുക...',
+      title: 'ഡോറെക് അസിസ്റ്റന്റ്',
+      placeholder: 'ഒരു സന്ദേശം ടൈപ്പ് ചെയ്യുക...',
       greeting: 'ഹലോ! 👋 ഡോറെക് ഇന്റർനാഷണലിലേക്ക് സ്വാഗതം. ഞാൻ എങ്ങനെ സഹായിക്കാം?',
+      reply: 'നിങ്ങളുടെ സന്ദേശത്തിന് നന്ദി. ഒരു പ്രതിനിധി ഉടൻ തന്നെ നിങ്ങളെ ബന്ധപ്പെടും.',
+      online: 'ഓൺലൈൻ',
       options: ['ഉൽപ്പന്നങ്ങൾ & സേവനങ്ങൾ', 'ബിസിനസ് അവസരങ്ങൾ', 'ഫ്രാഞ്ചൈസ് വിവരങ്ങൾ', 'സെയിൽസ് ബന്ധപ്പെടുക']
     }
   }

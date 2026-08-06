@@ -3,26 +3,12 @@ import { Briefcase, Clock, MapPin, GraduationCap, Award, ArrowRight } from 'luci
 import './Careers.css';
 import translations from '../i18n/translations';
 
-const jobs = [
-  { title: 'Sales Executive', dept: 'Sales', location: 'Ernakulam', type: 'Full-time' },
-  { title: 'Electrical Engineer', dept: 'Engineering', location: 'Thrissur', type: 'Full-time' },
-  { title: 'Software Developer', dept: 'Technology', location: 'Kochi', type: 'Full-time' },
-  { title: 'Store Manager', dept: 'Retail', location: 'Kozhikode', type: 'Full-time' },
-];
-const internships = [
-  { title: 'Marketing Intern', duration: '3 Months', dept: 'Marketing' },
-  { title: 'Engineering Intern', duration: '6 Months', dept: 'Engineering' },
-  { title: 'IT Intern', duration: '3 Months', dept: 'Technology' },
-];
-const training = [
-  { title: 'Electrical Systems Training', desc: 'Comprehensive training on electrical installations and maintenance.', cert: true },
-  { title: 'Solar EPC Certification', desc: 'Professional certification for solar power plant engineering.', cert: true },
-  { title: 'Retail Management', desc: 'Store operations, inventory, and customer service training.', cert: false },
-];
-
 export default function Careers({ lang }) {
   const t = translations[lang];
   const [tab, setTab] = useState(0);
+  const jobs = t.careers.jobs;
+  const internships = t.careers.internships;
+  const training = t.careers.training;
   return (
     <section id="careers" className="section careers">
       <div className="container">
@@ -45,7 +31,7 @@ export default function Careers({ lang }) {
               </div>
               <div className="career-card-right">
                 <span className="badge badge-emerald">{j.dept}</span>
-                <button className="btn btn-primary btn-sm">Apply <ArrowRight size={14} /></button>
+                <button className="btn btn-primary btn-sm">{t.careers.apply} <ArrowRight size={14} /></button>
               </div>
             </div>
           ))}</div>}
@@ -57,7 +43,7 @@ export default function Careers({ lang }) {
               </div>
               <div className="career-card-right">
                 <span className="badge">{j.dept}</span>
-                <button className="btn btn-primary btn-sm">Apply <ArrowRight size={14} /></button>
+                <button className="btn btn-primary btn-sm">{t.careers.apply} <ArrowRight size={14} /></button>
               </div>
             </div>
           ))}</div>}
@@ -68,8 +54,8 @@ export default function Careers({ lang }) {
                 <p className="career-training-desc">{j.desc}</p>
               </div>
               <div className="career-card-right">
-                {j.cert && <span className="badge badge-gold">Certified</span>}
-                <button className="btn btn-primary btn-sm">Enroll <ArrowRight size={14} /></button>
+                {j.cert && <span className="badge badge-gold">{t.careers.certified}</span>}
+                <button className="btn btn-primary btn-sm">{t.careers.enroll} <ArrowRight size={14} /></button>
               </div>
             </div>
           ))}</div>}

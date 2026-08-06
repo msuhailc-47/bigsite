@@ -1,4 +1,4 @@
-import { Eye, Target, Heart, Users, Award, Leaf, Quote, Clock } from 'lucide-react';
+import { Eye, Target, Heart, Users, Award, Leaf, Quote } from 'lucide-react';
 import './About.css';
 import translations from '../i18n/translations';
 

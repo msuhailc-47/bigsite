@@ -3,20 +3,20 @@ import { Menu, X, Globe, LogIn } from 'lucide-react';
 import './Navbar.css';
 import translations from '../i18n/translations';
 
+const navItems = [
+  { key: 'home', id: 'home' }, { key: 'about', id: 'about' },
+  { key: 'businesses', id: 'businesses' }, { key: 'services', id: 'services' },
+  { key: 'opportunities', id: 'opportunities' }, { key: 'software', id: 'software' },
+  { key: 'investors', id: 'investors' }, { key: 'careers', id: 'careers' },
+  { key: 'news', id: 'news' }, { key: 'gallery', id: 'gallery' },
+  { key: 'downloads', id: 'downloads' }, { key: 'contact', id: 'contact' }
+];
+
 export default function Navbar({ lang, onLangChange, onPortalOpen }) {
   const t = translations[lang];
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
-
-  const navItems = [
-    { key: 'home', id: 'home' }, { key: 'about', id: 'about' },
-    { key: 'businesses', id: 'businesses' }, { key: 'services', id: 'services' },
-    { key: 'opportunities', id: 'opportunities' }, { key: 'software', id: 'software' },
-    { key: 'investors', id: 'investors' }, { key: 'careers', id: 'careers' },
-    { key: 'news', id: 'news' }, { key: 'gallery', id: 'gallery' },
-    { key: 'downloads', id: 'downloads' }, { key: 'contact', id: 'contact' }
-  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -42,8 +42,7 @@ export default function Navbar({ lang, onLangChange, onPortalOpen }) {
     <nav className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}>
       <div className="navbar-container">
         <div className="navbar-logo" onClick={() => handleNavClick('home')}>
-          <span className="navbar-logo-text">DOREK</span>
-          <span className="navbar-logo-sub">INTERNATIONAL ENTERPRISES LLP</span>
+          <img src="logo.png" alt="Dorek Logo" className="navbar-logo-img" />
         </div>
         <div className={`navbar-links ${mobileOpen ? 'navbar-links-open' : ''}`}>
           <button className="navbar-close-mobile" onClick={() => setMobileOpen(false)}><X size={24} /></button>

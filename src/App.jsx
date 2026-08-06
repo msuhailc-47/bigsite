@@ -19,18 +19,21 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import PortalLogin from './components/PortalLogin';
 import ChatAssistant from './components/ChatAssistant';
+import WelcomeScreen from './components/WelcomeScreen';
 import './App.css';
 
 function App() {
   const [lang, setLang] = useState('en');
   const [isPortalOpen, setIsPortalOpen] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(true);
 
   const toggleLang = () => {
     setLang(prev => prev === 'en' ? 'ml' : 'en');
   };
 
   return (
-    <div className="app-container">
+    <div className={`app-container ${showWelcome ? 'welcome-active' : ''}`}>
+      {showWelcome && <WelcomeScreen onComplete={() => setShowWelcome(false)} />}
       <Navbar lang={lang} onLangChange={toggleLang} onPortalOpen={() => setIsPortalOpen(true)} />
       
       <main>
@@ -54,8 +57,8 @@ function App() {
       
       <Footer lang={lang} />
       
-      <PortalLogin isOpen={isPortalOpen} onClose={() => setIsPortalOpen(false)} />
-      <ChatAssistant />
+      <PortalLogin lang={lang} isOpen={isPortalOpen} onClose={() => setIsPortalOpen(false)} />
+      <ChatAssistant lang={lang} />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Quote, Star, User } from 'lucide-react';
+import { Quote, Star } from 'lucide-react';
 import './Testimonials.css';
 import translations from '../i18n/translations';
 

@@ -3,19 +3,12 @@ import { Image, Play, Trophy, Calendar } from 'lucide-react';
 import './Gallery.css';
 import translations from '../i18n/translations';
 
-const photos = ['Corporate Office','Team Meeting','Product Display','Store Opening','Training Session','Alliance Summit','Award Ceremony','Exhibition','Community Event'];
-const videos = ['Corporate Overview','Product Demo','Franchise Guide','Training Highlights'];
-const achievements = [
-  { year: '2024', title: 'Best Emerging Enterprise Award', desc: 'Recognized for outstanding business growth and innovation.' },
-  { year: '2023', title: 'Top Franchise Network in Kerala', desc: 'Acknowledged for fastest franchise network expansion.' },
-  { year: '2023', title: 'Technology Excellence Award', desc: 'For in-house ERP and CRM software development.' },
-  { year: '2022', title: 'Best Customer Service Award', desc: 'Recognized for outstanding after-sales support.' },
-  { year: '2021', title: 'Startup Recognition', desc: 'Featured among top emerging startups in Kerala.' },
-];
-
 export default function Gallery({ lang }) {
   const t = translations[lang];
   const [tab, setTab] = useState(0);
+  const photos = t.gallery.photos;
+  const videos = t.gallery.videos;
+  const achievements = t.gallery.achievements;
   return (
     <section id="gallery" className="section gallery-sec">
       <div className="container">
@@ -35,7 +28,7 @@ export default function Gallery({ lang }) {
               <div key={i} className="gal-photo-card">
                 <Image size={28} />
                 <span>{p}</span>
-                <div className="gal-photo-overlay"><span>View</span></div>
+                <div className="gal-photo-overlay"><span>{t.gallery.view}</span></div>
               </div>
             ))}
           </div>}

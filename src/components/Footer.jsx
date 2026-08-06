@@ -15,9 +15,12 @@ export default function Footer({ lang }) {
       <div className="container">
         <div className="footer-top">
           <div className="footer-col brand-col">
-            <div className="footer-logo">
-              <span className="navbar-logo-text">DOREK</span>
-              <span className="navbar-logo-sub" style={{color: '#8b9bb4'}}>INTERNATIONAL ENTERPRISES LLP</span>
+            <div className="footer-logo" style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+              <img src="/logo.png" alt="Dorek Logo" style={{height: '42px', width: 'auto', objectFit: 'contain'}} />
+              <div style={{display: 'flex', flexDirection: 'column'}}>
+                <span className="navbar-logo-text">DOREK</span>
+                <span className="navbar-logo-sub" style={{color: '#8b9bb4'}}>INTERNATIONAL</span>
+              </div>
             </div>
             <p className="footer-desc">A diversified corporate conglomerate delivering excellence across industries.</p>
             <div className="social-links">

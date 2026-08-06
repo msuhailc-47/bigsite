@@ -34,13 +34,13 @@ export default function Hero({ lang }) {
           </a>
         </div>
         <div className="hero-stats">
-          <div className="hero-stat"><span className="hero-stat-num">8+</span><span className="hero-stat-label">Divisions</span></div>
+          <div className="hero-stat"><span className="hero-stat-num">8+</span><span className="hero-stat-label">{t.hero.stats.divisions}</span></div>
           <div className="hero-stat-divider" />
-          <div className="hero-stat"><span className="hero-stat-num">14</span><span className="hero-stat-label">Districts</span></div>
+          <div className="hero-stat"><span className="hero-stat-num">14</span><span className="hero-stat-label">{t.hero.stats.districts}</span></div>
           <div className="hero-stat-divider" />
-          <div className="hero-stat"><span className="hero-stat-num">500+</span><span className="hero-stat-label">Associates</span></div>
+          <div className="hero-stat"><span className="hero-stat-num">500+</span><span className="hero-stat-label">{t.hero.stats.associates}</span></div>
           <div className="hero-stat-divider" />
-          <div className="hero-stat"><span className="hero-stat-num">10+</span><span className="hero-stat-label">Sectors</span></div>
+          <div className="hero-stat"><span className="hero-stat-num">10+</span><span className="hero-stat-label">{t.hero.stats.sectors}</span></div>
         </div>
       </div>
       <div className="hero-scroll-indicator">

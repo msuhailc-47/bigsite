@@ -2,15 +2,9 @@ import { Calendar, ArrowRight, Newspaper } from 'lucide-react';
 import './News.css';
 import translations from '../i18n/translations';
 
-const newsItems = [
-  { cat: 'News', date: 'July 28, 2025', title: 'Dorek International Expands to 5 New Districts', excerpt: 'Dorek International announced expansion of Doorcarts network to five new districts across Kerala.', featured: true },
-  { cat: 'Event', date: 'July 15, 2025', title: 'Alliance Summit 2025 Successfully Concluded', excerpt: 'Over 200 associates and partners gathered for the annual Alliance Summit.' },
-  { cat: 'Meeting', date: 'June 30, 2025', title: 'Q2 Board Meeting Highlights', excerpt: 'Board approved new franchise guidelines and investment policies.' },
-  { cat: 'News', date: 'June 20, 2025', title: 'Software Division Launches Mobile App', excerpt: 'New mobile application for field operations and delivery tracking.' },
-];
-
 export default function News({ lang }) {
   const t = translations[lang];
+  const newsItems = t.news.items;
   const featured = newsItems[0];
   const rest = newsItems.slice(1);
   return (
@@ -28,7 +22,7 @@ export default function News({ lang }) {
             <h3>{featured.title}</h3>
             <p>{featured.excerpt}</p>
             <div className="news-date"><Calendar size={14} /> {featured.date}</div>
-            <button className="btn btn-primary btn-sm">Read More <ArrowRight size={14} /></button>
+            <button className="btn btn-primary btn-sm">{t.news.readMore} <ArrowRight size={14} /></button>
           </div>
         </div>
         <div className="news-grid">
@@ -42,7 +36,7 @@ export default function News({ lang }) {
                 </div>
                 <h4>{item.title}</h4>
                 <p>{item.excerpt}</p>
-                <a className="news-read-more">Read More →</a>
+                <a className="news-read-more">{t.news.readMore} →</a>
               </div>
             </div>
           ))}

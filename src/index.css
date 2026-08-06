@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+
 /* ============================================
    DOREK INTERNATIONAL ENTERPRISES LLP
    Corporate Design System
@@ -5,41 +7,41 @@
 
 /* --- CSS Custom Properties (Design Tokens) --- */
 :root {
-  /* Primary Palette — Dark Corporate Navy */
-  --primary: #0a1628;
-  --primary-light: #132240;
-  --primary-dark: #060f1d;
-  --primary-surface: #0e1b30;
+  /* Primary Palette — Deep Premium Dark */
+  --primary: #050a12;
+  --primary-light: #0d1a2d;
+  --primary-dark: #020408;
+  --primary-surface: #0a1322;
 
   /* Accent Colors */
   --accent: #00b4d8;
-  --accent-hover: #0096b7;
-  --accent-light: rgba(0, 180, 216, 0.15);
-  --accent-gold: #d4a843;
-  --accent-gold-hover: #c49a38;
-  --accent-gold-light: rgba(212, 168, 67, 0.15);
+  --accent-hover: #48cae4;
+  --accent-light: rgba(0, 180, 216, 0.1);
+  --accent-gold: #e6c073;
+  --accent-gold-hover: #f0d08a;
+  --accent-gold-light: rgba(230, 192, 115, 0.1);
   --accent-emerald: #10b981;
-  --accent-emerald-light: rgba(16, 185, 129, 0.15);
+  --accent-emerald-light: rgba(16, 185, 129, 0.1);
   --accent-red: #ef4444;
 
   /* Text */
   --text: #e2e8f0;
-  --text-heading: #f8fafc;
+  --text-heading: #ffffff;
   --text-muted: #94a3b8;
   --text-dark: #0f172a;
 
   /* Surfaces & Glass */
-  --surface: rgba(255, 255, 255, 0.03);
-  --surface-hover: rgba(255, 255, 255, 0.06);
+  --surface: rgba(255, 255, 255, 0.02);
+  --surface-hover: rgba(255, 255, 255, 0.05);
   --surface-active: rgba(255, 255, 255, 0.08);
-  --surface-card: rgba(255, 255, 255, 0.04);
-  --glass-bg: rgba(10, 22, 40, 0.85);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-blur: 20px;
+  --surface-card: rgba(255, 255, 255, 0.03);
+  --glass-bg: rgba(13, 26, 45, 0.5);
+  --glass-border: rgba(255, 255, 255, 0.05);
+  --glass-blur: 24px;
 
   /* Borders */
-  --border: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(255, 255, 255, 0.15);
+  --border: rgba(255, 255, 255, 0.06);
+  --border-hover: rgba(255, 255, 255, 0.12);
 
   /* Gradients */
   --gradient-accent: linear-gradient(135deg, #00b4d8, #10b981);
@@ -128,6 +130,12 @@ body {
   line-height: 1.7;
   font-size: var(--text-base);
   overflow-x: hidden;
+}
+
+/* Prevent scrolling while welcome screen is active */
+.welcome-active {
+  height: 100vh;
+  overflow: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
