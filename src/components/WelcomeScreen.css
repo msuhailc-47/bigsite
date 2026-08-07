@@ -2,8 +2,8 @@
   position: fixed;
   inset: 0;
   background: var(--primary);
-  background-image: var(--gradient-hero);
-  z-index: 9999; /* Higher than anything else */
+  background-image: linear-gradient(135deg, #061C3B 0%, #0A2E5D 50%, #16427D 100%);
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,7 +22,7 @@
 
 .welcome-logo-container {
   position: relative;
-  margin-bottom: var(--space-xl);
+  margin-bottom: 32px;
 }
 
 .welcome-glow {
@@ -32,9 +32,9 @@
   transform: translate(-50%, -50%);
   width: 150px;
   height: 150px;
-  background: var(--accent);
+  background: var(--secondary);
   filter: blur(80px);
-  opacity: 0.4;
+  opacity: 0.3;
   border-radius: 50%;
   animation: pulse-glow 2s infinite alternate;
   z-index: 0;
@@ -46,23 +46,23 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-xs);
+  gap: 8px;
 }
 
 .welcome-title-main {
-  font-family: var(--font-display);
-  font-size: var(--text-2xl);
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
   font-weight: 400;
-  color: var(--text-muted);
+  color: rgba(255, 255, 255, 0.65);
   letter-spacing: 2px;
   text-transform: uppercase;
 }
 
 .welcome-title-sub {
-  font-family: var(--font-display);
-  font-size: var(--text-5xl);
+  font-family: var(--font-heading);
+  font-size: 3rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+  background: linear-gradient(135deg, #ffffff 0%, var(--secondary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -85,13 +85,13 @@
   left: 0;
   height: 100%;
   width: 50%;
-  background: var(--gradient-accent);
+  background: linear-gradient(90deg, var(--secondary), #E5C158);
   animation: load-progress 2s ease-in-out infinite;
 }
 
 @keyframes pulse-glow {
-  0% { opacity: 0.2; transform: translate(-50%, -50%) scale(0.8); }
-  100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.2); }
+  0% { opacity: 0.15; transform: translate(-50%, -50%) scale(0.8); }
+  100% { opacity: 0.35; transform: translate(-50%, -50%) scale(1.2); }
 }
 
 @keyframes load-progress {
@@ -101,10 +101,6 @@
 }
 
 @media (max-width: 768px) {
-  .welcome-title-main {
-    font-size: var(--text-xl);
-  }
-  .welcome-title-sub {
-    font-size: var(--text-3xl);
-  }
+  .welcome-title-main { font-size: 1.1rem; }
+  .welcome-title-sub { font-size: 2rem; }
 }

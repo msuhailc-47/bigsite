@@ -1,20 +1,20 @@
-.careers { background: var(--gradient-section); }
+.careers { background: var(--bg-section); }
 .career-tabs { display: flex; justify-content: center; gap: 8px; margin-bottom: 32px; }
 .career-tab {
-  padding: 10px 24px; border-radius: 50px; border: 1px solid var(--border);
-  background: var(--surface); color: var(--text-muted); font-size: 0.88rem;
+  padding: 10px 24px; border-radius: 50px; border: 1px solid rgba(10, 46, 93, 0.15);
+  background: #ffffff; color: var(--text-muted); font-family: var(--font-heading); font-size: 0.88rem;
   font-weight: 500; cursor: pointer; transition: all 0.2s;
 }
-.career-tab:hover { border-color: var(--accent); color: var(--text); }
-.career-tab-active { background: var(--accent-light); color: var(--accent); border-color: rgba(0,180,216,0.3); font-weight: 600; }
+.career-tab:hover { border-color: var(--primary); color: var(--primary); }
+.career-tab-active { background: var(--primary); color: #ffffff; border-color: var(--primary); font-weight: 600; }
 .career-list { display: flex; flex-direction: column; gap: 14px; max-width: 800px; margin: 0 auto; }
 .career-card {
   display: flex; justify-content: space-between; align-items: center; gap: 16px;
-  padding: 20px 24px; border-radius: 14px; background: var(--surface-card);
-  border: 1px solid var(--border); transition: all 0.25s;
+  padding: 20px 24px; border-radius: var(--radius-card); background: #ffffff;
+  border: 1px solid rgba(10, 46, 93, 0.1); box-shadow: var(--shadow-soft); transition: all 0.25s;
 }
-.career-card:hover { border-color: var(--border-hover); transform: translateX(4px); }
-.career-card-left h4 { display: flex; align-items: center; gap: 8px; font-size: 1rem; margin-bottom: 6px; }
+.career-card:hover { border-color: var(--secondary); transform: translateX(4px); box-shadow: var(--shadow-hover); }
+.career-card-left h4 { display: flex; align-items: center; gap: 8px; font-family: var(--font-heading); font-size: 1rem; margin-bottom: 6px; color: var(--text-heading); }
 .career-meta { display: flex; gap: 16px; }
 .career-meta span { display: flex; align-items: center; gap: 4px; font-size: 0.8rem; color: var(--text-muted); }
 .career-card-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
