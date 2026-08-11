@@ -1,14 +1,15 @@
 import { Users, Store, Building2, TrendingUp, Briefcase, Handshake, Package, Truck, ArrowRight } from 'lucide-react';
+import { useCMS } from '../context/CMSContext';
 import './Opportunities.css';
-import translations from '../i18n/translations';
 
 const iconMap = { Users, Store, Building2, TrendingUp, Briefcase, Handshake, Package, Truck };
 const accents = ['#00b4d8','#d4a843','#10b981','#8b5cf6','#f59e0b','#ef4444','#06b6d4','#3b82f6'];
 
-export default function Opportunities({ lang, onApplyOpen }) {
-  const t = translations[lang];
-  return (
-    <section id="opportunities" className="section opp">
+export default function Opportunities({ lang, t, onApplyOpen }) {
+  const { getAnimationClass } = useCMS();
+  const animClass = getAnimationClass('opportunities');
+    return (
+    <section id="opportunities" className={`section opp ${animClass}`}>
       <div className="container">
         <div className="section-header">
           <span className="section-label">{t.opportunities.label}</span>

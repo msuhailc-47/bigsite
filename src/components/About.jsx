@@ -1,12 +1,13 @@
 import { Eye, Target, Heart, Users, Award, Leaf, Quote } from 'lucide-react';
+import { useCMS } from '../context/CMSContext';
 import './About.css';
-import translations from '../i18n/translations';
 
-export default function About({ lang }) {
-  const t = translations[lang];
-  const valueIcons = [Heart, Award, Users, Target, Leaf, Eye];
+export default function About({ lang, t }) {
+  const { getAnimationClass } = useCMS();
+  const animClass = getAnimationClass('about');
+    const valueIcons = [Heart, Award, Users, Target, Leaf, Eye];
   return (
-    <section id="about" className="section about">
+    <section id="about" className={`section about ${animClass}`}>
       <div className="container">
         <div className="section-header">
           <span className="section-label">{t.about.label}</span>
@@ -16,10 +17,16 @@ export default function About({ lang }) {
 
         <div className="about-grid">
           <div className="about-history">
-            <div className="about-image-placeholder">
+            {t.about.image ? (
+              <div className="about-image-container">
+                <img src={t.about.image} alt="About Us" className="about-real-image" />
+              </div>
+           ) : (
+           <div className="about-image-placeholder">
               <div className="about-img-icon">🏢</div>
               <span>Corporate Headquarters</span>
             </div>
+           )}
             <h3 className="about-h3">{t.about.history}</h3>
             <p className="about-text">{t.about.historyText}</p>
           </div>

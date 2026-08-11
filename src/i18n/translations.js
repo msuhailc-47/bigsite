@@ -6,6 +6,7 @@ const translations = {
       careers: 'Careers', news: 'News', gallery: 'Gallery', downloads: 'Downloads', contact: 'Contact'
     },
     hero: {
+      image: '',
       tagline: 'Think Better... Work Better... Grow Together...',
       subtitle: 'Dorek International Enterprises LLP is a leading parent company powering multiple brands and delivering complete engineering solutions across Kerala.',
       getStarted: 'Get Started',
@@ -15,10 +16,17 @@ const translations = {
         divisions: 'Divisions',
         districts: 'Districts',
         associates: 'Associates',
-        sectors: 'Sectors'
+        sectors: 'Sectors',
+        counts: {
+          divisions: '8+',
+          districts: '14',
+          associates: '500+',
+          sectors: '10+'
+        }
       }
     },
     about: {
+      image: '',
       label: 'About Us',
       title: 'About Dorek International',
       subtitle: 'Dorek International Enterprises LLP is a professionally managed, multi-divisional enterprise headquartered in Kerala, India. With a vision to build a powerful ecosystem of brands and services, Dorek operates across multiple sectors including retail, distribution, engineering, software, and franchise networks.',
@@ -154,7 +162,29 @@ const translations = {
       label: 'Doorcarts Network',
       title: 'Our Network Across Kerala',
       subtitle: 'Doorcarts operates a growing network of hubs, outlets, and associates across all 14 districts of Kerala.',
-      stats: { hubs: 'Hubs', outlets: 'Outlets', associates: 'Associates', districts: 'Districts' }
+      stats: { 
+        hubs: 'Hubs', 
+        outlets: 'Outlets', 
+        associates: 'Associates', 
+        districts: 'Districts',
+        counts: { districts: '', hubs: '', outlets: '', associates: '' }
+      },
+      districts: [
+        { name: 'Thiruvananthapuram', hubs: 5, outlets: 18, associates: 42, coverage: 85 },
+        { name: 'Kollam', hubs: 4, outlets: 15, associates: 38, coverage: 78 },
+        { name: 'Pathanamthitta', hubs: 3, outlets: 10, associates: 28, coverage: 65 },
+        { name: 'Alappuzha', hubs: 4, outlets: 14, associates: 35, coverage: 72 },
+        { name: 'Kottayam', hubs: 4, outlets: 16, associates: 40, coverage: 80 },
+        { name: 'Idukki', hubs: 2, outlets: 8, associates: 20, coverage: 45 },
+        { name: 'Ernakulam', hubs: 6, outlets: 22, associates: 55, coverage: 92 },
+        { name: 'Thrissur', hubs: 5, outlets: 20, associates: 48, coverage: 88 },
+        { name: 'Palakkad', hubs: 4, outlets: 15, associates: 35, coverage: 70 },
+        { name: 'Malappuram', hubs: 5, outlets: 18, associates: 45, coverage: 82 },
+        { name: 'Kozhikode', hubs: 5, outlets: 20, associates: 50, coverage: 90 },
+        { name: 'Wayanad', hubs: 2, outlets: 8, associates: 18, coverage: 40 },
+        { name: 'Kannur', hubs: 4, outlets: 16, associates: 38, coverage: 75 },
+        { name: 'Kasaragod', hubs: 3, outlets: 10, associates: 25, coverage: 58 }
+      ]
     },
     investors: {
       label: 'Investors',
@@ -212,8 +242,23 @@ const translations = {
       subtitle: 'Explore our journey through photos, videos, and milestones.',
       tabs: ['Photos', 'Videos', 'Achievements'],
       view: 'View',
-      photos: ['Corporate Office', 'Team Meeting', 'Product Display', 'Store Opening', 'Training Session', 'Alliance Summit', 'Award Ceremony', 'Exhibition', 'Community Event'],
-      videos: ['Corporate Overview', 'Product Demo', 'Franchise Guide', 'Training Highlights'],
+      photos: [
+        { title: 'Corporate Office', url: '' },
+        { title: 'Team Meeting', url: '' },
+        { title: 'Product Display', url: '' },
+        { title: 'Store Opening', url: '' },
+        { title: 'Training Session', url: '' },
+        { title: 'Alliance Summit', url: '' },
+        { title: 'Award Ceremony', url: '' },
+        { title: 'Exhibition', url: '' },
+        { title: 'Community Event', url: '' }
+      ],
+      videos: [
+        { title: 'Corporate Overview', url: '' },
+        { title: 'Product Demo', url: '' },
+        { title: 'Franchise Guide', url: '' },
+        { title: 'Training Highlights', url: '' }
+      ],
       achievements: [
         { year: '2024', title: 'Best Emerging Enterprise Award', desc: 'Recognized for outstanding business growth and innovation.' },
         { year: '2023', title: 'Top Franchise Network in Kerala', desc: 'Acknowledged for fastest franchise network expansion.' },
@@ -280,8 +325,10 @@ const translations = {
       formSubject: 'Subject',
       formMessage: 'Your Message',
       formSubmit: 'Send Message',
+      formOptions: ['Business Inquiry', 'Career', 'Customer Support', 'Other'],
       formSelect: 'Select Inquiry Type',
-      formOptions: ['General Inquiry', 'Business Opportunity', 'Product Inquiry', 'Service Request', 'Investment', 'Career', 'Other']
+      formOptions: ['General Inquiry', 'Business Opportunity', 'Product Inquiry', 'Service Request', 'Investment', 'Career', 'Other'],
+      mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3929.3514059046777!2d76.3142721!3d9.9877864!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b080d4c82701d71%3A0xc3f6e166e51cc145!2sErnakulam%2C%20Kerala!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin'
     },
     footer: {
       quickLinks: 'Quick Links',
@@ -291,7 +338,20 @@ const translations = {
       terms: 'Terms & Conditions',
       refund: 'Refund Policy',
       disclaimer: 'Disclaimer',
-      copyright: '© 2025 Dorek International Enterprises LLP. All Rights Reserved.'
+      copyright: '© 2025 Dorek International Enterprises LLP. All Rights Reserved.',
+      facebook: 'https://facebook.com/dorek',
+      instagram: 'https://instagram.com/dorek',
+      twitter: 'https://twitter.com/dorek',
+      linkedin: 'https://linkedin.com/company/dorek',
+      youtube: 'https://youtube.com/@dorek',
+      quickLinks: 'Quick Links',
+      legal: 'Legal',
+      connect: 'Contact Us',
+      privacy: 'Privacy Policy',
+      terms: 'Terms & Conditions',
+      refund: 'Refund Policy',
+      disclaimer: 'Disclaimer',
+      copyright: '© 2026 Dorek International LLP. All rights reserved.',
     },
     portal: {
       title: 'Portal Login',
@@ -328,6 +388,7 @@ const translations = {
       careers: 'ജോലികൾ', news: 'വാർത്ത', gallery: 'ഗാലറി', downloads: 'ഡൗൺലോഡ്', contact: 'ബന്ധപ്പെടുക'
     },
     hero: {
+      image: '',
       tagline: 'Think Better... Work Better... Grow Together...',
       subtitle: 'ഡോറെക് ഇന്റർനാഷണൽ എന്റർപ്രൈസസ് LLP കേരളത്തിലുടനീളം ഒന്നിലധികം ബ്രാൻഡുകൾക്കും സമ്പൂർണ്ണ എഞ്ചിനീയറിംഗ് സൊല്യൂഷനുകൾക്കും ശക്തി പകരുന്ന ഒരു മുൻനിര മാതൃ കമ്പനിയാണ്.',
       getStarted: 'ആരംഭിക്കുക',
@@ -341,6 +402,7 @@ const translations = {
       }
     },
     about: {
+      image: '',
       label: 'ഞങ്ങളെക്കുറിച്ച്',
       title: 'ഡോറെക് ഇന്റർനാഷണൽ',
       subtitle: 'ഡോറെക് ഇന്റർനാഷണൽ എന്റർപ്രൈസസ് LLP കേരളത്തിൽ ആസ്ഥാനമായി പ്രവർത്തിക്കുന്ന, പ്രൊഫഷണലായി നിയന്ത്രിക്കപ്പെടുന്ന, ബഹു-വിഭാഗ എന്റർപ്രൈസ് ആണ്.',
@@ -446,7 +508,23 @@ const translations = {
       label: 'ഡോർകാർട്ട്സ് നെറ്റ്‌വർക്ക്',
       title: 'കേരളത്തിലെ ഞങ്ങളുടെ ശൃംഖല',
       subtitle: 'ഡോർകാർട്ട്സ് കേരളത്തിലെ 14 ജില്ലകളിലും ഹബുകൾ, ഔട്ട്‌ലെറ്റുകൾ, അസോസിയേറ്റുകൾ എന്നിവയുടെ വളരുന്ന ശൃംഖല പ്രവർത്തിപ്പിക്കുന്നു.',
-      stats: { hubs: 'ഹബുകൾ', outlets: 'ഔട്ട്‌ലെറ്റുകൾ', associates: 'അസോസിയേറ്റുകൾ', districts: 'ജില്ലകൾ' }
+      stats: { hubs: 'ഹബുകൾ', outlets: 'ഔട്ട്‌ലെറ്റുകൾ', associates: 'അസോസിയേറ്റുകൾ', districts: 'ജില്ലകൾ' },
+      districts: [
+        { name: 'Thiruvananthapuram', hubs: 5, outlets: 18, associates: 42, coverage: 85 },
+        { name: 'Kollam', hubs: 4, outlets: 15, associates: 38, coverage: 78 },
+        { name: 'Pathanamthitta', hubs: 3, outlets: 10, associates: 28, coverage: 65 },
+        { name: 'Alappuzha', hubs: 4, outlets: 14, associates: 35, coverage: 72 },
+        { name: 'Kottayam', hubs: 4, outlets: 16, associates: 40, coverage: 80 },
+        { name: 'Idukki', hubs: 2, outlets: 8, associates: 20, coverage: 45 },
+        { name: 'Ernakulam', hubs: 6, outlets: 22, associates: 55, coverage: 92 },
+        { name: 'Thrissur', hubs: 5, outlets: 20, associates: 48, coverage: 88 },
+        { name: 'Palakkad', hubs: 4, outlets: 15, associates: 35, coverage: 70 },
+        { name: 'Malappuram', hubs: 5, outlets: 18, associates: 45, coverage: 82 },
+        { name: 'Kozhikode', hubs: 5, outlets: 20, associates: 50, coverage: 90 },
+        { name: 'Wayanad', hubs: 2, outlets: 8, associates: 18, coverage: 40 },
+        { name: 'Kannur', hubs: 4, outlets: 16, associates: 38, coverage: 75 },
+        { name: 'Kasaragod', hubs: 3, outlets: 10, associates: 25, coverage: 58 }
+      ]
     },
     investors: {
       label: 'നിക്ഷേപകർ',
@@ -503,8 +581,23 @@ const translations = {
       subtitle: 'ഞങ്ങളുടെ യാത്ര ഫോട്ടോകൾ, വീഡിയോകൾ, നാഴികക്കല്ലുകൾ എന്നിവയിലൂടെ പര്യവേക്ഷണം ചെയ്യുക.',
       tabs: ['ഫോട്ടോകൾ', 'വീഡിയോകൾ', 'നേട്ടങ്ങൾ'],
       view: 'കാണുക',
-      photos: ['കോർപ്പറേറ്റ് ഓഫീസ്', 'ടീം മീറ്റിംഗ്', 'ഉൽപ്പന്ന പ്രദർശനം', 'സ്റ്റോർ ഓപ്പണിംഗ്', 'ട്രെയിനിംഗ് സെഷൻ', 'അലയൻസ് സമ്മിറ്റ്', 'അവാർഡ് ചടങ്ങ്', 'എക്സിബിഷൻ', 'കമ്മ്യൂണിറ്റി ഇവന്റ്'],
-      videos: ['കോർപ്പറേറ്റ് അവലോകനം', 'ഉൽപ്പന്ന ഡെമോ', 'ഫ്രാഞ്ചൈസ് ഗൈഡ്', 'ട്രെയിനിംഗ് ഹൈലൈറ്റുകൾ'],
+      photos: [
+        { title: 'കോർപ്പറേറ്റ് ഓഫീസ്', url: '' },
+        { title: 'ടീം മീറ്റിംഗ്', url: '' },
+        { title: 'ഉൽപ്പന്ന പ്രദർശനം', url: '' },
+        { title: 'സ്റ്റോർ ഓപ്പണിംഗ്', url: '' },
+        { title: 'ട്രെയിനിംഗ് സെഷൻ', url: '' },
+        { title: 'അലയൻസ് സമ്മിറ്റ്', url: '' },
+        { title: 'അവാർഡ് ചടങ്ങ്', url: '' },
+        { title: 'എക്സിബിഷൻ', url: '' },
+        { title: 'കമ്മ്യൂണിറ്റി ഇവന്റ്', url: '' }
+      ],
+      videos: [
+        { title: 'കോർപ്പറേറ്റ് അവലോകനം', url: '' },
+        { title: 'ഉൽപ്പന്ന ഡെമോ', url: '' },
+        { title: 'ഫ്രാഞ്ചൈസ് ഗൈഡ്', url: '' },
+        { title: 'ട്രെയിനിംഗ് ഹൈലൈറ്റുകൾ', url: '' }
+      ],
       achievements: [
         { year: '2024', title: 'മികച്ച ഉയർന്നുവരുന്ന എന്റർപ്രൈസ് അവാർഡ്', desc: 'മികച്ച ബിസിനസ് വളർച്ചയ്ക്കും നവീകരണത്തിനും അംഗീകാരം.' },
         { year: '2023', title: 'കേരളത്തിലെ മികച്ച ഫ്രാഞ്ചൈസ് ശൃംഖല', desc: 'ഏറ്റവും വേഗത്തിലുള്ള ഫ്രാഞ്ചൈസ് ശൃംഖല വിപുലീകരണത്തിനുള്ള അംഗീകാരം.' },
@@ -572,7 +665,8 @@ const translations = {
       formMessage: 'നിങ്ങളുടെ സന്ദേശം',
       formSubmit: 'സന്ദേശം അയയ്ക്കുക',
       formSelect: 'അന്വേഷണ തരം തിരഞ്ഞെടുക്കുക',
-      formOptions: ['പൊതു അന്വേഷണം', 'ബിസിനസ് അവസരം', 'ഉൽപ്പന്ന അന്വേഷണം', 'സേവന അഭ്യർത്ഥന', 'നിക്ഷേപം', 'കരിയർ', 'മറ്റുള്ളവ']
+      formOptions: ['പൊതു അന്വേഷണം', 'ബിസിനസ് അവസരം', 'ഉൽപ്പന്ന അന്വേഷണം', 'സേവന അഭ്യർത്ഥന', 'നിക്ഷേപം', 'കരിയർ', 'മറ്റുള്ളവ'],
+      mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3929.3514059046777!2d76.3142721!3d9.9877864!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b080d4c82701d71%3A0xc3f6e166e51cc145!2sErnakulam%2C%20Kerala!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin'
     },
     footer: {
       quickLinks: 'ക്വിക്ക് ലിങ്കുകൾ',
@@ -582,7 +676,20 @@ const translations = {
       terms: 'നിബന്ധനകളും വ്യവസ്ഥകളും',
       refund: 'റീഫണ്ട് നയം',
       disclaimer: 'നിരാകരണം',
-      copyright: '© 2025 ഡോറെക് ഇന്റർനാഷണൽ എന്റർപ്രൈസസ് LLP. എല്ലാ അവകാശങ്ങളും സംരക്ഷിതം.'
+      copyright: '© 2025 ഡോറെക് ഇന്റർനാഷണൽ എന്റർപ്രൈസസ് LLP. എല്ലാ അവകാശങ്ങളും സംരക്ഷിതം.',
+      facebook: 'https://facebook.com/dorek',
+      instagram: 'https://instagram.com/dorek',
+      twitter: 'https://twitter.com/dorek',
+      linkedin: 'https://linkedin.com/company/dorek',
+      youtube: 'https://youtube.com/@dorek',
+      quickLinks: 'Quick Links',
+      legal: 'Legal',
+      connect: 'Contact Us',
+      privacy: 'Privacy Policy',
+      terms: 'Terms & Conditions',
+      refund: 'Refund Policy',
+      disclaimer: 'Disclaimer',
+      copyright: '© 2026 Dorek International LLP. All rights reserved.',
     },
     portal: {
       title: 'പോർട്ടൽ ലോഗിൻ',

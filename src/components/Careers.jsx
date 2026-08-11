@@ -1,16 +1,17 @@
 import { useState } from 'react';
+import { useCMS } from '../context/CMSContext';
 import { Briefcase, Clock, MapPin, GraduationCap, Award, ArrowRight } from 'lucide-react';
 import './Careers.css';
-import translations from '../i18n/translations';
 
-export default function Careers({ lang }) {
-  const t = translations[lang];
-  const [tab, setTab] = useState(0);
+export default function Careers({ lang, t }) {
+  const { getAnimationClass } = useCMS();
+  const animClass = getAnimationClass('careers');
+    const [tab, setTab] = useState(0);
   const jobs = t.careers.jobs;
   const internships = t.careers.internships;
   const training = t.careers.training;
   return (
-    <section id="careers" className="section careers">
+    <section id="careers" className={`section careers ${animClass}`}>
       <div className="container">
         <div className="section-header">
           <span className="section-label">{t.careers.label}</span>

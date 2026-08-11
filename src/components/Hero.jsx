@@ -1,11 +1,12 @@
 import { ChevronDown, ArrowRight } from 'lucide-react';
+import { useCMS } from '../context/CMSContext';
 import './Hero.css';
-import translations from '../i18n/translations';
 
-export default function Hero({ lang }) {
-  const t = translations[lang];
-  return (
-    <section id="home" className="hero">
+export default function Hero({ lang, t }) {
+  const { getAnimationClass } = useCMS();
+  const animClass = getAnimationClass('hero');
+    return (
+    <section id="home" className={`hero ${animClass}`}>
       <div className="hero-particles">
         {[...Array(20)].map((_, i) => (
           <span key={i} className="hero-particle" style={{
@@ -17,6 +18,7 @@ export default function Hero({ lang }) {
       </div>
       <div className="hero-glow" />
       <div className="hero-grid-bg" />
+      {t.hero.image && <div className="hero-bg-image" style={{ backgroundImage: `url(${t.hero.image})` }} />}
       <div className="hero-content">
         <div className="hero-badge">🏢 Dorek International Enterprises LLP</div>
         <h1 className="hero-title">
@@ -34,13 +36,13 @@ export default function Hero({ lang }) {
           </a>
         </div>
         <div className="hero-stats">
-          <div className="hero-stat"><span className="hero-stat-num">8+</span><span className="hero-stat-label">{t.hero.stats.divisions}</span></div>
+          <div className="hero-stat"><span className="hero-stat-num">{t.hero.stats.counts?.divisions || '8+'}</span><span className="hero-stat-label">{t.hero.stats.divisions}</span></div>
           <div className="hero-stat-divider" />
-          <div className="hero-stat"><span className="hero-stat-num">14</span><span className="hero-stat-label">{t.hero.stats.districts}</span></div>
+          <div className="hero-stat"><span className="hero-stat-num">{t.hero.stats.counts?.districts || '14'}</span><span className="hero-stat-label">{t.hero.stats.districts}</span></div>
           <div className="hero-stat-divider" />
-          <div className="hero-stat"><span className="hero-stat-num">500+</span><span className="hero-stat-label">{t.hero.stats.associates}</span></div>
+          <div className="hero-stat"><span className="hero-stat-num">{t.hero.stats.counts?.associates || '500+'}</span><span className="hero-stat-label">{t.hero.stats.associates}</span></div>
           <div className="hero-stat-divider" />
-          <div className="hero-stat"><span className="hero-stat-num">10+</span><span className="hero-stat-label">{t.hero.stats.sectors}</span></div>
+          <div className="hero-stat"><span className="hero-stat-num">{t.hero.stats.counts?.sectors || '10+'}</span><span className="hero-stat-label">{t.hero.stats.sectors}</span></div>
         </div>
       </div>
       <div className="hero-scroll-indicator">

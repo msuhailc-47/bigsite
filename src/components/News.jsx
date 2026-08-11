@@ -1,14 +1,15 @@
 import { Calendar, ArrowRight, Newspaper } from 'lucide-react';
+import { useCMS } from '../context/CMSContext';
 import './News.css';
-import translations from '../i18n/translations';
 
-export default function News({ lang }) {
-  const t = translations[lang];
-  const newsItems = t.news.items;
+export default function News({ lang, t }) {
+  const { getAnimationClass } = useCMS();
+  const animClass = getAnimationClass('news');
+    const newsItems = t.news.items;
   const featured = newsItems[0];
   const rest = newsItems.slice(1);
   return (
-    <section id="news" className="section news-sec">
+    <section id="news" className={`section news-sec ${animClass}`}>
       <div className="container">
         <div className="section-header">
           <span className="section-label">{t.news.label}</span>

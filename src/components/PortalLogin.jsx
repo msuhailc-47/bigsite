@@ -1,10 +1,8 @@
 import { X, Lock, User, ArrowRight } from 'lucide-react';
 import './PortalLogin.css';
-import translations from '../i18n/translations';
 
-export default function PortalLogin({ lang, isOpen, onClose }) {
-  const t = translations[lang];
-  if (!isOpen) return null;
+export default function PortalLogin({ lang, t, isOpen, onClose }) {
+    if (!isOpen) return null;
 
   return (
     <div className="portal-overlay" onClick={onClose}>

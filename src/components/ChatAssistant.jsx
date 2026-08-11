@@ -1,12 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { MessageSquare, X, Send, Bot, Sparkles } from 'lucide-react';
 import './ChatAssistant.css';
-import translations from '../i18n/translations';
 import { findBestResponse } from './chatKnowledge';
 
-export default function ChatAssistant({ lang }) {
-  const t = translations[lang];
-  const [isOpen, setIsOpen] = useState(false);
+export default function ChatAssistant({ lang, t }) {
+    const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     { text: t.chat.greeting, isBot: true }
   ]);
@@ -17,9 +15,9 @@ export default function ChatAssistant({ lang }) {
 
   // Update greeting when language changes
   useEffect(() => {
-    const greeting = translations[lang].chat.greeting;
+    const greeting = t.chat.greeting;
     setMessages(prev => prev.map((m, i) => (i === 0 ? { ...m, text: greeting } : m)));
-  }, [lang]);
+  }, [t.chat.greeting]);
 
   // Auto-scroll to latest message
   useEffect(() => {

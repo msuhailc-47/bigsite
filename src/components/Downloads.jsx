@@ -1,11 +1,12 @@
 import { FileText, Download } from 'lucide-react';
+import { useCMS } from '../context/CMSContext';
 import './Downloads.css';
-import translations from '../i18n/translations';
 
-export default function Downloads({ lang }) {
-  const t = translations[lang];
-  return (
-    <section id="downloads" className="section downloads-sec">
+export default function Downloads({ lang, t }) {
+  const { getAnimationClass } = useCMS();
+  const animClass = getAnimationClass('downloads');
+    return (
+    <section id="downloads" className={`section downloads-sec ${animClass}`}>
       <div className="container">
         <div className="section-header">
           <span className="section-label">{t.downloads.label}</span>
@@ -21,9 +22,9 @@ export default function Downloads({ lang }) {
                 <span className="badge badge-gold">{item.type}</span>
                 <span className="dl-size">{item.size}</span>
               </div>
-              <button className="dl-btn">
+              <a href={item.url || '#'} target="_blank" rel="noopener noreferrer" className="dl-btn" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                 <Download size={16} /> {t.downloads.download}
-              </button>
+              </a>
             </div>
           ))}
         </div>

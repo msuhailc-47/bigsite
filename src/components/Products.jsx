@@ -1,18 +1,19 @@
 import { useState } from 'react';
+import { useCMS } from '../context/CMSContext';
 import { Zap, Droplets, Wrench, Waves, Lightbulb, Sun, Battery, GlassWater, Shield, HardHat, ChevronRight } from 'lucide-react';
 import './Products.css';
-import translations from '../i18n/translations';
 
 const iconMap = { Zap, Droplets, Wrench, Waves, Lightbulb, Sun, Battery, GlassWater, Shield, HardHat };
 const catColors = ['#00b4d8','#06b6d4','#f59e0b','#3b82f6','#f97316','#eab308','#10b981','#0ea5e9','#8b5cf6','#ef4444'];
 
-export default function Products({ lang }) {
-  const t = translations[lang];
-  const [active, setActive] = useState(0);
+export default function Products({ lang, t }) {
+  const { getAnimationClass } = useCMS();
+  const animClass = getAnimationClass('products');
+    const [active, setActive] = useState(0);
   const categories = t.products.categories;
 
   return (
-    <section id="services" className="section products">
+    <section id="services" className={`section products ${animClass}`}>
       <div className="container">
         <div className="section-header">
           <span className="section-label">{t.products.label}</span>

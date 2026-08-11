@@ -1,14 +1,15 @@
 import { TrendingUp, PieChart, DollarSign, BarChart3, ArrowRight } from 'lucide-react';
+import { useCMS } from '../context/CMSContext';
 import './Investors.css';
-import translations from '../i18n/translations';
 
 const icons = [TrendingUp, PieChart, DollarSign, BarChart3];
 const accents = ['#d4a843','#10b981','#00b4d8','#8b5cf6'];
 
-export default function Investors({ lang }) {
-  const t = translations[lang];
-  return (
-    <section id="investors" className="section investors-sec">
+export default function Investors({ lang, t }) {
+  const { getAnimationClass } = useCMS();
+  const animClass = getAnimationClass('investors');
+    return (
+    <section id="investors" className={`section investors-sec ${animClass}`}>
       <div className="container">
         <div className="section-header">
           <span className="section-label">{t.investors.label}</span>

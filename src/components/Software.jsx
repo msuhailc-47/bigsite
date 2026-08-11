@@ -1,14 +1,15 @@
 import { LayoutDashboard, Users, Receipt, Package, Calculator, Clock, Smartphone } from 'lucide-react';
+import { useCMS } from '../context/CMSContext';
 import './Software.css';
-import translations from '../i18n/translations';
 
 const iconMap = { LayoutDashboard, Users, Receipt, Package, Calculator, Clock, Smartphone };
 const mockColors = ['#00b4d8','#10b981','#f59e0b','#8b5cf6','#ef4444','#06b6d4','#3b82f6'];
 
-export default function Software({ lang }) {
-  const t = translations[lang];
-  return (
-    <section id="software" className="section software">
+export default function Software({ lang, t }) {
+  const { getAnimationClass } = useCMS();
+  const animClass = getAnimationClass('software');
+    return (
+    <section id="software" className={`section software ${animClass}`}>
       <div className="software-grid-pattern" />
       <div className="container">
         <div className="section-header">

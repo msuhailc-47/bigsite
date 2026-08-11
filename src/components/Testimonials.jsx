@@ -1,16 +1,17 @@
 import { useState } from 'react';
+import { useCMS } from '../context/CMSContext';
 import { Quote, Star } from 'lucide-react';
 import './Testimonials.css';
-import translations from '../i18n/translations';
 
-export default function Testimonials({ lang }) {
-  const t = translations[lang];
-  const [activeTab, setActiveTab] = useState(t.testimonials.tabs[0]);
+export default function Testimonials({ lang, t }) {
+  const { getAnimationClass } = useCMS();
+  const animClass = getAnimationClass('testimonials');
+    const [activeTab, setActiveTab] = useState(t.testimonials.tabs[0]);
 
   const filteredItems = t.testimonials.items.filter(item => item.category === activeTab);
 
   return (
-    <section id="testimonials" className="section testimonials-sec">
+    <section id="testimonials" className={`section testimonials-sec ${animClass}`}>
       <div className="container">
         <div className="section-header">
           <span className="section-label">{t.testimonials.label}</span>

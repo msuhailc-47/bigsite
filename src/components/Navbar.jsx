@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Globe, LogIn } from 'lucide-react';
 import './Navbar.css';
-import translations from '../i18n/translations';
 
 const navItems = [
   { key: 'home', id: 'home' }, { key: 'about', id: 'about' },
@@ -12,9 +11,8 @@ const navItems = [
   { key: 'downloads', id: 'downloads' }, { key: 'contact', id: 'contact' }
 ];
 
-export default function Navbar({ lang, onLangChange, onPortalOpen }) {
-  const t = translations[lang];
-  const [scrolled, setScrolled] = useState(false);
+export default function Navbar({ lang, t, onLangChange, onPortalOpen }) {
+    const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 

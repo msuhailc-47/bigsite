@@ -15,7 +15,7 @@
 
 .about-image-placeholder {
   width: 100%;
-  height: 260px;
+  height: 360px;
   border-radius: var(--radius-card);
   margin-bottom: 24px;
   background: linear-gradient(135deg, rgba(10, 46, 93, 0.05), rgba(212, 175, 55, 0.1));
@@ -27,6 +27,28 @@
   gap: 8px;
   color: var(--text-muted);
   font-size: 0.85rem;
+}
+
+.about-image-container {
+  width: 100%;
+  height: 360px;
+  border-radius: var(--radius-card);
+  margin-bottom: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(10, 46, 93, 0.1);
+  box-shadow: var(--shadow-soft);
+}
+
+.about-real-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.about-image-container:hover .about-real-image {
+  transform: scale(1.03);
 }
 
 .about-img-icon {

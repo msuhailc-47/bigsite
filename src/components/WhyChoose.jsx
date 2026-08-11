@@ -1,11 +1,12 @@
 import { CheckCircle2 } from 'lucide-react';
+import { useCMS } from '../context/CMSContext';
 import './WhyChoose.css';
-import translations from '../i18n/translations';
 
-export default function WhyChoose({ lang }) {
-  const t = translations[lang];
-  return (
-    <section id="why-choose" className="section why-choose">
+export default function WhyChoose({ lang, t }) {
+  const { getAnimationClass } = useCMS();
+  const animClass = getAnimationClass('whyChoose');
+    return (
+    <section id="why-choose" className={`section why-choose ${animClass}`}>
       <div className="container">
         <div className="section-header">
           <span className="section-label">{t.whyChoose.label}</span>

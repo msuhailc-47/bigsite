@@ -1,39 +1,28 @@
 import { useState, useEffect, useRef } from 'react';
+import { useCMS } from '../context/CMSContext';
 import { MapPin, Building, Store, Users, ChevronRight, X, TrendingUp } from 'lucide-react';
 import './Network.css';
-import translations from '../i18n/translations';
 import { mapData } from './keralaMapData';
 
-const districtStats = {
-  'Thiruvananthapuram': { hubs: 5, outlets: 18, associates: 42, coverage: 85 },
-  'Kollam': { hubs: 4, outlets: 15, associates: 38, coverage: 78 },
-  'Pathanamthitta': { hubs: 3, outlets: 10, associates: 28, coverage: 65 },
-  'Alappuzha': { hubs: 4, outlets: 14, associates: 35, coverage: 72 },
-  'Kottayam': { hubs: 4, outlets: 16, associates: 40, coverage: 80 },
-  'Idukki': { hubs: 2, outlets: 8, associates: 20, coverage: 45 },
-  'Ernakulam': { hubs: 6, outlets: 22, associates: 55, coverage: 92 },
-  'Thrissur': { hubs: 5, outlets: 20, associates: 48, coverage: 88 },
-  'Palakkad': { hubs: 4, outlets: 15, associates: 35, coverage: 70 },
-  'Malappuram': { hubs: 5, outlets: 18, associates: 45, coverage: 82 },
-  'Kozhikode': { hubs: 5, outlets: 20, associates: 50, coverage: 90 },
-  'Wayanad': { hubs: 2, outlets: 8, associates: 18, coverage: 40 },
-  'Kannur': { hubs: 4, outlets: 16, associates: 38, coverage: 75 },
-  'Kasaragod': { hubs: 3, outlets: 10, associates: 25, coverage: 58 },
-};
+import defaultTranslations from '../i18n/translations';
 
-const fullDistricts = mapData.map(d => ({
-  ...d,
-  ...districtStats[d.name]
-}));
+// Stats are now loaded dynamically from translations
 
 function AnimatedCounter({ end, suffix = '' }) {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
   const animated = useRef(false);
+  
+  // ensure end is a number, if not, treat it as 0
+  const endNum = typeof end === 'number' && !isNaN(end) ? end : 0;
 
   useEffect(() => {
+    // Reset animation if end value updates from 0 to a real value
+    if (endNum > 0) {
+      animated.current = false;
+    }
     const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && !animated.current) {
+      if (entry.isIntersecting && !animated.current && endNum > 0) {
         animated.current = true;
         let start = 0;
         const duration = 1800;
@@ -41,7 +30,7 @@ function AnimatedCounter({ end, suffix = '' }) {
           if (!start) start = ts;
           const progress = Math.min((ts - start) / duration, 1);
           const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
-          setCount(Math.floor(eased * end));
+          setCount(Math.floor(eased * endNum));
           if (progress < 1) requestAnimationFrame(step);
         };
         requestAnimationFrame(step);
@@ -49,15 +38,38 @@ function AnimatedCounter({ end, suffix = '' }) {
     }, { threshold: 0.5 });
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
-  }, [end]);
+  }, [endNum]);
 
+  if (endNum === 0) return <span ref={ref}>0{suffix}</span>;
   return <span ref={ref}>{count}{suffix}</span>;
 }
 
-export default function Network({ lang }) {
-  const t = translations[lang];
+export default function Network({ lang, t }) {
+  const { getAnimationClass } = useCMS();
+  const animClass = getAnimationClass('network');
   const [selected, setSelected] = useState(null);
   const [hoveredIndex, setHoveredIndex] = useState(null);
+
+  const fullDistricts = mapData.map(d => {
+    let cmsDistrict = (t.network.districts || []).find(cd => cd.name === d.name);
+    if (!cmsDistrict) {
+      cmsDistrict = (defaultTranslations.en.network.districts || []).find(cd => cd.name === d.name) || {};
+    }
+    return { ...d, hubs: 0, outlets: 0, associates: 0, coverage: 0, ...cmsDistrict };
+  });
+
+  const parseCount = (val) => {
+    if (val === undefined || val === null || val === '') return null;
+    const parsed = parseInt(val);
+    return isNaN(parsed) ? null : parsed;
+  };
+
+  const defaultDistricts = defaultTranslations.en.network.districts || [];
+  
+  const totalDistricts = parseCount(t.network.stats?.counts?.districts) ?? fullDistricts.length;
+  const totalHubs = parseCount(t.network.stats?.counts?.hubs) ?? fullDistricts.reduce((sum, d) => sum + (parseInt(d.hubs) || 0), 0);
+  const totalOutlets = parseCount(t.network.stats?.counts?.outlets) ?? fullDistricts.reduce((sum, d) => sum + (parseInt(d.outlets) || 0), 0);
+  const totalAssociates = parseCount(t.network.stats?.counts?.associates) ?? fullDistricts.reduce((sum, d) => sum + (parseInt(d.associates) || 0), 0);
 
   const handleDistrictClick = (index) => {
     setSelected(prev => prev === index ? null : index);
@@ -67,7 +79,7 @@ export default function Network({ lang }) {
   const activeIndex = hoveredIndex !== null ? hoveredIndex : selected;
 
   return (
-    <section id="network" className="section network">
+    <section id="network" className={`section network ${animClass}`}>
       <div className="container">
         <div className="section-header">
           <span className="section-label">{t.network.label}</span>
@@ -199,28 +211,28 @@ export default function Network({ lang }) {
         <div className="net-stats-bar">
           <div className="net-stat">
             <span className="net-stat-num">
-              <AnimatedCounter end={14} />
+              <AnimatedCounter end={totalDistricts} />
             </span>
             <span className="net-stat-label">{t.network.stats.districts}</span>
           </div>
           <div className="net-stat-divider" />
           <div className="net-stat">
             <span className="net-stat-num">
-              <AnimatedCounter end={56} suffix="+" />
+              <AnimatedCounter end={totalHubs} suffix="+" />
             </span>
             <span className="net-stat-label">{t.network.stats.hubs}</span>
           </div>
           <div className="net-stat-divider" />
           <div className="net-stat">
             <span className="net-stat-num">
-              <AnimatedCounter end={210} suffix="+" />
+              <AnimatedCounter end={totalOutlets} suffix="+" />
             </span>
             <span className="net-stat-label">{t.network.stats.outlets}</span>
           </div>
           <div className="net-stat-divider" />
           <div className="net-stat">
             <span className="net-stat-num">
-              <AnimatedCounter end={537} suffix="+" />
+              <AnimatedCounter end={totalAssociates} suffix="+" />
             </span>
             <span className="net-stat-label">{t.network.stats.associates}</span>
           </div>

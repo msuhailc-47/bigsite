@@ -1,4 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useCMS } from './context/CMSContext';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebase';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -16,50 +20,107 @@ import Downloads from './components/Downloads';
 import Testimonials from './components/Testimonials';
 import CSR from './components/CSR';
 import Contact from './components/Contact';
+import CustomSections from './components/CustomSections';
 import Footer from './components/Footer';
 import PortalLogin from './components/PortalLogin';
 import ChatAssistant from './components/ChatAssistant';
 import WelcomeScreen from './components/WelcomeScreen';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminLogin from './pages/AdminLogin';
 import './App.css';
+
+// Simple session check - no hooks needed
+const ProtectedRoute = ({ children }) => {
+  const hasSession = localStorage.getItem('dorek_admin_session') === 'true';
+  if (hasSession) return children;
+  return <FirebaseAuthCheck>{children}</FirebaseAuthCheck>;
+};
+
+// Firebase auth check with hooks
+const FirebaseAuthCheck = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!auth) {
+      setLoading(false);
+      return;
+    }
+
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      if (currentUser) {
+        localStorage.setItem('dorek_admin_session', 'true');
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  if (loading) {
+    return <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#0A2E5D' }}>Loading CMS...</div>;
+  }
+
+  if (!user) {
+    return <Navigate to="/admin-login" replace />;
+  }
+
+  return children;
+};
 
 function App() {
   const [lang, setLang] = useState('en');
   const [isPortalOpen, setIsPortalOpen] = useState(false);
   const [showWelcome, setShowWelcome] = useState(true);
+  const { translationsData, navigation, isSectionVisible } = useCMS();
+
+  const t = translationsData[lang] || translationsData['en'];
 
   const toggleLang = () => {
     setLang(prev => prev === 'en' ? 'ml' : 'en');
   };
 
   return (
-    <div className={`app-container ${showWelcome ? 'welcome-active' : ''}`}>
-      {showWelcome && <WelcomeScreen onComplete={() => setShowWelcome(false)} />}
-      <Navbar lang={lang} onLangChange={toggleLang} onPortalOpen={() => setIsPortalOpen(true)} />
-      
-      <main>
-        <Hero lang={lang} />
-        <About lang={lang} />
-        <Businesses lang={lang} />
-        <WhyChoose lang={lang} />
-        <Products lang={lang} />
-        <Opportunities lang={lang} onApplyOpen={() => setIsPortalOpen(true)} />
-        <Software lang={lang} />
-        <Network lang={lang} />
-        <Investors lang={lang} />
-        <Careers lang={lang} />
-        <News lang={lang} />
-        <Gallery lang={lang} />
-        <Downloads lang={lang} />
-        <Testimonials lang={lang} />
-        <CSR lang={lang} />
-        <Contact lang={lang} />
-      </main>
-      
-      <Footer lang={lang} />
-      
-      <PortalLogin lang={lang} isOpen={isPortalOpen} onClose={() => setIsPortalOpen(false)} />
-      <ChatAssistant lang={lang} />
-    </div>
+    <Routes>
+      <Route path="/admin-login" element={<AdminLogin />} />
+      <Route path="/admin" element={
+        <ProtectedRoute>
+          <AdminDashboard lang={lang} />
+        </ProtectedRoute>
+      } />
+      <Route path="/*" element={
+        <div className={`app-container ${showWelcome ? 'welcome-active' : ''}`}>
+          {showWelcome && <WelcomeScreen onComplete={() => setShowWelcome(false)} />}
+          <Navbar lang={lang} t={t} navigation={navigation} onLangChange={toggleLang} onPortalOpen={() => setIsPortalOpen(true)} />
+          
+          <main>
+            {isSectionVisible('hero') && <Hero lang={lang} t={t} />}
+            {isSectionVisible('about') && <About lang={lang} t={t} />}
+            {isSectionVisible('businesses') && <Businesses lang={lang} t={t} />}
+            {isSectionVisible('whyChoose') && <WhyChoose lang={lang} t={t} />}
+            {isSectionVisible('products') && <Products lang={lang} t={t} />}
+            {isSectionVisible('opportunities') && <Opportunities lang={lang} t={t} onApplyOpen={() => setIsPortalOpen(true)} />}
+            {isSectionVisible('software') && <Software lang={lang} t={t} />}
+            {isSectionVisible('network') && <Network lang={lang} t={t} />}
+            {isSectionVisible('investors') && <Investors lang={lang} t={t} />}
+            {isSectionVisible('careers') && <Careers lang={lang} t={t} />}
+            {isSectionVisible('news') && <News lang={lang} t={t} />}
+            {isSectionVisible('gallery') && <Gallery lang={lang} t={t} />}
+            {isSectionVisible('downloads') && <Downloads lang={lang} t={t} />}
+            {isSectionVisible('testimonials') && <Testimonials lang={lang} t={t} />}
+            {isSectionVisible('csr') && <CSR lang={lang} t={t} />}
+            {isSectionVisible('contact') && <Contact lang={lang} t={t} />}
+            <CustomSections lang={lang} t={t} />
+          </main>
+          
+          <Footer lang={lang} t={t} />
+          
+          <PortalLogin lang={lang} t={t} isOpen={isPortalOpen} onClose={() => setIsPortalOpen(false)} />
+          <ChatAssistant lang={lang} t={t} />
+        </div>
+      } />
+    </Routes>
   );
 }
 

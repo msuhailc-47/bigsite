@@ -1,14 +1,15 @@
 import { Heart, Users, GraduationCap, Leaf, ArrowRight } from 'lucide-react';
+import { useCMS } from '../context/CMSContext';
 import './CSR.css';
-import translations from '../i18n/translations';
 
 const icons = [Heart, Users, GraduationCap, Leaf];
 const accents = ['#ef4444','#00b4d8','#f59e0b','#10b981'];
 
-export default function CSR({ lang }) {
-  const t = translations[lang];
-  return (
-    <section id="csr" className="section csr-sec">
+export default function CSR({ lang, t }) {
+  const { getAnimationClass } = useCMS();
+  const animClass = getAnimationClass('csr');
+    return (
+    <section id="csr" className={`section csr-sec ${animClass}`}>
       <div className="container">
         <div className="section-header">
           <span className="section-label">{t.csr.label}</span>
