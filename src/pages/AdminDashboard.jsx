@@ -2281,17 +2281,17 @@ export default function AdminDashboard() {
               </div>
               <button className="admin-btn" onClick={() => {
                 const newSection = {
-                  id: 'section-' + Date.now(),
+                  id: 'custom-section-' + Date.now(),
                   label: 'New Section',
-                  title: 'Section Title',
-                  subtitle: 'Section Subtitle',
+                  title: 'Custom Content',
+                  subtitle: '',
                   text: 'Add your content here...',
                   image: '',
                   backgroundColor: '#ffffff',
                   textColor: '#0A2E5D'
                 };
                 const currentSections = sectionData[editLang].customSections || [];
-                handleSectionChange('customSections', '', [...currentSections, newSection]);
+                setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: [...currentSections, newSection] } }));
               }}>
                 + Create New Section
               </button>
@@ -2301,11 +2301,11 @@ export default function AdminDashboard() {
               {(sectionData[editLang].customSections || []).map((section, idx) => (
                 <div key={section.id || idx} className="array-item-row" style={{ padding: '20px', border: '1px solid #ddd', borderRadius: '8px', marginBottom: '20px' }}>
                   <div className="section-header-flex" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-                    <h3>Section {idx + 1}: {section.label}</h3>
+                    <h3>Section {idx + 1}: {section.label} <span style={{ fontSize: '0.8rem', color: '#666', fontWeight: 'normal', marginLeft: '10px' }}>(Use Path: <strong>#{section.id || `custom-section-${idx}`}</strong> in Navigation)</span></h3>
                     <button className="admin-btn-outline" style={{borderColor: 'red', color: 'red'}} onClick={() => {
                       const updated = [...(sectionData[editLang].customSections || [])];
                       updated.splice(idx, 1);
-                      handleSectionChange('customSections', '', updated);
+                      setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
                     }}>Delete Section</button>
                   </div>
 
@@ -2314,7 +2314,7 @@ export default function AdminDashboard() {
                     <input type="text" className="form-control" value={section.label || ''} onChange={(e) => {
                       const updated = [...(sectionData[editLang].customSections || [])];
                       updated[idx].label = e.target.value;
-                      handleSectionChange('customSections', '', updated);
+                      setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
                     }} />
                   </div>
                   
@@ -2323,7 +2323,7 @@ export default function AdminDashboard() {
                     <input type="text" className="form-control" value={section.title || ''} onChange={(e) => {
                       const updated = [...(sectionData[editLang].customSections || [])];
                       updated[idx].title = e.target.value;
-                      handleSectionChange('customSections', '', updated);
+                      setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
                     }} />
                   </div>
 
@@ -2332,7 +2332,7 @@ export default function AdminDashboard() {
                     <input type="text" className="form-control" value={section.subtitle || ''} onChange={(e) => {
                       const updated = [...(sectionData[editLang].customSections || [])];
                       updated[idx].subtitle = e.target.value;
-                      handleSectionChange('customSections', '', updated);
+                      setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
                     }} />
                   </div>
 
@@ -2341,7 +2341,7 @@ export default function AdminDashboard() {
                     <textarea className="form-control" rows="5" value={section.text || ''} onChange={(e) => {
                       const updated = [...(sectionData[editLang].customSections || [])];
                       updated[idx].text = e.target.value;
-                      handleSectionChange('customSections', '', updated);
+                      setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
                     }} />
                   </div>
 
@@ -2351,7 +2351,7 @@ export default function AdminDashboard() {
                       <input type="text" className="form-control" placeholder="Image URL" value={section.image || ''} onChange={(e) => {
                         const updated = [...(sectionData[editLang].customSections || [])];
                         updated[idx].image = e.target.value;
-                        handleSectionChange('customSections', '', updated);
+                        setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
                       }} style={{ flex: 1 }} />
                       
                       {/* Simple file upload for custom section using the same handler if possible, but handleFileUpload expects field & idx.
@@ -2366,7 +2366,7 @@ export default function AdminDashboard() {
                         }).then((url) => {
                            const updated = [...(sectionData[editLang].customSections || [])];
                            updated[idx].image = url;
-                           handleSectionChange('customSections', '', updated);
+                           setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
                            triggerNotification("Image uploaded!");
                         }).catch(err => {
                            console.error(err);
@@ -2384,7 +2384,7 @@ export default function AdminDashboard() {
                       <input type="color" className="form-control" value={section.backgroundColor || '#ffffff'} onChange={(e) => {
                         const updated = [...(sectionData[editLang].customSections || [])];
                         updated[idx].backgroundColor = e.target.value;
-                        handleSectionChange('customSections', '', updated);
+                        setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
                       }} />
                     </div>
                     <div className="form-group" style={{ flex: 1 }}>
@@ -2392,7 +2392,7 @@ export default function AdminDashboard() {
                       <input type="color" className="form-control" value={section.textColor || '#0A2E5D'} onChange={(e) => {
                         const updated = [...(sectionData[editLang].customSections || [])];
                         updated[idx].textColor = e.target.value;
-                        handleSectionChange('customSections', '', updated);
+                        setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
                       }} />
                     </div>
                   </div>

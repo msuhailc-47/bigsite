@@ -1,39 +1,42 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Globe, LogIn } from 'lucide-react';
+import { useCMS } from '../context/CMSContext';
 import './Navbar.css';
 
-const navItems = [
-  { key: 'home', id: 'home' }, { key: 'about', id: 'about' },
-  { key: 'businesses', id: 'businesses' }, { key: 'services', id: 'services' },
-  { key: 'opportunities', id: 'opportunities' }, { key: 'software', id: 'software' },
-  { key: 'investors', id: 'investors' }, { key: 'careers', id: 'careers' },
-  { key: 'news', id: 'news' }, { key: 'gallery', id: 'gallery' },
-  { key: 'downloads', id: 'downloads' }, { key: 'contact', id: 'contact' }
-];
-
 export default function Navbar({ lang, t, onLangChange, onPortalOpen }) {
-    const [scrolled, setScrolled] = useState(false);
+  const { navigation } = useCMS();
+  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
-      const sections = navItems.map(n => document.getElementById(n.id)).filter(Boolean);
+      const sections = navigation.map(n => {
+        let targetId = (n.path || n.id).replace('#', '');
+        if (targetId === 'hero') targetId = 'home';
+        return {
+          element: document.getElementById(targetId),
+          targetId: targetId
+        };
+      }).filter(item => item.element);
+      
       for (let i = sections.length - 1; i >= 0; i--) {
-        if (sections[i].getBoundingClientRect().top <= 120) {
-          setActiveSection(navItems[i].id);
+        if (sections[i].element.getBoundingClientRect().top <= 120) {
+          setActiveSection(sections[i].targetId);
           break;
         }
       }
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [navigation]);
 
-  const handleNavClick = (id) => {
+  const handleNavClick = (pathOrId) => {
     setMobileOpen(false);
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    let targetId = pathOrId.replace('#', '');
+    if (targetId === 'hero') targetId = 'home';
+    document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -44,10 +47,16 @@ export default function Navbar({ lang, t, onLangChange, onPortalOpen }) {
         </div>
         <div className={`navbar-links ${mobileOpen ? 'navbar-links-open' : ''}`}>
           <button className="navbar-close-mobile" onClick={() => setMobileOpen(false)}><X size={24} /></button>
-          {navItems.map(item => (
-            <a key={item.key} className={`navbar-link ${activeSection === item.id ? 'navbar-link-active' : ''}`}
-              onClick={() => handleNavClick(item.id)}>{t.nav[item.key]}</a>
-          ))}
+          {navigation.map(item => {
+            let targetId = (item.path || item.id).replace('#', '');
+            if (targetId === 'hero') targetId = 'home';
+            return (
+              <a key={item.id} className={`navbar-link ${activeSection === targetId ? 'navbar-link-active' : ''}`}
+                onClick={() => handleNavClick(targetId)}>
+                {t.nav[item.id] || item.label}
+              </a>
+            );
+          })}
           <div className="navbar-mobile-actions">
             <button className="navbar-lang-btn" onClick={onLangChange}>
               <Globe size={16} />{lang === 'en' ? 'മല' : 'EN'}
