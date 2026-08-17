@@ -7,7 +7,7 @@ import {
   LayoutDashboard, Menu, Plus, Trash2, ArrowUp, ArrowDown, Save, FileText, Image,
   Inbox, Code, Shield, LogOut, Globe, Edit3, X, ChevronRight, Store, HardHat,
   Waves, Heart, Award, Leaf, Zap, Droplets, Wrench, Lightbulb,
-  ShieldAlert, FileDown, CheckCircle, Upload, RefreshCw, Palette, Eye, EyeOff
+  ShieldAlert, FileDown, CheckCircle, Upload, RefreshCw, Palette, Eye, EyeOff, Loader
 } from 'lucide-react';
 import NavigationTab from '../components/admin/NavigationTab';
 import ThemeSettingsTab from '../components/admin/ThemeSettingsTab';
@@ -41,7 +41,8 @@ export default function AdminDashboard() {
     importCMSData,
     themeSettings,
     sectionVisibility,
-    toggleSectionVisibility
+    toggleSectionVisibility,
+    isSyncing
   } = useCMS();
 
   const [editLang, setEditLang] = useState('en');
@@ -64,8 +65,9 @@ export default function AdminDashboard() {
   const [headerScripts, setHeaderScripts] = useState(codeSettings.headerScripts);
   const [footerScripts, setFooterScripts] = useState(codeSettings.footerScripts);
 
-  // Status notifications
+  // Status notifications and loading
   const [notification, setNotification] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
   
   // Theme settings local state
   const [themeData, setThemeData] = useState(() => JSON.parse(JSON.stringify(themeSettings)));
@@ -179,12 +181,55 @@ export default function AdminDashboard() {
     });
   };
 
+  const validateSectionData = (section, data) => {
+    switch (section) {
+      case 'hero':
+        if (!data.tagline?.trim()) {
+          triggerNotification("Error: Hero Tagline is required.");
+          return false;
+        }
+        if (!data.getStarted?.trim()) {
+          triggerNotification("Error: Primary CTA Button Text is required.");
+          return false;
+        }
+        break;
+      case 'about':
+        if (!data.title?.trim()) {
+          triggerNotification("Error: About Us Title is required.");
+          return false;
+        }
+        break;
+      case 'businesses':
+        if (!data.title?.trim()) {
+          triggerNotification("Error: Businesses Section Title is required.");
+          return false;
+        }
+        if (data.items && data.items.some(item => !item.title?.trim())) {
+          triggerNotification("Error: All Business Items must have a title.");
+          return false;
+        }
+        break;
+      default:
+        if (data.title !== undefined && !data.title?.trim()) {
+          triggerNotification(`Error: ${section} Title is required.`);
+          return false;
+        }
+    }
+    return true;
+  };
+
   // Save changes to CMS Context
   const handleSaveChanges = () => {
     if (isReadOnly) {
       alert("You have Viewer permissions and cannot modify content.");
       return;
     }
+    
+    if (activeTab === 'pages') {
+      const isValid = validateSectionData(editingSection, sectionData[editLang][editingSection]);
+      if (!isValid) return; 
+    }
+
     updateTranslations(sectionData);
     setNavigation(navItems);
     triggerNotification("All content changes saved successfully!");
@@ -235,6 +280,7 @@ export default function AdminDashboard() {
     if (!file) return;
 
     try {
+      setIsUploading(true);
       triggerNotification("Uploading image...");
       const fileRef = ref(storage, 'dorek/' + Date.now() + '_' + file.name);
       await uploadBytes(fileRef, file);
@@ -249,6 +295,8 @@ export default function AdminDashboard() {
     } catch (error) {
       console.error("Error uploading file: ", error);
       triggerNotification("Failed to upload image. Is Firebase Storage configured?");
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -259,6 +307,7 @@ export default function AdminDashboard() {
     if (!file) return;
 
     try {
+      setIsUploading(true);
       triggerNotification("Uploading media to library...");
       const fileRef = ref(storage, 'media/' + Date.now() + '_' + file.name);
       await uploadBytes(fileRef, file);
@@ -275,6 +324,8 @@ export default function AdminDashboard() {
     } catch (error) {
       console.error("Error uploading media: ", error);
       triggerNotification("Failed to upload media.");
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -385,8 +436,9 @@ export default function AdminDashboard() {
               <button className={`lang-btn ${editLang === 'ml' ? 'active' : ''}`} onClick={() => setEditLang('ml')}>Malayalam</button>
             </div>
 
-            <button className="save-btn" onClick={handleSaveChanges} disabled={isReadOnly}>
-              <Save size={16} /> Save Edits
+            <button className="save-btn" onClick={handleSaveChanges} disabled={isReadOnly || isSyncing || isUploading}>
+              {(isSyncing || isUploading) ? <Loader size={16} className="animate-spin" /> : <Save size={16} />}
+              {(isSyncing || isUploading) ? ' Saving...' : ' Save Edits'}
             </button>
           </div>
         </header>

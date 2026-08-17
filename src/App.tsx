@@ -25,6 +25,8 @@ import Footer from './components/Footer';
 import PortalLogin from './components/PortalLogin';
 import ChatAssistant from './components/ChatAssistant';
 import WelcomeScreen from './components/WelcomeScreen';
+import NotFound404 from './pages/NotFound404';
+import ErrorBoundary from './components/admin/ErrorBoundary';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminLogin from './pages/AdminLogin';
 import './App.css';
@@ -86,13 +88,17 @@ function App() {
       <Route path="/admin-login" element={<AdminLogin />} />
       <Route path="/admin" element={
         <ProtectedRoute>
-          <AdminDashboard lang={lang} />
+          <ErrorBoundary>
+            <AdminDashboard />
+          </ErrorBoundary>
         </ProtectedRoute>
       } />
-      <Route path="/*" element={
+      
+      {/* Main Public Website */}
+      <Route path="/" element={
         <div className={`app-container ${showWelcome ? 'welcome-active' : ''}`}>
           {showWelcome && <WelcomeScreen onComplete={() => setShowWelcome(false)} />}
-          <Navbar lang={lang} t={t} navigation={navigation} onLangChange={toggleLang} onPortalOpen={() => setIsPortalOpen(true)} />
+          <Navbar lang={lang} t={t} onLangChange={toggleLang} onPortalOpen={() => setIsPortalOpen(true)} />
           
           <main>
             {isSectionVisible('hero') && <Hero lang={lang} t={t} />}
@@ -120,6 +126,9 @@ function App() {
           <ChatAssistant lang={lang} t={t} />
         </div>
       } />
+
+      {/* 404 Catch-All Route */}
+      <Route path="*" element={<NotFound404 />} />
     </Routes>
   );
 }

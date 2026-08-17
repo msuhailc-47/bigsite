@@ -2,6 +2,9 @@
    ADMIN PANEL (CMS) — Premium Dorek Theme
    ========================================================================== */
 
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.animate-spin { animation: spin 1s linear infinite; }
+
 :root {
   --admin-sidebar-w: 260px;
 }
