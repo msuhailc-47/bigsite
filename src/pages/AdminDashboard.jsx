@@ -17,6 +17,7 @@ import CustomSectionsTab from '../components/admin/CustomSectionsTab';
 import CodeSettingsTab from '../components/admin/CodeSettingsTab';
 import ContentEditorTab from '../components/admin/ContentEditorTab';
 import OverviewTab from '../components/admin/OverviewTab';
+import { optimizeImage } from '../utils/imageOptimizer';
 import './AdminDashboard.css';
 
 export default function AdminDashboard() {
@@ -281,9 +282,12 @@ export default function AdminDashboard() {
 
     try {
       setIsUploading(true);
-      triggerNotification("Uploading image...");
-      const fileRef = ref(storage, 'dorek/' + Date.now() + '_' + file.name);
-      await uploadBytes(fileRef, file);
+      triggerNotification("Optimizing and uploading image...");
+      
+      const optimizedFile = await optimizeImage(file, 1920, 0.8);
+      
+      const fileRef = ref(storage, 'dorek/' + Date.now() + '_' + optimizedFile.name);
+      await uploadBytes(fileRef, optimizedFile);
       const downloadURL = await getDownloadURL(fileRef);
 
       if (arrayName !== null && index !== null) {
@@ -291,7 +295,7 @@ export default function AdminDashboard() {
       } else {
         handleTextChange(section, key, downloadURL, nestedKey);
       }
-      triggerNotification("Image uploaded successfully!");
+      triggerNotification("Image optimized and uploaded successfully!");
     } catch (error) {
       console.error("Error uploading file: ", error);
       triggerNotification("Failed to upload image. Is Firebase Storage configured?");
@@ -308,19 +312,22 @@ export default function AdminDashboard() {
 
     try {
       setIsUploading(true);
-      triggerNotification("Uploading media to library...");
-      const fileRef = ref(storage, 'media/' + Date.now() + '_' + file.name);
-      await uploadBytes(fileRef, file);
+      triggerNotification("Optimizing and uploading media...");
+      
+      const optimizedFile = await optimizeImage(file, 1920, 0.8);
+      
+      const fileRef = ref(storage, 'media/' + Date.now() + '_' + optimizedFile.name);
+      await uploadBytes(fileRef, optimizedFile);
       const downloadURL = await getDownloadURL(fileRef);
 
       const newFile = {
-        name: file.name,
-        type: file.type,
-        size: (file.size / (1024 * 1024)).toFixed(2) + ' MB',
+        name: optimizedFile.name,
+        type: optimizedFile.type,
+        size: (optimizedFile.size / (1024 * 1024)).toFixed(2) + ' MB',
         url: downloadURL
       };
       addMedia(newFile);
-      triggerNotification("Media file added to library!");
+      triggerNotification("Media file optimized and added to library!");
     } catch (error) {
       console.error("Error uploading media: ", error);
       triggerNotification("Failed to upload media.");
