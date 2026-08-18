@@ -1,4 +1,5 @@
 import React from 'react';
+import { getOptimizedUrl } from '../utils/getOptimizedUrl';
 import './CustomSections.css';
 
 const CustomSections = ({ lang, t }) => {
@@ -30,14 +31,17 @@ const CustomSections = ({ lang, t }) => {
                 {section.text && (
                   <div 
                     className="custom-text" 
-                    dangerouslySetInnerHTML={{ __html: section.text.replace(/\n/g, '<br/>') }}
+                    dangerouslySetInnerHTML={{ __html: section.text.replace(/\n/g, '<br/>') }} 
                   />
+                )}
+                {section.ctaText && (
+                  <a href={section.ctaLink || '#'} className="custom-cta">{section.ctaText}</a>
                 )}
               </div>
               
               {section.image && (
                 <div className="custom-image-content">
-                  <img src={section.image} alt={section.title || 'Custom Section Image'} className="custom-img" />
+                  <img src={getOptimizedUrl(section.image)} alt={section.title || 'Custom Section Image'} className="custom-img" />
                 </div>
               )}
             </div>

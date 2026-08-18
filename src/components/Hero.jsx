@@ -1,5 +1,6 @@
 import { ChevronDown, ArrowRight } from 'lucide-react';
 import { useCMS } from '../context/CMSContext';
+import { getOptimizedUrl } from '../utils/getOptimizedUrl';
 import './Hero.css';
 
 export default function Hero({ lang, t }) {
@@ -18,7 +19,7 @@ export default function Hero({ lang, t }) {
       </div>
       <div className="hero-glow" />
       <div className="hero-grid-bg" />
-      {t.hero.image && <div className="hero-bg-image" style={{ backgroundImage: `url(${t.hero.image})` }} />}
+      {t.hero.image && <div className="hero-bg-image" style={{ backgroundImage: `url(${getOptimizedUrl(t.hero.image)})` }} />}
       <div className="hero-content">
         <div className="hero-badge">🏢 Dorek International Enterprises LLP</div>
         <h1 className="hero-title">

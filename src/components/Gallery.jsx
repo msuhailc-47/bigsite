@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useCMS } from '../context/CMSContext';
+import { getOptimizedUrl } from '../utils/getOptimizedUrl';
 import { Image, Play, Trophy, Calendar, X } from 'lucide-react';
 import './Gallery.css';
 
@@ -39,60 +40,57 @@ export default function Gallery({ lang, t }) {
               return (
                 <div key={i} className="gal-photo-card" onClick={() => photo.url && setLightbox(photo)}>
                   {photo.url ? (
-                    <img src={photo.url} alt={photo.title} className="gal-photo-img" loading="lazy" referrerPolicy="no-referrer" />
+                    <img src={getOptimizedUrl(photo.url)} alt={photo.title} className="gal-photo-img" loading="lazy" referrerPolicy="no-referrer" />
                   ) : (
                     <div className="gal-photo-placeholder"><Image size={28} /></div>
                   )}
-                  <span className="gal-photo-title">{photo.title}</span>
-                  {photo.url && <div className="gal-photo-overlay"><span>{t.gallery.view}</span></div>}
+                  {photo.title && <div className="gal-photo-caption">{photo.title}</div>}
                 </div>
               );
             })}
           </div>}
-          {tab === 1 && <div className="gal-videos-grid">
-            {(videos || []).map((v, i) => {
-              const video = typeof v === 'string' ? { title: v, url: '' } : v;
-              const embedUrl = getYouTubeEmbed(video.url);
-              return (
-                <div key={i} className="gal-video-card">
-                  {embedUrl ? (
-                    <iframe
-                      src={embedUrl}
-                      title={video.title}
-                      className="gal-video-iframe"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
-                  ) : (
-                    <div className="gal-video-placeholder"><Play size={36} /></div>
-                  )}
-                  <span className="gal-video-title">{video.title}</span>
+          {tab === 1 && (
+            <div className="gal-video-grid animate-fadeIn">
+              {(videos || []).map((vid, i) => {
+                const embedUrl = getYouTubeEmbed(vid.url);
+                return (
+                  <div key={i} className="gal-video-card">
+                    {embedUrl ? (
+                      <iframe src={embedUrl} title={vid.title} className="gal-video-frame" allowFullScreen />
+                    ) : (
+                      <div className="gal-video-placeholder"><Play size={28} /></div>
+                    )}
+                    {vid.title && <div className="gal-video-caption">{vid.title}</div>}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          {tab === 2 && (
+            <div className="gal-ach-grid animate-fadeIn">
+              {(achievements || []).map((ach, i) => (
+                <div key={i} className="gal-ach-card">
+                  <div className="gal-ach-icon"><Trophy size={24} /></div>
+                  <div className="gal-ach-content">
+                    <h4>{ach.title}</h4>
+                    <p>{ach.description}</p>
+                    <span className="gal-ach-year"><Calendar size={14} /> {ach.year}</span>
+                  </div>
                 </div>
-              );
-            })}
-          </div>}
-          {tab === 2 && <div className="gal-achievements">
-            {(achievements || []).map((a, i) => (
-              <div key={i} className="gal-ach-item">
-                <div className="gal-ach-year"><Calendar size={14} /> {a.year}</div>
-                <div className="gal-ach-content">
-                  <Trophy size={18} className="gal-ach-icon" />
-                  <div><h4>{a.title}</h4><p>{a.desc}</p></div>
-                </div>
-              </div>
-            ))}
-          </div>}
+              ))}
+            </div>
+          )}
         </div>
-      </div>
 
-      {/* Lightbox */}
-      {lightbox && (
-        <div className="gal-lightbox" onClick={() => setLightbox(null)}>
-          <button className="gal-lightbox-close" onClick={() => setLightbox(null)}><X size={24} /></button>
-          <img src={lightbox.url} alt={lightbox.title} className="gal-lightbox-img" referrerPolicy="no-referrer" />
-          <p className="gal-lightbox-caption">{lightbox.title}</p>
-        </div>
-      )}
+        {/* Lightbox Modal */}
+        {lightbox && (
+          <div className="gal-lightbox" onClick={() => setLightbox(null)}>
+            <button className="gal-lightbox-close" onClick={() => setLightbox(null)}><X size={24} /></button>
+            <img src={getOptimizedUrl(lightbox.url)} alt={lightbox.title} className="gal-lightbox-img" referrerPolicy="no-referrer" />
+            <p className="gal-lightbox-caption">{lightbox.title}</p>
+          </div>
+        )}
+      </div>
     </section>
   );
 }

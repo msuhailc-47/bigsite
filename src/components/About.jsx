@@ -1,5 +1,6 @@
 import { Eye, Target, Heart, Users, Award, Leaf, Quote } from 'lucide-react';
 import { useCMS } from '../context/CMSContext';
+import { getOptimizedUrl } from '../utils/getOptimizedUrl';
 import './About.css';
 
 export default function About({ lang, t }) {
@@ -19,7 +20,7 @@ export default function About({ lang, t }) {
           <div className="about-history">
             {t.about.image ? (
               <div className="about-image-container">
-                <img src={t.about.image} alt="About Us" className="about-real-image" />
+                <img src={getOptimizedUrl(t.about.image)} alt="About Us" className="about-real-image" />
               </div>
            ) : (
            <div className="about-image-placeholder">
