@@ -1031,3 +1031,15 @@
     gap: 0;
   }
 }
+
+
+/* Restored form control styles from deleted public CSS */
+.form-group { margin-bottom: 20px; }
+.form-control {
+  width: 100%; padding: 14px 16px; border-radius: var(--radius-button); border: 1px solid rgba(10, 46, 93, 0.15);
+  background: #f8fafc; color: var(--text-main); font-family: var(--font-body);
+  font-size: 0.9rem; transition: all 0.2s;
+}
+.form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(10, 46, 93, 0.1); }
+.form-control::placeholder { color: #999999; }
+textarea.form-control { resize: vertical; }
