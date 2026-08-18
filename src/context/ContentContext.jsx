@@ -18,28 +18,39 @@ export function ContentProvider({ children }) {
   useEffect(() => {
     if (!db) return;
     setIsFirebaseReady(true);
-    const docRef = doc(db, 'dorek_cms', 'global_data');
-    const unsubscribe = onSnapshot(docRef, (docSnap) => {
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        if (data.translationsData) {
-          setTranslationsData(prev => 
-            JSON.stringify(prev) !== JSON.stringify(data.translationsData) ? data.translationsData : prev
-          );
-        }
+    const transDocRef = doc(db, 'dorek_cms', 'translationsData');
+    const customDocRef = doc(db, 'dorek_cms', 'customSections');
+
+    const unsubscribeTrans = onSnapshot(transDocRef, (docSnap) => {
+      if (docSnap.exists() && docSnap.data().translationsData) {
+        setTranslationsData(docSnap.data().translationsData);
       }
     });
-    return () => unsubscribe();
+
+    const unsubscribeCustom = onSnapshot(customDocRef, (docSnap) => {
+      if (docSnap.exists() && docSnap.data().customSections) {
+        setCustomSections(docSnap.data().customSections);
+      }
+    });
+
+    return () => {
+      unsubscribeTrans();
+      unsubscribeCustom();
+    };
   }, []);
 
   const saveToFirebase = async (updates) => {
     if (!db) return;
     setIsSyncing(true);
     try {
-      const docRef = doc(db, 'dorek_cms', 'global_data');
-      await setDoc(docRef, updates, { merge: true });
+      if (updates.translationsData) {
+        await setDoc(doc(db, 'dorek_cms', 'translationsData'), { translationsData: updates.translationsData }, { merge: true });
+      }
+      if (updates.customSections) {
+        await setDoc(doc(db, 'dorek_cms', 'customSections'), { customSections: updates.customSections }, { merge: true });
+      }
     } catch (e) {
-      console.warn("Failed to save to Firestore. Using localStorage only.", e);
+      console.error(e);
     } finally {
       setIsSyncing(false);
     }

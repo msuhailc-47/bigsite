@@ -30,24 +30,26 @@ export function SettingsProvider({ children }) {
   useEffect(() => {
     if (!db) return;
     setIsFirebaseReady(true);
-    const docRef = doc(db, 'dorek_cms', 'global_data');
-    const unsubscribe = onSnapshot(docRef, (docSnap) => {
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        if (data.codeSettings) {
-          setCodeSettings(prev => JSON.stringify(prev) !== JSON.stringify(data.codeSettings) ? data.codeSettings : prev);
-        }
+    
+    const codeRef = doc(db, 'dorek_cms', 'codeSettings');
+    const unsubCode = onSnapshot(codeRef, (docSnap) => {
+      if (docSnap.exists() && docSnap.data().codeSettings) {
+        setCodeSettings(prev => JSON.stringify(prev) !== JSON.stringify(docSnap.data().codeSettings) ? docSnap.data().codeSettings : prev);
       }
     });
-    return () => unsubscribe();
+
+    return () => {
+      unsubCode();
+    };
   }, []);
 
   const saveToFirebase = async (updates) => {
     if (!db) return;
     try {
-      const docRef = doc(db, 'dorek_cms', 'global_data');
-      await setDoc(docRef, updates, { merge: true });
-    } catch (e) { }
+      if (updates.codeSettings) {
+        await setDoc(doc(db, 'dorek_cms', 'codeSettings'), { codeSettings: updates.codeSettings }, { merge: true });
+      }
+    } catch (e) { console.error(e); }
   };
 
   useEffect(() => {

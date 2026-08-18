@@ -30,13 +30,10 @@ export function NavigationProvider({ children }) {
   useEffect(() => {
     if (!db) return;
     setIsFirebaseReady(true);
-    const docRef = doc(db, 'dorek_cms', 'global_data');
+    const docRef = doc(db, 'dorek_cms', 'navigation');
     const unsubscribe = onSnapshot(docRef, (docSnap) => {
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        if (data.navigation) {
-          setNavigation(prev => JSON.stringify(prev) !== JSON.stringify(data.navigation) ? data.navigation : prev);
-        }
+      if (docSnap.exists() && docSnap.data().navigation) {
+        setNavigation(prev => JSON.stringify(prev) !== JSON.stringify(docSnap.data().navigation) ? docSnap.data().navigation : prev);
       }
     });
     return () => unsubscribe();
@@ -45,9 +42,10 @@ export function NavigationProvider({ children }) {
   const saveToFirebase = async (updates) => {
     if (!db) return;
     try {
-      const docRef = doc(db, 'dorek_cms', 'global_data');
-      await setDoc(docRef, updates, { merge: true });
-    } catch (e) { }
+      if (updates.navigation) {
+        await setDoc(doc(db, 'dorek_cms', 'navigation'), { navigation: updates.navigation }, { merge: true });
+      }
+    } catch (e) { console.error(e); }
   };
 
   useEffect(() => {

@@ -39,27 +39,38 @@ export function ThemeProvider({ children }) {
   useEffect(() => {
     if (!db) return;
     setIsFirebaseReady(true);
-    const docRef = doc(db, 'dorek_cms', 'global_data');
-    const unsubscribe = onSnapshot(docRef, (docSnap) => {
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        if (data.themeSettings) {
-          setThemeSettings(prev => JSON.stringify(prev) !== JSON.stringify(data.themeSettings) ? data.themeSettings : prev);
-        }
-        if (data.sectionVisibility) {
-          setSectionVisibility(prev => JSON.stringify(prev) !== JSON.stringify({ ...prev, ...data.sectionVisibility }) ? { ...prev, ...data.sectionVisibility } : prev);
-        }
+    
+    const themeRef = doc(db, 'dorek_cms', 'themeSettings');
+    const visRef = doc(db, 'dorek_cms', 'sectionVisibility');
+
+    const unsubTheme = onSnapshot(themeRef, (docSnap) => {
+      if (docSnap.exists() && docSnap.data().themeSettings) {
+        setThemeSettings(prev => JSON.stringify(prev) !== JSON.stringify(docSnap.data().themeSettings) ? docSnap.data().themeSettings : prev);
       }
     });
-    return () => unsubscribe();
+
+    const unsubVis = onSnapshot(visRef, (docSnap) => {
+      if (docSnap.exists() && docSnap.data().sectionVisibility) {
+        setSectionVisibility(prev => JSON.stringify(prev) !== JSON.stringify({ ...prev, ...docSnap.data().sectionVisibility }) ? { ...prev, ...docSnap.data().sectionVisibility } : prev);
+      }
+    });
+
+    return () => {
+      unsubTheme();
+      unsubVis();
+    };
   }, []);
 
   const saveToFirebase = async (updates) => {
     if (!db) return;
     try {
-      const docRef = doc(db, 'dorek_cms', 'global_data');
-      await setDoc(docRef, updates, { merge: true });
-    } catch (e) { }
+      if (updates.themeSettings) {
+        await setDoc(doc(db, 'dorek_cms', 'themeSettings'), { themeSettings: updates.themeSettings }, { merge: true });
+      }
+      if (updates.sectionVisibility) {
+        await setDoc(doc(db, 'dorek_cms', 'sectionVisibility'), { sectionVisibility: updates.sectionVisibility }, { merge: true });
+      }
+    } catch (e) { console.error(e); }
   };
 
   useEffect(() => {

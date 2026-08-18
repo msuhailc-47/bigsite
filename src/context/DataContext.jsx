@@ -21,13 +21,10 @@ export function DataProvider({ children }) {
   useEffect(() => {
     if (!db) return;
     setIsFirebaseReady(true);
-    const docRef = doc(db, 'dorek_cms', 'global_data');
+    const docRef = doc(db, 'dorek_cms', 'mediaLibrary');
     const unsubscribe = onSnapshot(docRef, (docSnap) => {
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        if (data.mediaLibrary) {
-          setMediaLibrary(prev => JSON.stringify(prev) !== JSON.stringify(data.mediaLibrary) ? data.mediaLibrary : prev);
-        }
+      if (docSnap.exists() && docSnap.data().mediaLibrary) {
+        setMediaLibrary(prev => JSON.stringify(prev) !== JSON.stringify(docSnap.data().mediaLibrary) ? docSnap.data().mediaLibrary : prev);
       }
     });
     return () => unsubscribe();
@@ -36,9 +33,10 @@ export function DataProvider({ children }) {
   const saveToFirebase = async (updates) => {
     if (!db) return;
     try {
-      const docRef = doc(db, 'dorek_cms', 'global_data');
-      await setDoc(docRef, updates, { merge: true });
-    } catch (e) { }
+      if (updates.mediaLibrary) {
+        await setDoc(doc(db, 'dorek_cms', 'mediaLibrary'), { mediaLibrary: updates.mediaLibrary }, { merge: true });
+      }
+    } catch (e) { console.error(e); }
   };
 
   useEffect(() => {
