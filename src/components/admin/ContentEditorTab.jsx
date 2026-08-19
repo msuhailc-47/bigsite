@@ -18,6 +18,7 @@ import CsrEditor from './sections/CsrEditor';
 import ContactEditor from './sections/ContactEditor';
 import FooterEditor from './sections/FooterEditor';
 import NavbarEditor from './sections/NavbarEditor';
+import LegalEditor from './sections/LegalEditor';
 import { storage } from '../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
@@ -53,6 +54,7 @@ export default function ContentEditorTab({
                 { key: 'testimonials', label: 'Testimonials' },
                 { key: 'csr', label: 'CSR Section' },
                 { key: 'contact', label: 'Contact Info' },
+                { key: 'legal', label: 'Legal Pages', noToggle: true },
                 { key: 'footer', label: 'Footer Links', noToggle: true }
               ].map(sec => (
                 <div key={sec.key} className={`page-side-row ${editingSection === sec.key ? 'active' : ''} ${sectionVisibility[sec.key] === false ? 'hidden-section' : ''}`}>
@@ -322,6 +324,15 @@ export default function ContentEditorTab({
                   handleDeleteArrayItem={handleDeleteArrayItem}
                   handleMoveArrayItem={handleMoveArrayItem}
                   handleFileUpload={handleFileUpload}
+                />
+              )}
+
+              {/* SECTION: Legal */}
+              {editingSection === 'legal' && (
+                <LegalEditor
+                  sectionData={sectionData}
+                  editLang={editLang}
+                  handleTextChange={handleTextChange}
                 />
               )}
 
