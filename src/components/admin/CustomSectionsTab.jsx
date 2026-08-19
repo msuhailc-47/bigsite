@@ -1,6 +1,8 @@
 import React from 'react';
 import { storage } from '../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { Plus, Trash2, Image as ImageIcon, Link, FileText, Type } from 'lucide-react';
+import { optimizeImage } from '../../utils/imageOptimizer';
 
 export default function CustomSectionsTab({
   sectionData,
@@ -10,10 +12,10 @@ export default function CustomSectionsTab({
 }) {
   return (
     <div className="admin-panel-card animate-fadeIn">
-      <div className="section-header-flex" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+      <div className="section-header-flex">
         <div>
-          <h2>Dynamic Custom Sections</h2>
-          <p>Build and manage entirely new sections for the website.</p>
+          <h3>Dynamic Custom Sections</h3>
+          <p className="section-description">Build and manage custom sections outside of the standard template. They will render sequentially at the bottom of the page before the footer.</p>
         </div>
         <button className="admin-btn" onClick={() => {
           const newSection = {
@@ -29,29 +31,36 @@ export default function CustomSectionsTab({
           const currentSections = sectionData[editLang].customSections || [];
           setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: [...currentSections, newSection] } }));
         }}>
-          + Create New Section
+          <Plus size={16} /> Create New Section
         </button>
       </div>
 
-      <div className="array-items-list">
+      <div className="array-items-list" style={{ marginTop: '20px' }}>
         {(sectionData[editLang].customSections || []).map((section, idx) => (
-          <div key={section.id || idx} className="array-item-row" style={{ padding: '20px', border: '1px solid #ddd', borderRadius: '8px', marginBottom: '20px' }}>
-            <div className="section-header-flex" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-              <h3>Section {idx + 1}: {section.label} <span style={{ fontSize: '0.8rem', color: '#666', fontWeight: 'normal', marginLeft: '10px' }}>(Use Path: <strong>#{section.id || `custom-section-${idx}`}</strong> in Navigation)</span></h3>
-              <button className="admin-btn-outline" style={{borderColor: 'red', color: 'red'}} onClick={() => {
+          <div key={section.id || idx} className="array-item-row">
+            <div className="section-header-flex" style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '15px', marginBottom: '15px' }}>
+              <h4><FileText size={16} style={{display:'inline', marginRight:'8px', verticalAlign:'middle'}}/> Section {idx + 1}: {section.label || 'Untitled'} 
+                <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 'normal', marginLeft: '10px' }}>(Path: <strong>#{section.id || `custom-section-${idx}`}</strong>)</span>
+              </h4>
+              <button className="delete-btn" onClick={() => {
                 const updated = [...(sectionData[editLang].customSections || [])];
                 updated.splice(idx, 1);
                 setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
-              }}>Delete Section</button>
+              }}>
+                <Trash2 size={16} /> Delete
+              </button>
             </div>
 
             <div className="form-group">
-              <label>Label / Badge text</label>
-              <input type="text" className="form-control" value={section.label || ''} onChange={(e) => {
-                const updated = [...(sectionData[editLang].customSections || [])];
-                updated[idx].label = e.target.value;
-                setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
-              }} />
+              <label>Section Label / Badge</label>
+              <div className="input-with-icon">
+                <Type size={16} className="input-icon" />
+                <input type="text" className="form-control" value={section.label || ''} onChange={(e) => {
+                  const updated = [...(sectionData[editLang].customSections || [])];
+                  updated[idx].label = e.target.value;
+                  setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
+                }} />
+              </div>
             </div>
             
             <div className="form-group">
@@ -64,7 +73,7 @@ export default function CustomSectionsTab({
             </div>
 
             <div className="form-group">
-              <label>Subtitle</label>
+              <label>Subtitle (Optional)</label>
               <input type="text" className="form-control" value={section.subtitle || ''} onChange={(e) => {
                 const updated = [...(sectionData[editLang].customSections || [])];
                 updated[idx].subtitle = e.target.value;
@@ -73,7 +82,7 @@ export default function CustomSectionsTab({
             </div>
 
             <div className="form-group">
-              <label>Content (Text / HTML)</label>
+              <label>Body Content (Accepts HTML)</label>
               <textarea className="form-control" rows="5" value={section.text || ''} onChange={(e) => {
                 const updated = [...(sectionData[editLang].customSections || [])];
                 updated[idx].text = e.target.value;
@@ -82,52 +91,69 @@ export default function CustomSectionsTab({
             </div>
 
             <div className="form-group">
-              <label>Side Image</label>
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <input type="text" className="form-control" placeholder="Image URL" value={section.image || ''} onChange={(e) => {
-                  const updated = [...(sectionData[editLang].customSections || [])];
-                  updated[idx].image = e.target.value;
-                  setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
-                }} style={{ flex: 1 }} />
+              <label>Side Image (Optional)</label>
+              <div className="image-upload-row">
+                <div className="input-with-icon" style={{ flex: 1 }}>
+                  <Link size={16} className="input-icon" />
+                  <input type="text" className="form-control" placeholder="Direct Image URL" value={section.image || ''} onChange={(e) => {
+                    const updated = [...(sectionData[editLang].customSections || [])];
+                    updated[idx].image = e.target.value;
+                    setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
+                  }} />
+                </div>
                 
-                <input type="file" accept="image/*" onChange={async (e) => {
-                  const file = e.target.files[0];
-                  if (!file) return;
-                  triggerNotification("Uploading image...");
-                  const fileRef = ref(storage, 'custom/' + Date.now() + '_' + file.name);
-                  uploadBytes(fileRef, file).then(() => {
-                      return getDownloadURL(fileRef);
-                  }).then((url) => {
+                <label className="admin-btn-outline upload-btn">
+                  <ImageIcon size={16} /> Upload Image
+                  <input type="file" accept="image/*" style={{ display: 'none' }} onChange={async (e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    try {
+                      triggerNotification("Optimizing image...");
+                      const optimized = await optimizeImage(file, 1200, 0.8);
+                      triggerNotification("Uploading to storage...");
+                      const fileRef = ref(storage, 'custom/' + Date.now() + '_' + optimized.name);
+                      await uploadBytes(fileRef, optimized);
+                      const url = await getDownloadURL(fileRef);
                       const updated = [...(sectionData[editLang].customSections || [])];
                       updated[idx].image = url;
                       setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
-                      triggerNotification("Image uploaded!");
-                  }).catch(err => {
+                      triggerNotification("Image added successfully!");
+                    } catch (err) {
                       console.error(err);
-                      triggerNotification("Image upload failed");
-                  });
-
-                }} />
+                      triggerNotification("Upload failed.");
+                    }
+                  }} />
+                </label>
               </div>
-              {section.image && <img src={section.image} alt="preview" style={{width:'150px', marginTop:'10px', borderRadius:'8px'}} />}
+              {section.image && (
+                <div className="image-preview" style={{ marginTop: '10px' }}>
+                  <img src={section.image} alt="preview" style={{ height: '80px', borderRadius: '4px', border: '1px solid var(--border-color)' }} />
+                </div>
+              )}
             </div>
 
-            <div style={{ display: 'flex', gap: '20px' }}>
-              <div className="form-group" style={{ flex: 1 }}>
+            <div className="color-pickers-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '15px' }}>
+              <div className="form-group">
                 <label>Background Color</label>
-                <input type="color" className="form-control" value={section.backgroundColor || '#ffffff'} onChange={(e) => {
-                  const updated = [...(sectionData[editLang].customSections || [])];
-                  updated[idx].backgroundColor = e.target.value;
-                  setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
-                }} />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <input type="color" value={section.backgroundColor || '#ffffff'} onChange={(e) => {
+                    const updated = [...(sectionData[editLang].customSections || [])];
+                    updated[idx].backgroundColor = e.target.value;
+                    setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
+                  }} style={{ width: '40px', height: '40px', padding: '0', border: 'none', borderRadius: '4px', cursor: 'pointer' }} />
+                  <span style={{ fontFamily: 'monospace', color: 'var(--text-muted)' }}>{section.backgroundColor || '#ffffff'}</span>
+                </div>
               </div>
-              <div className="form-group" style={{ flex: 1 }}>
+              <div className="form-group">
                 <label>Text Color</label>
-                <input type="color" className="form-control" value={section.textColor || '#0A2E5D'} onChange={(e) => {
-                  const updated = [...(sectionData[editLang].customSections || [])];
-                  updated[idx].textColor = e.target.value;
-                  setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
-                }} />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <input type="color" value={section.textColor || '#0A2E5D'} onChange={(e) => {
+                    const updated = [...(sectionData[editLang].customSections || [])];
+                    updated[idx].textColor = e.target.value;
+                    setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
+                  }} style={{ width: '40px', height: '40px', padding: '0', border: 'none', borderRadius: '4px', cursor: 'pointer' }} />
+                  <span style={{ fontFamily: 'monospace', color: 'var(--text-muted)' }}>{section.textColor || '#0A2E5D'}</span>
+                </div>
               </div>
             </div>
           </div>
