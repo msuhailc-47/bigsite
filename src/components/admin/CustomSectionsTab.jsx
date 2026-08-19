@@ -130,9 +130,17 @@ export default function CustomSectionsTab({
                       const fileRef = ref(storage, 'custom/' + Date.now() + '_' + optimized.name);
                       await uploadBytes(fileRef, optimized);
                       const url = await getDownloadURL(fileRef);
-                      const updated = [...(sectionData[editLang].customSections || [])];
-                      updated[idx].image = url;
-                      setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
+                      setSectionData(prev => {
+                        const copy = { ...prev };
+                        ['en', 'ml'].forEach(l => {
+                          if (copy[l] && copy[l].customSections) {
+                            const updated = [...copy[l].customSections];
+                            if(updated[idx]) updated[idx].image = url;
+                            copy[l] = { ...copy[l], customSections: updated };
+                          }
+                        });
+                        return copy;
+                      });
                       triggerNotification("Image added successfully!");
                     } catch (err) {
                       console.error(err);
@@ -148,29 +156,24 @@ export default function CustomSectionsTab({
               )}
             </div>
 
-            <div className="color-pickers-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '15px' }}>
-              <div className="form-group">
-                <label>Background Color</label>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <input type="color" value={section.backgroundColor || '#ffffff'} onChange={(e) => {
-                    const updated = [...(sectionData[editLang].customSections || [])];
-                    updated[idx].backgroundColor = e.target.value;
-                    setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
-                  }} style={{ width: '40px', height: '40px', padding: '0', border: 'none', borderRadius: '4px', cursor: 'pointer' }} />
-                  <span style={{ fontFamily: 'monospace', color: 'var(--text-muted)' }}>{section.backgroundColor || '#ffffff'}</span>
-                </div>
-              </div>
-              <div className="form-group">
-                <label>Text Color</label>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <input type="color" value={section.textColor || '#0A2E5D'} onChange={(e) => {
-                    const updated = [...(sectionData[editLang].customSections || [])];
-                    updated[idx].textColor = e.target.value;
-                    setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
-                  }} style={{ width: '40px', height: '40px', padding: '0', border: 'none', borderRadius: '4px', cursor: 'pointer' }} />
-                  <span style={{ fontFamily: 'monospace', color: 'var(--text-muted)' }}>{section.textColor || '#0A2E5D'}</span>
-                </div>
-              </div>
+            <div className="form-group" style={{ marginTop: '15px' }}>
+              <label>Image Position</label>
+              <select className="form-control" value={section.imagePosition || 'right'} onChange={(e) => {
+                setSectionData(prev => {
+                  const copy = { ...prev };
+                  ['en', 'ml'].forEach(l => {
+                    if (copy[l] && copy[l].customSections) {
+                      const updated = [...copy[l].customSections];
+                      if(updated[idx]) updated[idx].imagePosition = e.target.value;
+                      copy[l] = { ...copy[l], customSections: updated };
+                    }
+                  });
+                  return copy;
+                });
+              }}>
+                <option value="right">Image on Right (Default)</option>
+                <option value="left">Image on Left</option>
+              </select>
             </div>
           </div>
         ))}
