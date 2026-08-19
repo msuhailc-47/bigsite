@@ -107,6 +107,7 @@ export default function AdminDashboard() {
     if (isReadOnly) return;
     setSectionData(prev => {
       const copy = { ...prev };
+      if (!copy[editLang][section]) copy[editLang][section] = {};
       if (nestedKey) {
         copy[editLang][section][key] = {
           ...copy[editLang][section][key],
@@ -509,6 +510,7 @@ export default function AdminDashboard() {
             handleDeleteArrayItem={handleDeleteArrayItem}
             handleMoveArrayItem={handleMoveArrayItem}
             triggerNotification={triggerNotification}
+            navItems={navItems}
           />
         )}
 

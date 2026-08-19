@@ -17,6 +17,7 @@ import TestimonialsEditor from './sections/TestimonialsEditor';
 import CsrEditor from './sections/CsrEditor';
 import ContactEditor from './sections/ContactEditor';
 import FooterEditor from './sections/FooterEditor';
+import NavbarEditor from './sections/NavbarEditor';
 import { storage } from '../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
@@ -26,7 +27,7 @@ export default function ContentEditorTab({
   sectionData, setSectionData,
   editLang, handleTextChange, handleFileUpload,
   handleArrayItemChange, handleAddArrayItem, handleDeleteArrayItem, handleMoveArrayItem,
-  triggerNotification
+  triggerNotification, navItems
 }) {
   return (
         
@@ -35,6 +36,7 @@ export default function ContentEditorTab({
             <aside className="admin-pages-sidebar">
               <h4>Select Section</h4>
               {[
+                { key: 'nav', label: 'Navbar Translations', noToggle: true },
                 { key: 'hero', label: 'Hero Banner' },
                 { key: 'about', label: 'About Us' },
                 { key: 'businesses', label: 'Businesses' },
@@ -72,6 +74,16 @@ export default function ContentEditorTab({
 
             {/* Right page content form */}
             <div className="admin-page-content-fields">
+
+              {/* SECTION: Navbar */}
+              {editingSection === 'nav' && (
+                <NavbarEditor
+                  sectionData={sectionData}
+                  editLang={editLang}
+                  handleTextChange={handleTextChange}
+                  navItems={navItems}
+                />
+              )}
               
               {/* SECTION: Hero Banner */}
               {editingSection === 'hero' && (
