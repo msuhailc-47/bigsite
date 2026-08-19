@@ -72,11 +72,18 @@ export function DataProvider({ children }) {
     setSubmissions([]);
     saveToFirebase({ submissions: [] });
   };
+  
+  const deleteSubmission = (id) => {
+    const newSubmissions = submissions.filter(sub => sub.id !== id);
+    setSubmissions(newSubmissions);
+    saveToFirebase({ submissions: newSubmissions });
+  };
+
   const addMedia = (file) => setMediaLibrary(prev => [file, ...prev]);
   const deleteMedia = (fileName) => setMediaLibrary(prev => prev.filter(f => f.name !== fileName));
 
   return (
-    <DataContext.Provider value={{ mediaLibrary, submissions, addSubmission, clearSubmissions, addMedia, deleteMedia }}>
+    <DataContext.Provider value={{ mediaLibrary, submissions, addSubmission, clearSubmissions, deleteSubmission, addMedia, deleteMedia }}>
       {children}
     </DataContext.Provider>
   );

@@ -35,6 +35,7 @@ export default function AdminDashboard() {
     updateTheme,
     addMedia,
     deleteMedia,
+    deleteSubmission,
     saveCodeSettings,
     rollbackCodeSettings,
     resetAll,
@@ -524,7 +525,7 @@ export default function AdminDashboard() {
 
         {/* Tab 5: Form Submissions */}
         {activeTab === 'submissions' && (
-          <SubmissionsTab submissions={submissions} />
+          <SubmissionsTab submissions={submissions} deleteSubmission={deleteSubmission} />
         )}
 
         
