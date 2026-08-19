@@ -28,8 +28,16 @@ export default function CustomSectionsTab({
             backgroundColor: '#ffffff',
             textColor: '#0A2E5D'
           };
-          const currentSections = sectionData[editLang].customSections || [];
-          setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: [...currentSections, newSection] } }));
+          setSectionData(prev => {
+            const copy = { ...prev };
+            ['en', 'ml'].forEach(l => {
+              if (copy[l]) {
+                const current = copy[l].customSections || [];
+                copy[l] = { ...copy[l], customSections: [...current, { ...newSection }] };
+              }
+            });
+            return copy;
+          });
         }}>
           <Plus size={16} /> Create New Section
         </button>
@@ -43,9 +51,17 @@ export default function CustomSectionsTab({
                 <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 'normal', marginLeft: '10px' }}>(Path: <strong>#{section.id || `custom-section-${idx}`}</strong>)</span>
               </h4>
               <button className="delete-btn" onClick={() => {
-                const updated = [...(sectionData[editLang].customSections || [])];
-                updated.splice(idx, 1);
-                setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
+                setSectionData(prev => {
+                  const copy = { ...prev };
+                  ['en', 'ml'].forEach(l => {
+                    if (copy[l] && copy[l].customSections) {
+                      const updated = [...copy[l].customSections];
+                      updated.splice(idx, 1);
+                      copy[l] = { ...copy[l], customSections: updated };
+                    }
+                  });
+                  return copy;
+                });
               }}>
                 <Trash2 size={16} /> Delete
               </button>
