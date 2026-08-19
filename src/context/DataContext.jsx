@@ -22,12 +22,23 @@ export function DataProvider({ children }) {
     if (!db) return;
     setIsFirebaseReady(true);
     const docRef = doc(db, 'dorek_cms', 'mediaLibrary');
-    const unsubscribe = onSnapshot(docRef, (docSnap) => {
+    const unsubscribeMedia = onSnapshot(docRef, (docSnap) => {
       if (docSnap.exists() && docSnap.data().mediaLibrary) {
         setMediaLibrary(prev => JSON.stringify(prev) !== JSON.stringify(docSnap.data().mediaLibrary) ? docSnap.data().mediaLibrary : prev);
       }
     });
-    return () => unsubscribe();
+
+    const subRef = doc(db, 'dorek_cms', 'submissions');
+    const unsubscribeSub = onSnapshot(subRef, (docSnap) => {
+      if (docSnap.exists() && docSnap.data().submissions) {
+        setSubmissions(docSnap.data().submissions);
+      }
+    });
+
+    return () => {
+      unsubscribeMedia();
+      unsubscribeSub();
+    };
   }, []);
 
   const saveToFirebase = async (updates) => {
@@ -35,6 +46,9 @@ export function DataProvider({ children }) {
     try {
       if (updates.mediaLibrary) {
         await setDoc(doc(db, 'dorek_cms', 'mediaLibrary'), { mediaLibrary: updates.mediaLibrary }, { merge: true });
+      }
+      if (updates.submissions) {
+        await setDoc(doc(db, 'dorek_cms', 'submissions'), { submissions: updates.submissions }, { merge: true });
       }
     } catch (e) { console.error(e); }
   };
@@ -48,8 +62,16 @@ export function DataProvider({ children }) {
     localStorage.setItem('dorek_cms_submissions', JSON.stringify(submissions));
   }, [submissions]);
 
-  const addSubmission = (submission) => setSubmissions(prev => [{ id: Date.now(), date: new Date().toLocaleString(), ...submission }, ...prev]);
-  const clearSubmissions = () => setSubmissions([]);
+  const addSubmission = (submission) => {
+    const newSubmissions = [{ id: Date.now(), date: new Date().toLocaleString(), ...submission }, ...submissions];
+    setSubmissions(newSubmissions);
+    saveToFirebase({ submissions: newSubmissions });
+  };
+  
+  const clearSubmissions = () => {
+    setSubmissions([]);
+    saveToFirebase({ submissions: [] });
+  };
   const addMedia = (file) => setMediaLibrary(prev => [file, ...prev]);
   const deleteMedia = (fileName) => setMediaLibrary(prev => prev.filter(f => f.name !== fileName));
 
