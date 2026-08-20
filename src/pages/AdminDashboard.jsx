@@ -531,7 +531,7 @@ export default function AdminDashboard() {
             submissions={submissions} 
             deleteSubmission={deleteSubmission} 
             themeSettings={themeSettings}
-            updateThemeSettings={updateThemeSettings}
+            updateThemeSettings={updateTheme}
           />
         )}
 
