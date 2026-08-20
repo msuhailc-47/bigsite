@@ -1,7 +1,20 @@
-import React from 'react';
-import { Inbox, Trash2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Inbox, Trash2, Save, CheckCircle } from 'lucide-react';
 
 export default function SubmissionsTab({ submissions, deleteSubmission, themeSettings, updateThemeSettings }) {
+  const [notifEmail, setNotifEmail] = useState(themeSettings?.adminEmail || '');
+  const [saved, setSaved] = useState(false);
+
+  const handleSaveEmail = () => {
+    if (!notifEmail || !notifEmail.includes('@')) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+    updateThemeSettings({ ...themeSettings, adminEmail: notifEmail });
+    setSaved(true);
+    setTimeout(() => setSaved(false), 3000);
+  };
+
   return (
     <div className="admin-panel-card animate-fadeIn">
       <h3>Contact Form Messages</h3>
@@ -50,15 +63,31 @@ export default function SubmissionsTab({ submissions, deleteSubmission, themeSet
         <p style={{ marginBottom: '15px', color: 'var(--text-muted)', fontSize: '14px' }}>
           Enter the email address where new contact form submissions should be sent.
         </p>
-        <div style={{ display: 'flex', gap: '10px' }}>
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <input 
             type="email" 
             placeholder="e.g. admin@dorek.in"
-            defaultValue={themeSettings?.adminEmail || 'info@dorek.in'}
-            onChange={(e) => updateThemeSettings({...themeSettings, adminEmail: e.target.value})}
+            value={notifEmail}
+            onChange={(e) => { setNotifEmail(e.target.value); setSaved(false); }}
             style={{ padding: '10px 15px', borderRadius: '8px', border: '1px solid #ddd', width: '300px' }}
           />
+          <button 
+            onClick={handleSaveEmail}
+            style={{ 
+              padding: '10px 20px', borderRadius: '8px', border: 'none', 
+              backgroundColor: saved ? '#22c55e' : 'var(--primary)', 
+              color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px',
+              fontWeight: '600', fontSize: '14px'
+            }}
+          >
+            {saved ? <><CheckCircle size={16} /> Saved!</> : <><Save size={16} /> Save</>}
+          </button>
         </div>
+        {themeSettings?.adminEmail && (
+          <p style={{ marginTop: '10px', color: '#666', fontSize: '13px' }}>
+            Current: <strong>{themeSettings.adminEmail}</strong>
+          </p>
+        )}
       </div>
     </div>
   );
