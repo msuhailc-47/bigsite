@@ -36,6 +36,8 @@ export default function AdminDashboard() {
     addMedia,
     deleteMedia,
     deleteSubmission,
+    markSubmissionRead,
+    markAllSubmissionsRead,
     saveCodeSettings,
     rollbackCodeSettings,
     resetAll,
@@ -529,7 +531,9 @@ export default function AdminDashboard() {
         {activeTab === 'submissions' && (
           <SubmissionsTab 
             submissions={submissions} 
-            deleteSubmission={deleteSubmission} 
+            deleteSubmission={deleteSubmission}
+            markSubmissionRead={markSubmissionRead} 
+            markAllSubmissionsRead={markAllSubmissionsRead}
             themeSettings={themeSettings}
             updateThemeSettings={updateTheme}
           />

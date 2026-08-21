@@ -79,11 +79,25 @@ export function DataProvider({ children }) {
     saveToFirebase({ submissions: newSubmissions });
   };
 
+  const markSubmissionRead = (id) => {
+    const newSubmissions = submissions.map(sub => 
+      sub.id === id ? { ...sub, isRead: true } : sub
+    );
+    setSubmissions(newSubmissions);
+    saveToFirebase({ submissions: newSubmissions });
+  };
+
+  const markAllSubmissionsRead = () => {
+    const newSubmissions = submissions.map(sub => ({ ...sub, isRead: true }));
+    setSubmissions(newSubmissions);
+    saveToFirebase({ submissions: newSubmissions });
+  };
+
   const addMedia = (file) => setMediaLibrary(prev => [file, ...prev]);
   const deleteMedia = (fileName) => setMediaLibrary(prev => prev.filter(f => f.name !== fileName));
 
   return (
-    <DataContext.Provider value={{ mediaLibrary, submissions, addSubmission, clearSubmissions, deleteSubmission, addMedia, deleteMedia }}>
+    <DataContext.Provider value={{ mediaLibrary, submissions, addSubmission, clearSubmissions, deleteSubmission, markSubmissionRead, markAllSubmissionsRead, addMedia, deleteMedia }}>
       {children}
     </DataContext.Provider>
   );

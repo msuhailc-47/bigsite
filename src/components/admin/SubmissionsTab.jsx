@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Inbox, Trash2, Save, CheckCircle } from 'lucide-react';
+import { Inbox, Trash2, Save, CheckCircle, Mail, MailOpen } from 'lucide-react';
 
-export default function SubmissionsTab({ submissions, deleteSubmission, themeSettings, updateThemeSettings }) {
+export default function SubmissionsTab({ submissions, deleteSubmission, markSubmissionRead, markAllSubmissionsRead, themeSettings, updateThemeSettings }) {
   const [notifEmail, setNotifEmail] = useState(themeSettings?.adminEmail || '');
   const [saved, setSaved] = useState(false);
+  const [viewMode, setViewMode] = useState('new'); // 'new' or 'all'
 
   const handleSaveEmail = () => {
     if (!notifEmail || !notifEmail.includes('@')) {
@@ -15,27 +16,115 @@ export default function SubmissionsTab({ submissions, deleteSubmission, themeSet
     setTimeout(() => setSaved(false), 3000);
   };
 
+  // Sort submissions (newest first)
+  const sortedSubmissions = [...submissions].sort((a, b) => b.id - a.id);
+  
+  // Filter submissions
+  const newSubmissions = sortedSubmissions.filter(sub => !sub.isRead);
+  const allSubmissions = sortedSubmissions;
+  
+  const displaySubmissions = viewMode === 'new' ? newSubmissions : allSubmissions;
+
   return (
     <div className="admin-panel-card animate-fadeIn">
-      <h3>Contact Form Messages</h3>
-      <p className="section-description">View active message submissions sent by website visitors.</p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
+        <div>
+          <h3>Contact Form Messages</h3>
+          <p className="section-description">View active message submissions sent by website visitors.</p>
+        </div>
+        
+        {/* Toggle Buttons */}
+        <div style={{ display: 'flex', gap: '10px', background: 'var(--bg-section)', padding: '5px', borderRadius: '8px', border: '1px solid rgba(10,46,93,0.1)' }}>
+          <button 
+            onClick={() => setViewMode('new')}
+            style={{ 
+              padding: '8px 16px', 
+              borderRadius: '6px', 
+              border: 'none', 
+              backgroundColor: viewMode === 'new' ? 'var(--primary)' : 'transparent', 
+              color: viewMode === 'new' ? '#fff' : 'var(--text-muted)', 
+              cursor: 'pointer', 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '6px',
+              fontWeight: '600'
+            }}
+          >
+            <Mail size={16} /> New 
+            {newSubmissions.length > 0 && (
+              <span style={{ background: '#e11d48', color: 'white', padding: '2px 6px', borderRadius: '12px', fontSize: '11px', marginLeft: '4px' }}>
+                {newSubmissions.length}
+              </span>
+            )}
+          </button>
+          <button 
+            onClick={() => setViewMode('all')}
+            style={{ 
+              padding: '8px 16px', 
+              borderRadius: '6px', 
+              border: 'none', 
+              backgroundColor: viewMode === 'all' ? 'var(--primary)' : 'transparent', 
+              color: viewMode === 'all' ? '#fff' : 'var(--text-muted)', 
+              cursor: 'pointer', 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '6px',
+              fontWeight: '600'
+            }}
+          >
+            <MailOpen size={16} /> All
+          </button>
+        </div>
+        
+        {viewMode === 'new' && newSubmissions.length > 0 && (
+          <button 
+            onClick={() => markAllSubmissionsRead()}
+            style={{ 
+              padding: '8px 16px', 
+              borderRadius: '6px', 
+              border: '1px solid #ddd', 
+              backgroundColor: '#fff', 
+              color: '#666', 
+              cursor: 'pointer', 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '6px',
+              fontWeight: '600',
+              marginLeft: 'auto'
+            }}
+          >
+            <CheckCircle size={16} /> Mark All as Read
+          </button>
+        )}
+      </div>
 
       <div className="submissions-list">
-        {submissions.length === 0 ? (
+        {displaySubmissions.length === 0 ? (
           <div className="submissions-empty">
             <Inbox size={40} className="empty-state-icon" />
-            <p>No submissions found. Feedbacks will appear here.</p>
+            <p>{viewMode === 'new' ? "No new messages right now." : "No submissions found. Feedbacks will appear here."}</p>
           </div>
         ) : (
-          submissions.map((sub) => (
-            <div key={sub.id} className="submission-detail-card">
+          displaySubmissions.map((sub) => (
+            <div key={sub.id} className="submission-detail-card" style={{ borderLeft: !sub.isRead ? '4px solid #e11d48' : 'none' }}>
               <div className="submission-card-header">
                 <div className="sender-meta">
-                  <h4>{sub.name}</h4>
+                  <h4>{sub.name} {!sub.isRead && <span style={{ fontSize: '11px', color: '#e11d48', marginLeft: '8px', fontWeight: 'bold' }}>• NEW</span>}</h4>
                   <span>{sub.email} | {sub.phone || 'No phone'}</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <span className="submission-date">{sub.date}</span>
+                  
+                  {!sub.isRead && (
+                    <button
+                      title="Mark as Read"
+                      onClick={() => markSubmissionRead(sub.id)}
+                      style={{ background: 'none', border: '1px solid #ddd', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer', fontSize: '12px', color: '#666' }}
+                    >
+                      Mark Read
+                    </button>
+                  )}
+
                   <button
                     className="delete-btn"
                     title="Delete this submission"
