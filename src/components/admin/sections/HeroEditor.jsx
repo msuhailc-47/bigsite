@@ -139,6 +139,37 @@ export default function HeroEditor({
                       />
                     </div>
                   </div>
+                  
+                  <hr style={{ margin: '30px 0', borderColor: 'rgba(10,46,93,0.1)' }} />
+                  
+                  <h3>Edit Welcome Screen (Splash)</h3>
+                  <div className="form-group">
+                    <label>Main Title (e.g., Welcome to)</label>
+                    <input
+                      type="text"
+                      value={sectionData[editLang].welcome?.titleMain || ''}
+                      onChange={(e) => handleTextChange('welcome', 'titleMain', e.target.value)}
+                      className="form-control"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Sub Title (e.g., DOREK INTERNATIONAL)</label>
+                    <input
+                      type="text"
+                      value={sectionData[editLang].welcome?.titleSub || ''}
+                      onChange={(e) => handleTextChange('welcome', 'titleSub', e.target.value)}
+                      className="form-control"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Tagline (e.g., ENGINEERING SOLUTIONS)</label>
+                    <input
+                      type="text"
+                      value={sectionData[editLang].welcome?.tagline || ''}
+                      onChange={(e) => handleTextChange('welcome', 'tagline', e.target.value)}
+                      className="form-control"
+                    />
+                  </div>
                 </div>
   );
 }

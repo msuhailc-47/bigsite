@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Inbox, Trash2, Save, CheckCircle, Mail, MailOpen } from 'lucide-react';
+import { Inbox, Trash2, Save, CheckCircle, Mail, MailOpen, Download } from 'lucide-react';
 
 export default function SubmissionsTab({ submissions, deleteSubmission, markSubmissionRead, markAllSubmissionsRead, themeSettings, updateThemeSettings }) {
   const [notifEmail, setNotifEmail] = useState(themeSettings?.adminEmail || '');
@@ -14,6 +14,38 @@ export default function SubmissionsTab({ submissions, deleteSubmission, markSubm
     updateThemeSettings({ ...themeSettings, adminEmail: notifEmail });
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
+  };
+
+  const handleExportCSV = () => {
+    if (submissions.length === 0) return alert('No submissions to export.');
+    
+    // Create CSV headers
+    const headers = ['ID', 'Date', 'Name', 'Email', 'Phone', 'Subject', 'Message', 'Status'];
+    
+    // Create CSV rows
+    const rows = submissions.map(sub => [
+      sub.id,
+      `"${sub.date || ''}"`,
+      `"${sub.name || ''}"`,
+      `"${sub.email || ''}"`,
+      `"${sub.phone || ''}"`,
+      `"${sub.subject || ''}"`,
+      `"${(sub.message || '').replace(/"/g, '""')}"`, // Escape quotes in message
+      sub.isRead ? 'Read' : 'New'
+    ]);
+    
+    // Combine headers and rows
+    const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    
+    // Trigger download
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `Dorek_Inquiries_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   // Sort submissions (newest first)
@@ -96,6 +128,25 @@ export default function SubmissionsTab({ submissions, deleteSubmission, markSubm
             <CheckCircle size={16} /> Mark All as Read
           </button>
         )}
+        <button 
+          onClick={handleExportCSV}
+          style={{ 
+            padding: '8px 16px', 
+            borderRadius: '6px', 
+            border: 'none', 
+            backgroundColor: '#10b981', 
+            color: '#fff', 
+            cursor: 'pointer', 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '6px',
+            fontWeight: '600',
+            marginLeft: viewMode === 'new' && newSubmissions.length > 0 ? '10px' : 'auto'
+          }}
+          title="Download all messages as Excel/CSV"
+        >
+          <Download size={16} /> Export CSV
+        </button>
       </div>
 
       <div className="submissions-list">

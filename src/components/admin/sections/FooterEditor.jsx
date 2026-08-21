@@ -16,6 +16,19 @@ export default function FooterEditor({
 }) {
   return (
     <div className="section-form">
+                  <h3>Edit Footer Content</h3>
+                  <div className="form-group">
+                    <label>Company Description (Under Logo)</label>
+                    <textarea
+                      value={sectionData[editLang].footer.description || ''}
+                      onChange={(e) => handleTextChange('footer', 'description', e.target.value)}
+                      className="form-control"
+                      rows={3}
+                    />
+                  </div>
+                  
+                  <hr style={{ margin: '30px 0', borderColor: 'rgba(10,46,93,0.1)' }} />
+                  
                   <h3>Edit Footer Social Links</h3>
                   <div className="form-row">
                     <div className="form-group col-6">

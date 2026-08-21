@@ -325,12 +325,12 @@ const translations = {
       formSubject: 'Subject',
       formMessage: 'Your Message',
       formSubmit: 'Send Message',
-      formOptions: ['Business Inquiry', 'Career', 'Customer Support', 'Other'],
       formSelect: 'Select Inquiry Type',
       formOptions: ['General Inquiry', 'Business Opportunity', 'Product Inquiry', 'Service Request', 'Investment', 'Career', 'Other'],
       mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3929.3514059046777!2d76.3142721!3d9.9877864!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b080d4c82701d71%3A0xc3f6e166e51cc145!2sErnakulam%2C%20Kerala!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin'
     },
     footer: {
+      description: 'A diversified corporate conglomerate delivering excellence across industries.',
       quickLinks: 'Quick Links',
       legal: 'Legal',
       connect: 'Connect With Us',
@@ -338,20 +338,17 @@ const translations = {
       terms: 'Terms & Conditions',
       refund: 'Refund Policy',
       disclaimer: 'Disclaimer',
-      copyright: '© 2025 Dorek International Enterprises LLP. All Rights Reserved.',
+      copyright: 'Dorek International Enterprises LLP. All Rights Reserved.',
       facebook: 'https://facebook.com/dorek',
       instagram: 'https://instagram.com/dorek',
       twitter: 'https://twitter.com/dorek',
       linkedin: 'https://linkedin.com/company/dorek',
-      youtube: 'https://youtube.com/@dorek',
-      quickLinks: 'Quick Links',
-      legal: 'Legal',
-      connect: 'Contact Us',
-      privacy: 'Privacy Policy',
-      terms: 'Terms & Conditions',
-      refund: 'Refund Policy',
-      disclaimer: 'Disclaimer',
-      copyright: '© 2026 Dorek International LLP. All rights reserved.',
+      youtube: 'https://youtube.com/@dorek'
+    },
+    welcome: {
+      titleMain: 'Welcome to',
+      titleSub: 'DOREK INTERNATIONAL',
+      tagline: 'ENGINEERING SOLUTIONS'
     },
     portal: {
       title: 'Portal Login',
@@ -669,6 +666,7 @@ const translations = {
       mapUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3929.3514059046777!2d76.3142721!3d9.9877864!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b080d4c82701d71%3A0xc3f6e166e51cc145!2sErnakulam%2C%20Kerala!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin'
     },
     footer: {
+      description: 'വ്യവസായങ്ങളിലുടനീളം മികച്ച സേവനം നൽകുന്ന ഒരു കോർപ്പറേറ്റ് സ്ഥാപനം.',
       quickLinks: 'ക്വിക്ക് ലിങ്കുകൾ',
       legal: 'നിയമപരം',
       connect: 'ഞങ്ങളുമായി ബന്ധപ്പെടുക',
@@ -681,15 +679,12 @@ const translations = {
       instagram: 'https://instagram.com/dorek',
       twitter: 'https://twitter.com/dorek',
       linkedin: 'https://linkedin.com/company/dorek',
-      youtube: 'https://youtube.com/@dorek',
-      quickLinks: 'Quick Links',
-      legal: 'Legal',
-      connect: 'Contact Us',
-      privacy: 'Privacy Policy',
-      terms: 'Terms & Conditions',
-      refund: 'Refund Policy',
-      disclaimer: 'Disclaimer',
-      copyright: '© 2026 Dorek International LLP. All rights reserved.',
+      youtube: 'https://youtube.com/@dorek'
+    },
+    welcome: {
+      titleMain: 'സ്വാഗതം',
+      titleSub: 'ഡോറെക് ഇന്റർനാഷണൽ',
+      tagline: 'എഞ്ചിനീയറിംഗ് സൊല്യൂഷൻസ്'
     },
     portal: {
       title: 'പോർട്ടൽ ലോഗിൻ',
