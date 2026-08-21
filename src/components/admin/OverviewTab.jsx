@@ -1,5 +1,7 @@
-import React from 'react';
-import { FileDown, Upload, RefreshCw } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { FileDown, Upload, RefreshCw, Users } from 'lucide-react';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { db } from '../../firebase';
 
 export default function OverviewTab({
   userRole,
@@ -11,14 +13,33 @@ export default function OverviewTab({
   resetAll,
   isReadOnly
 }) {
+  const [totalVisitors, setTotalVisitors] = useState(0);
+
+  useEffect(() => {
+    // Listen to real-time analytics
+    const unsub = onSnapshot(doc(db, 'dorek_cms', 'analytics'), (docSnap) => {
+      if (docSnap.exists() && docSnap.data().totalVisitors) {
+        setTotalVisitors(docSnap.data().totalVisitors);
+      }
+    });
+    return () => unsub();
+  }, []);
+
   return (
     <div className="admin-panel-card animate-fadeIn">
-      <h3>Overview & Dashboard</h3>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+        <h3>Overview & Dashboard</h3>
+        <span style={{ fontSize: '12px', padding: '4px 10px', background: 'var(--primary)', color: 'white', borderRadius: '20px' }}>
+          Role: {userRole}
+        </span>
+      </div>
       <div className="overview-stats-grid">
-        <div className="stat-card">
-          <h4>System Role</h4>
-          <div className="stat-value text-gold">{userRole}</div>
-          <p>Edit restrictions apply dynamically</p>
+        <div className="stat-card" style={{ borderBottom: '4px solid #22c55e' }}>
+          <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Users size={16} /> Total Visitors
+          </h4>
+          <div className="stat-value text-gold">{totalVisitors.toLocaleString()}</div>
+          <p>Unique sessions since launch</p>
         </div>
         <div className="stat-card">
           <h4>Form Inquiries</h4>
