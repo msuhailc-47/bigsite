@@ -131,8 +131,8 @@ export default function AboutEditor({
                     />
                   </div>
                   <div className="form-row">
-                    <div className="form-group col-6">
-                      <label>Management Person Name</label>
+                    <div className="form-group col-4">
+                      <label>Person Name</label>
                       <input
                         type="text"
                         value={sectionData[editLang].about.founderName || ''}
@@ -140,12 +140,21 @@ export default function AboutEditor({
                         className="form-control"
                       />
                     </div>
-                    <div className="form-group col-6">
-                      <label>Position Bio Title</label>
+                    <div className="form-group col-4">
+                      <label>Position / Role</label>
                       <input
                         type="text"
-                        value={sectionData[editLang].about.founderNameTitle || 'Founder & Managing Partner'}
-                        onChange={(e) => handleTextChange('about', 'founderNameTitle', e.target.value)}
+                        value={sectionData[editLang].about.founderRole || ''}
+                        onChange={(e) => handleTextChange('about', 'founderRole', e.target.value)}
+                        className="form-control"
+                      />
+                    </div>
+                    <div className="form-group col-4">
+                      <label>Company Name</label>
+                      <input
+                        type="text"
+                        value={sectionData[editLang].about.founderCompany || ''}
+                        onChange={(e) => handleTextChange('about', 'founderCompany', e.target.value)}
                         className="form-control"
                       />
                     </div>
