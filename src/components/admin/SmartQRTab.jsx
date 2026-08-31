@@ -5,9 +5,15 @@ import {
   QrCode, Star, Bell, CheckCircle2, Clock, Trash2, Download, 
   Search, Filter, ExternalLink, RefreshCw, AlertTriangle, MapPin, Users,
   Mail, Settings, Save, Check, Send, ShieldAlert, Phone, ChevronDown, ChevronUp,
-  FileText, Globe, MessageCircle, Sparkles, Layers, RotateCcw, Eye, CheckCheck,
-  Smartphone, Columns, Maximize2, Plus, X, Tag
+  FileText, Globe, MessageCircle, Sparkles, Layers, RotateCcw, Eye, EyeOff, CheckCheck,
+  Smartphone, Columns, Maximize2, Plus, X, Tag, Key, KeyRound, ShieldCheck, Printer, UserCheck
 } from 'lucide-react';
+
+const DEFAULT_STAFF_PASS_LIST = [
+  { id: '1', name: 'Outlet Store Manager', role: 'Manager', pin: '2026' },
+  { id: '2', name: 'Floor Supervisor', role: 'Supervisor', pin: '4747' },
+  { id: '3', name: 'Billing Desk Staff', role: 'Cashier / Staff', pin: '1234' }
+];
 
 const DEFAULT_PAGE_CONTENT = {
   // 1. Landing Page
@@ -63,7 +69,11 @@ const DEFAULT_PAGE_CONTENT = {
   whatsappPhone: '+919747522000',
   whatsappPretext: 'Hi Dorek International, I visited your outlet and would like to connect with your team.',
   resetBtnText: 'Submit Another Response',
-  footerNotice: 'Powered by Dorek Pulse • Official Outlet Customer System'
+  footerNotice: 'Powered by Dorek Pulse • Official Outlet Customer System',
+
+  // 5. Staff Pass List & Master PIN
+  staffPin: '2026',
+  staffPassList: DEFAULT_STAFF_PASS_LIST
 };
 
 export default function SmartQRTab() {
@@ -74,13 +84,19 @@ export default function SmartQRTab() {
   const [hubFilter, setHubFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Page Content Sub-category: 'review' | 'thankyou' | 'service' | 'landing'
-  const [contentCategory, setContentCategory] = useState('review');
+  // Page Content Sub-category: 'staff' | 'review' | 'thankyou' | 'service' | 'landing'
+  const [contentCategory, setContentCategory] = useState('staff');
 
   // Input states for adding new suggestion tags
   const [newHighTag, setNewHighTag] = useState('');
   const [newMedTag, setNewMedTag] = useState('');
   const [newLowTag, setNewLowTag] = useState('');
+
+  // Input states for adding new Staff Pass
+  const [newStaffName, setNewStaffName] = useState('');
+  const [newStaffRole, setNewStaffRole] = useState('Staff');
+  const [newStaffPin, setNewStaffPin] = useState('');
+  const [showPins, setShowPins] = useState(true);
 
   // Notification Settings State
   const [showNotifyPanel, setShowNotifyPanel] = useState(false);
@@ -143,7 +159,8 @@ export default function SmartQRTab() {
             ...data,
             highTags: (data.highTags && data.highTags.length > 0) ? data.highTags : prev.highTags,
             mediumTags: (data.mediumTags && data.mediumTags.length > 0) ? data.mediumTags : prev.mediumTags,
-            lowTags: (data.lowTags && data.lowTags.length > 0) ? data.lowTags : prev.lowTags
+            lowTags: (data.lowTags && data.lowTags.length > 0) ? data.lowTags : prev.lowTags,
+            staffPassList: (data.staffPassList && data.staffPassList.length > 0) ? data.staffPassList : prev.staffPassList
           }));
         }
       } catch (err) {
@@ -189,6 +206,33 @@ export default function SmartQRTab() {
       const current = pageContent.lowTags || DEFAULT_PAGE_CONTENT.lowTags;
       setPageContent({ ...pageContent, lowTags: current.filter(t => t !== tagToRemove) });
     }
+  };
+
+  // Staff Pass Management Handlers
+  const handleAddStaffPass = () => {
+    if (!newStaffName.trim() || !newStaffPin.trim()) {
+      alert('Please enter both Staff Name and 4-digit PIN.');
+      return;
+    }
+    const currentList = pageContent.staffPassList || DEFAULT_PAGE_CONTENT.staffPassList;
+    const newEntry = {
+      id: Date.now().toString(),
+      name: newStaffName.trim(),
+      role: newStaffRole || 'Staff',
+      pin: newStaffPin.trim()
+    };
+    setPageContent({ ...pageContent, staffPassList: [...currentList, newEntry] });
+    setNewStaffName('');
+    setNewStaffPin('');
+  };
+
+  const handleRemoveStaffPass = (idToRemove) => {
+    const currentList = pageContent.staffPassList || DEFAULT_PAGE_CONTENT.staffPassList;
+    if (currentList.length <= 1) {
+      alert('At least one staff pass must remain active.');
+      return;
+    }
+    setPageContent({ ...pageContent, staffPassList: currentList.filter(s => s.id !== idToRemove) });
   };
 
   const handleSaveNotificationSettings = async () => {
@@ -260,7 +304,7 @@ export default function SmartQRTab() {
         ...pageContent,
         updatedAt: Date.now()
       }, { merge: true });
-      setContentStatus('ക്യുആർ പേജ് ഉള്ളടക്കങ്ങളും സജഷൻ ടാഗുകളും വിജയകരമായി സേവ് ചെയ്തു!');
+      setContentStatus('ക്യുആർ പേജ് ഉള്ളടക്കങ്ങളും സ്റ്റാഫ് പാസ്സുകളും സേവ് ചെയ്തു!');
       setTimeout(() => setContentStatus(''), 4000);
     } catch (err) {
       console.error('Failed to save page content:', err);
@@ -271,7 +315,7 @@ export default function SmartQRTab() {
   };
 
   const handleResetContent = () => {
-    if (window.confirm('എല്ലാ ടെക്സ്റ്റുകളും സജഷൻ ടാഗുകളും ഡിഫോൾട്ട് രീതിയിലേക്ക് റീസെറ്റ് ചെയ്യണോ?')) {
+    if (window.confirm('എല്ലാ ടെക്സ്റ്റുകളും സ്റ്റാഫ് പാസ്സുകളും ഡിഫോൾട്ട് രീതിയിലേക്ക് റീസെറ്റ് ചെയ്യണോ?')) {
       setPageContent(DEFAULT_PAGE_CONTENT);
     }
   };
@@ -403,12 +447,16 @@ export default function SmartQRTab() {
   const highTagsList = pageContent.highTags || DEFAULT_PAGE_CONTENT.highTags;
   const medTagsList = pageContent.mediumTags || DEFAULT_PAGE_CONTENT.mediumTags;
   const lowTagsList = pageContent.lowTags || DEFAULT_PAGE_CONTENT.lowTags;
+  const staffPassList = pageContent.staffPassList || DEFAULT_PAGE_CONTENT.staffPassList;
+
+  // Master PIN for 1-click launch from admin
+  const masterPin = staffPassList[0]?.pin || '2026';
 
   return (
-    <div className="admin-panel-card animate-fadeIn" style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
+    <div className="admin-panel-card animate-fadeIn" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       
       {/* ========================================================
-          TOP HEADER & KPI BAR
+          TOP HEADER & 1-CLICK OUTLET TOOLS BAR
           ======================================================== */}
       <div style={{
         display: 'flex',
@@ -435,18 +483,47 @@ export default function SmartQRTab() {
           </div>
         </div>
 
+        {/* 1-Click Launchers for Admin */}
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          <a
+            href={`https://dkscanreview.vercel.app/qr-studio?pin=${masterPin}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ 
+              padding: '8px 14px', borderRadius: '8px', border: '1px solid #38BDF8', 
+              backgroundColor: 'rgba(56, 189, 248, 0.15)', color: '#38BDF8', 
+              textDecoration: 'none',
+              display: 'flex', alignItems: 'center', gap: '6px', fontWeight: '700', fontSize: '12px'
+            }}
+          >
+            <Printer size={14} /> Open QR Studio (ക്യുആർ സ്റ്റുഡിയോ)
+          </a>
+
+          <a
+            href={`https://dkscanreview.vercel.app/staff?pin=${masterPin}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ 
+              padding: '8px 14px', borderRadius: '8px', border: '1px solid #D4AF37', 
+              backgroundColor: 'rgba(212, 175, 55, 0.15)', color: '#D4AF37', 
+              textDecoration: 'none',
+              display: 'flex', alignItems: 'center', gap: '6px', fontWeight: '700', fontSize: '12px'
+            }}
+          >
+            <Users size={14} /> Open Staff Board (സ്റ്റാഫ് ബോർഡ്)
+          </a>
+
           <button 
             onClick={() => setShowNotifyPanel(!showNotifyPanel)}
             style={{ 
-              padding: '8px 14px', borderRadius: '8px', border: '1px solid #D4AF37', 
-              backgroundColor: showNotifyPanel ? '#D4AF37' : 'rgba(255,255,255,0.1)', 
+              padding: '8px 14px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.2)', 
+              backgroundColor: showNotifyPanel ? '#D4AF37' : 'rgba(255,255,255,0.08)', 
               color: showNotifyPanel ? '#0A2E5D' : '#ffffff', 
               cursor: 'pointer', 
               display: 'flex', alignItems: 'center', gap: '6px', fontWeight: '700', fontSize: '12px'
             }}
           >
-            <Mail size={14} /> {showNotifyPanel ? 'Hide Email Settings' : 'Email Alert Settings (അറിയിപ്പുകൾ)'}
+            <Mail size={14} /> Email Alerts
           </button>
 
           <button 
@@ -559,7 +636,7 @@ export default function SmartQRTab() {
       {/* ========================================================
           HORIZONTAL 2-COLUMN SPLIT: 
           LEFT = Live Service Hub & Submissions
-          RIGHT = Page Content & Links Editor (Directly Visible!)
+          RIGHT = Page Content, Suggestions & Staff Pass Manager
           ======================================================== */}
       <div style={{
         display: 'grid',
@@ -795,7 +872,7 @@ export default function SmartQRTab() {
         </div>
 
         {/* ------------------------------------------------------
-            COLUMN 2: Page Contents & Links Editor (DIRECTLY VISIBLE!)
+            COLUMN 2: Page Contents, Suggestions & Staff Pass Manager
             ------------------------------------------------------ */}
         <div style={{
           background: '#ffffff',
@@ -811,10 +888,10 @@ export default function SmartQRTab() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '12px', borderBottom: '2px solid #f1f5f9', flexWrap: 'wrap', gap: '8px' }}>
             <div>
               <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '800', color: '#0A2E5D', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <FileText size={18} color="#D4AF37" /> QR Page Contents & Suggestions Editor
+                <FileText size={18} color="#D4AF37" /> QR Content, Suggestions & Staff Passwords
               </h3>
               <p style={{ margin: '2px 0 0 0', fontSize: '12px', color: '#64748b' }}>
-                Manage all text fields, feedback suggestions & WhatsApp links
+                Manage all outlet texts, customer tags & staff access PINs
               </p>
             </div>
 
@@ -837,7 +914,7 @@ export default function SmartQRTab() {
               }}
             >
               <Save size={14} />
-              {savingContent ? 'Saving...' : 'Save All Content'}
+              {savingContent ? 'Saving...' : 'Save All Settings'}
             </button>
           </div>
 
@@ -862,6 +939,18 @@ export default function SmartQRTab() {
           {/* Sub-category Pill Buttons */}
           <div style={{ display: 'flex', gap: '6px', background: '#f8fafc', padding: '4px', borderRadius: '8px', flexWrap: 'wrap' }}>
             <button
+              onClick={() => setContentCategory('staff')}
+              style={{
+                padding: '6px 12px', borderRadius: '6px', border: 'none',
+                background: contentCategory === 'staff' ? '#0A2E5D' : 'transparent',
+                color: contentCategory === 'staff' ? '#D4AF37' : '#64748b',
+                fontWeight: '700', fontSize: '11px', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', gap: '4px'
+              }}
+            >
+              <Key size={13} /> 🔑 Staff Pass & PINs (സ്റ്റാഫ് പാസ്സ്)
+            </button>
+            <button
               onClick={() => setContentCategory('review')}
               style={{
                 padding: '6px 12px', borderRadius: '6px', border: 'none',
@@ -870,7 +959,7 @@ export default function SmartQRTab() {
                 fontWeight: '700', fontSize: '11px', cursor: 'pointer'
               }}
             >
-              ⭐ Review Form & Suggestions (സജഷൻസ്)
+              ⭐ Review Form & Suggestions
             </button>
             <button
               onClick={() => setContentCategory('thankyou')}
@@ -894,21 +983,157 @@ export default function SmartQRTab() {
             >
               🛎️ Staff Call Options
             </button>
-            <button
-              onClick={() => setContentCategory('landing')}
-              style={{
-                padding: '6px 12px', borderRadius: '6px', border: 'none',
-                background: contentCategory === 'landing' ? '#0A2E5D' : 'transparent',
-                color: contentCategory === 'landing' ? '#D4AF37' : '#64748b',
-                fontWeight: '700', fontSize: '11px', cursor: 'pointer'
-              }}
-            >
-              🏠 Landing Page
-            </button>
           </div>
 
           {/* ========================================================
-              CATEGORY 1: REVIEW FORM & SUGGESTIONS TAGS (USER REQUESTED!)
+              CATEGORY: STAFF PASS & PINS MANAGER (USER REQUESTED!)
+              ======================================================== */}
+          {contentCategory === 'staff' && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }} className="animate-fadeIn">
+              
+              <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '14px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <ShieldCheck size={18} color="#0A2E5D" />
+                    <div>
+                      <h4 style={{ margin: 0, fontSize: '13px', fontWeight: '800', color: '#0A2E5D' }}>
+                        Outlet Staff Pass & Access Passwords (സ്റ്റാഫ് പാസ്സ് ലിസ്റ്റ്)
+                      </h4>
+                      <p style={{ margin: 0, fontSize: '11px', color: '#64748b' }}>
+                        These PINs grant access to the Staff Dispatch Board & QR Studio
+                      </p>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setShowPins(!showPins)}
+                    style={{
+                      background: 'transparent',
+                      border: '1px solid #cbd5e1',
+                      borderRadius: '6px',
+                      padding: '4px 8px',
+                      fontSize: '11px',
+                      color: '#475569',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px'
+                    }}
+                  >
+                    {showPins ? <EyeOff size={13} /> : <Eye size={13} />}
+                    <span>{showPins ? 'Hide PINs' : 'Show PINs'}</span>
+                  </button>
+                </div>
+
+                {/* Staff Pass Cards List */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '14px' }}>
+                  {staffPassList.map((staff) => (
+                    <div 
+                      key={staff.id}
+                      style={{
+                        background: '#ffffff',
+                        border: '1px solid #e2e8f0',
+                        borderRadius: '8px',
+                        padding: '10px 14px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'rgba(10,46,93,0.08)', color: '#0A2E5D', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '800', fontSize: '13px' }}>
+                          👤
+                        </div>
+                        <div>
+                          <div style={{ fontSize: '13px', fontWeight: '700', color: '#1e293b' }}>
+                            {staff.name}
+                          </div>
+                          <span style={{ fontSize: '11px', color: '#64748b' }}>
+                            Role: <strong>{staff.role}</strong>
+                          </span>
+                        </div>
+                      </div>
+
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <div style={{ background: '#f1f5f9', border: '1px solid #cbd5e1', padding: '4px 10px', borderRadius: '6px', fontFamily: 'monospace', fontWeight: '800', fontSize: '13px', color: '#0A2E5D', letterSpacing: showPins ? '2px' : '0px' }}>
+                          {showPins ? staff.pin : '••••'}
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveStaffPass(staff.id)}
+                          style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '4px' }}
+                          title="Delete Staff Pass"
+                        >
+                          <Trash2 size={15} />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Add New Staff Pass Row */}
+                <div style={{ background: '#ffffff', border: '1px dashed #cbd5e1', borderRadius: '8px', padding: '12px' }}>
+                  <span style={{ display: 'block', fontSize: '11px', fontWeight: '700', color: '#0A2E5D', marginBottom: '8px' }}>
+                    + Add New Staff Pass (പുതിയ സ്റ്റാഫ് പാസ്സ് ചേർക്കുക)
+                  </span>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr auto', gap: '8px', alignItems: 'center' }}>
+                    <input
+                      type="text"
+                      placeholder="Staff / Counter Name (e.g. Rahul - Desk 1)"
+                      value={newStaffName}
+                      onChange={(e) => setNewStaffName(e.target.value)}
+                      style={{ padding: '6px 10px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '12px', boxSizing: 'border-box' }}
+                    />
+                    <select
+                      value={newStaffRole}
+                      onChange={(e) => setNewStaffRole(e.target.value)}
+                      style={{ padding: '6px 8px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '12px', background: '#fff', boxSizing: 'border-box' }}
+                    >
+                      <option value="Manager">Manager</option>
+                      <option value="Supervisor">Supervisor</option>
+                      <option value="Staff">Staff</option>
+                      <option value="Cashier">Cashier</option>
+                    </select>
+                    <input
+                      type="text"
+                      maxLength={6}
+                      placeholder="4-digit PIN"
+                      value={newStaffPin}
+                      onChange={(e) => setNewStaffPin(e.target.value)}
+                      style={{ padding: '6px 10px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '12px', fontFamily: 'monospace', fontWeight: '700', boxSizing: 'border-box' }}
+                    />
+                    <button
+                      type="button"
+                      onClick={handleAddStaffPass}
+                      style={{
+                        padding: '6px 14px',
+                        borderRadius: '6px',
+                        border: 'none',
+                        background: '#0A2E5D',
+                        color: '#D4AF37',
+                        fontSize: '12px',
+                        fontWeight: '700',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px'
+                      }}
+                    >
+                      <Plus size={14} /> Add Pass
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          )}
+
+          {/* ========================================================
+              CATEGORY 1: REVIEW FORM & SUGGESTIONS TAGS
               ======================================================== */}
           {contentCategory === 'review' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }} className="animate-fadeIn">
@@ -943,18 +1168,8 @@ export default function SmartQRTab() {
                 </div>
               </div>
 
-              {/* ----------------------------------------------------
-                  SUGGESTIONS / SENTIMENT TAGS MANAGER WITH ADD BUTTONS
-                  ---------------------------------------------------- */}
-              <div style={{
-                background: '#f8fafc',
-                border: '1px solid #e2e8f0',
-                borderRadius: '10px',
-                padding: '14px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '14px'
-              }}>
+              {/* Suggestions Manager */}
+              <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '14px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <Tag size={15} color="#D4AF37" />
                   <h4 style={{ margin: 0, fontSize: '13px', fontWeight: '800', color: '#0A2E5D' }}>
@@ -971,64 +1186,20 @@ export default function SmartQRTab() {
                     <span style={{ fontSize: '10px', color: '#64748b' }}>{highTagsList.length} tags</span>
                   </div>
 
-                  {/* Badges with Delete button */}
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '8px' }}>
                     {highTagsList.map((tag, idx) => (
-                      <span 
-                        key={idx} 
-                        style={{
-                          background: '#f0fdf4',
-                          border: '1px solid #bbf7d0',
-                          color: '#166534',
-                          padding: '3px 8px',
-                          borderRadius: '14px',
-                          fontSize: '11px',
-                          fontWeight: '600',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '4px'
-                        }}
-                      >
+                      <span key={idx} style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', color: '#166534', padding: '3px 8px', borderRadius: '14px', fontSize: '11px', fontWeight: '600', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                         {tag}
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveTag('high', tag)}
-                          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0 2px', color: '#ef4444', display: 'flex', alignItems: 'center' }}
-                          title="Remove Tag"
-                        >
+                        <button type="button" onClick={() => handleRemoveTag('high', tag)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0 2px', color: '#ef4444', display: 'flex', alignItems: 'center' }}>
                           <X size={12} />
                         </button>
                       </span>
                     ))}
                   </div>
 
-                  {/* Add Input + Add Button */}
                   <div style={{ display: 'flex', gap: '6px' }}>
-                    <input
-                      type="text"
-                      value={newHighTag}
-                      onChange={(e) => setNewHighTag(e.target.value)}
-                      onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag('high'))}
-                      placeholder="Type suggestion (e.g. ⚡ Friendly Staff)..."
-                      style={{ flex: 1, padding: '5px 8px', borderRadius: '6px', border: '1px solid #86efac', fontSize: '11px', boxSizing: 'border-box' }}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => handleAddTag('high')}
-                      style={{
-                        padding: '5px 12px',
-                        borderRadius: '6px',
-                        border: 'none',
-                        background: '#15803d',
-                        color: '#ffffff',
-                        fontSize: '11px',
-                        fontWeight: '700',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px'
-                      }}
-                    >
+                    <input type="text" value={newHighTag} onChange={(e) => setNewHighTag(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag('high'))} placeholder="Type suggestion (e.g. ⚡ Friendly Staff)..." style={{ flex: 1, padding: '5px 8px', borderRadius: '6px', border: '1px solid #86efac', fontSize: '11px', boxSizing: 'border-box' }} />
+                    <button type="button" onClick={() => handleAddTag('high')} style={{ padding: '5px 12px', borderRadius: '6px', border: 'none', background: '#15803d', color: '#ffffff', fontSize: '11px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
                       <Plus size={13} /> Add Tag
                     </button>
                   </div>
@@ -1045,28 +1216,9 @@ export default function SmartQRTab() {
 
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '8px' }}>
                     {medTagsList.map((tag, idx) => (
-                      <span 
-                        key={idx} 
-                        style={{
-                          background: '#fffbeb',
-                          border: '1px solid #fde68a',
-                          color: '#92400e',
-                          padding: '3px 8px',
-                          borderRadius: '14px',
-                          fontSize: '11px',
-                          fontWeight: '600',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '4px'
-                        }}
-                      >
+                      <span key={idx} style={{ background: '#fffbeb', border: '1px solid #fde68a', color: '#92400e', padding: '3px 8px', borderRadius: '14px', fontSize: '11px', fontWeight: '600', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                         {tag}
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveTag('medium', tag)}
-                          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0 2px', color: '#ef4444', display: 'flex', alignItems: 'center' }}
-                          title="Remove Tag"
-                        >
+                        <button type="button" onClick={() => handleRemoveTag('medium', tag)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0 2px', color: '#ef4444', display: 'flex', alignItems: 'center' }}>
                           <X size={12} />
                         </button>
                       </span>
@@ -1074,31 +1226,8 @@ export default function SmartQRTab() {
                   </div>
 
                   <div style={{ display: 'flex', gap: '6px' }}>
-                    <input
-                      type="text"
-                      value={newMedTag}
-                      onChange={(e) => setNewMedTag(e.target.value)}
-                      onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag('medium'))}
-                      placeholder="Type suggestion (e.g. 💳 Fair Pricing)..."
-                      style={{ flex: 1, padding: '5px 8px', borderRadius: '6px', border: '1px solid #fde68a', fontSize: '11px', boxSizing: 'border-box' }}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => handleAddTag('medium')}
-                      style={{
-                        padding: '5px 12px',
-                        borderRadius: '6px',
-                        border: 'none',
-                        background: '#b45309',
-                        color: '#ffffff',
-                        fontSize: '11px',
-                        fontWeight: '700',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px'
-                      }}
-                    >
+                    <input type="text" value={newMedTag} onChange={(e) => setNewMedTag(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag('medium'))} placeholder="Type suggestion (e.g. 💳 Fair Pricing)..." style={{ flex: 1, padding: '5px 8px', borderRadius: '6px', border: '1px solid #fde68a', fontSize: '11px', boxSizing: 'border-box' }} />
+                    <button type="button" onClick={() => handleAddTag('medium')} style={{ padding: '5px 12px', borderRadius: '6px', border: 'none', background: '#b45309', color: '#ffffff', fontSize: '11px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
                       <Plus size={13} /> Add Tag
                     </button>
                   </div>
@@ -1115,28 +1244,9 @@ export default function SmartQRTab() {
 
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '8px' }}>
                     {lowTagsList.map((tag, idx) => (
-                      <span 
-                        key={idx} 
-                        style={{
-                          background: '#fef2f2',
-                          border: '1px solid #fecaca',
-                          color: '#991b1b',
-                          padding: '3px 8px',
-                          borderRadius: '14px',
-                          fontSize: '11px',
-                          fontWeight: '600',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '4px'
-                        }}
-                      >
+                      <span key={idx} style={{ background: '#fef2f2', border: '1px solid #fecaca', color: '#991b1b', padding: '3px 8px', borderRadius: '14px', fontSize: '11px', fontWeight: '600', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                         {tag}
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveTag('low', tag)}
-                          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0 2px', color: '#ef4444', display: 'flex', alignItems: 'center' }}
-                          title="Remove Tag"
-                        >
+                        <button type="button" onClick={() => handleRemoveTag('low', tag)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0 2px', color: '#ef4444', display: 'flex', alignItems: 'center' }}>
                           <X size={12} />
                         </button>
                       </span>
@@ -1144,31 +1254,8 @@ export default function SmartQRTab() {
                   </div>
 
                   <div style={{ display: 'flex', gap: '6px' }}>
-                    <input
-                      type="text"
-                      value={newLowTag}
-                      onChange={(e) => setNewLowTag(e.target.value)}
-                      onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag('low'))}
-                      placeholder="Type suggestion (e.g. ⏳ Billing Delay)..."
-                      style={{ flex: 1, padding: '5px 8px', borderRadius: '6px', border: '1px solid #fecaca', fontSize: '11px', boxSizing: 'border-box' }}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => handleAddTag('low')}
-                      style={{
-                        padding: '5px 12px',
-                        borderRadius: '6px',
-                        border: 'none',
-                        background: '#b91c1c',
-                        color: '#ffffff',
-                        fontSize: '11px',
-                        fontWeight: '700',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px'
-                      }}
-                    >
+                    <input type="text" value={newLowTag} onChange={(e) => setNewLowTag(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag('low'))} placeholder="Type suggestion (e.g. ⏳ Billing Delay)..." style={{ flex: 1, padding: '5px 8px', borderRadius: '6px', border: '1px solid #fecaca', fontSize: '11px', boxSizing: 'border-box' }} />
+                    <button type="button" onClick={() => handleAddTag('low')} style={{ padding: '5px 12px', borderRadius: '6px', border: 'none', background: '#b91c1c', color: '#ffffff', fontSize: '11px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
                       <Plus size={13} /> Add Tag
                     </button>
                   </div>
@@ -1281,27 +1368,13 @@ export default function SmartQRTab() {
             </div>
           )}
 
-          {/* Category 4: Landing Page */}
-          {contentCategory === 'landing' && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }} className="animate-fadeIn">
-              <div>
-                <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', color: '#64748b', marginBottom: '3px' }}>Main Title Heading</label>
-                <input type="text" value={pageContent.landingMainTitle || ''} onChange={(e) => setPageContent({ ...pageContent, landingMainTitle: e.target.value })} style={{ width: '100%', padding: '6px 10px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '12px', boxSizing: 'border-box' }} />
-              </div>
-              <div>
-                <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', color: '#64748b', marginBottom: '3px' }}>Subtitle Description</label>
-                <textarea rows={2} value={pageContent.landingSubtitle || ''} onChange={(e) => setPageContent({ ...pageContent, landingSubtitle: e.target.value })} style={{ width: '100%', padding: '6px 10px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '12px', resize: 'none', boxSizing: 'border-box' }} />
-              </div>
-            </div>
-          )}
-
           {/* Action Row */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '10px', borderTop: '1px solid #f1f5f9' }}>
             <button onClick={handleResetContent} style={{ padding: '6px 12px', borderRadius: '6px', border: '1px solid #cbd5e1', background: '#fff', color: '#64748b', fontSize: '11px', fontWeight: '600', cursor: 'pointer' }}>
               Reset Defaults
             </button>
             <button onClick={handleSavePageContent} disabled={savingContent} style={{ padding: '7px 18px', borderRadius: '6px', border: 'none', background: '#0A2E5D', color: '#D4AF37', fontSize: '12px', fontWeight: '800', cursor: 'pointer' }}>
-              {savingContent ? 'Saving...' : 'Save QR Page Content & Tags'}
+              {savingContent ? 'Saving...' : 'Save All Settings'}
             </button>
           </div>
         </div>
