@@ -12,56 +12,46 @@ export function ContentProvider({ children }) {
     return saved ? JSON.parse(saved) : translations;
   });
 
-  const [isFirebaseReady, setIsFirebaseReady] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
 
   useEffect(() => {
     if (!db) return;
-    setIsFirebaseReady(true);
     const transDocRef = doc(db, 'dorek_cms', 'translationsData');
-    const customDocRef = doc(db, 'dorek_cms', 'customSections');
 
     const unsubscribeTrans = onSnapshot(transDocRef, (docSnap) => {
       if (docSnap.exists() && docSnap.data().translationsData) {
-        setTranslationsData(docSnap.data().translationsData);
+        const remoteData = docSnap.data().translationsData;
+        setTranslationsData((prev) => {
+          if (JSON.stringify(prev) !== JSON.stringify(remoteData)) {
+            localStorage.setItem('dorek_cms_translations', JSON.stringify(remoteData));
+            return remoteData;
+          }
+          return prev;
+        });
       }
-    });
-
-    const unsubscribeCustom = onSnapshot(customDocRef, (docSnap) => {
-      if (docSnap.exists() && docSnap.data().customSections) {
-        setCustomSections(docSnap.data().customSections);
-      }
+    }, (error) => {
+      console.error("Firestore translations snapshot error:", error);
     });
 
     return () => {
       unsubscribeTrans();
-      unsubscribeCustom();
     };
   }, []);
 
-  const saveToFirebase = async (updates) => {
-    if (!db) return;
-    setIsSyncing(true);
-    try {
-      if (updates.translationsData) {
-        await setDoc(doc(db, 'dorek_cms', 'translationsData'), { translationsData: updates.translationsData }, { merge: true });
+  const updateTranslations = async (newTranslations) => {
+    setTranslationsData(newTranslations);
+    localStorage.setItem('dorek_cms_translations', JSON.stringify(newTranslations));
+    if (db) {
+      setIsSyncing(true);
+      try {
+        await setDoc(doc(db, 'dorek_cms', 'translationsData'), { translationsData: newTranslations }, { merge: true });
+      } catch (e) {
+        console.error("Error saving translations to Firestore:", e);
+      } finally {
+        setIsSyncing(false);
       }
-      if (updates.customSections) {
-        await setDoc(doc(db, 'dorek_cms', 'customSections'), { customSections: updates.customSections }, { merge: true });
-      }
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setIsSyncing(false);
     }
   };
-
-  useEffect(() => {
-    localStorage.setItem('dorek_cms_translations', JSON.stringify(translationsData));
-    if (isFirebaseReady) saveToFirebase({ translationsData });
-  }, [translationsData, isFirebaseReady]);
-
-  const updateTranslations = (newTranslations) => setTranslationsData(newTranslations);
 
   return (
     <ContentContext.Provider value={{ translationsData, updateTranslations, isSyncing }}>

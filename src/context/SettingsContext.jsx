@@ -54,8 +54,7 @@ export function SettingsProvider({ children }) {
 
   useEffect(() => {
     localStorage.setItem('dorek_cms_code_settings', JSON.stringify(codeSettings));
-    if (isFirebaseReady) saveToFirebase({ codeSettings });
-  }, [codeSettings, isFirebaseReady]);
+  }, [codeSettings]);
 
   useEffect(() => {
     localStorage.setItem('dorek_cms_user_role', userRole);
@@ -80,13 +79,22 @@ export function SettingsProvider({ children }) {
     htmlDiv.innerHTML = codeSettings.customHtml || '';
   }, [codeSettings]);
 
-  const saveCodeSettings = (newSettings) => {
-    setCodeSettings(prev => ({
-      ...prev, ...newSettings,
-      history: [{ timestamp: new Date().toLocaleString(), settings: { ...prev } }, ...(prev.history || [])].slice(0, 10)
-    }));
+  const saveCodeSettings = async (newSettings) => {
+    const updated = {
+      ...codeSettings, ...newSettings,
+      history: [{ timestamp: new Date().toLocaleString(), settings: { ...codeSettings } }, ...(codeSettings.history || [])].slice(0, 10)
+    };
+    setCodeSettings(updated);
+    localStorage.setItem('dorek_cms_code_settings', JSON.stringify(updated));
+    await saveToFirebase({ codeSettings: updated });
   };
-  const rollbackCodeSettings = (historicalSettings) => setCodeSettings(prev => ({ ...prev, ...historicalSettings }));
+  
+  const rollbackCodeSettings = async (historicalSettings) => {
+    const updated = { ...codeSettings, ...historicalSettings };
+    setCodeSettings(updated);
+    localStorage.setItem('dorek_cms_code_settings', JSON.stringify(updated));
+    await saveToFirebase({ codeSettings: updated });
+  };
 
   return (
     <SettingsContext.Provider value={{ codeSettings, userRole, setUserRole, saveCodeSettings, rollbackCodeSettings }}>

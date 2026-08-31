@@ -75,30 +75,38 @@ export function ThemeProvider({ children }) {
 
   useEffect(() => {
     localStorage.setItem('dorek_cms_theme_settings', JSON.stringify(themeSettings));
-    if (isFirebaseReady) saveToFirebase({ themeSettings });
-  }, [themeSettings, isFirebaseReady]);
+  }, [themeSettings]);
 
   useEffect(() => {
     localStorage.setItem('dorek_cms_section_visibility', JSON.stringify(sectionVisibility));
-    if (isFirebaseReady) saveToFirebase({ sectionVisibility });
-  }, [sectionVisibility, isFirebaseReady]);
+  }, [sectionVisibility]);
 
   // Inject Theme Variables
   useEffect(() => {
     const root = document.documentElement;
-    root.style.setProperty('--primary', themeSettings.colors.primary);
-    root.style.setProperty('--secondary', themeSettings.colors.secondary);
-    root.style.setProperty('--bg-main', themeSettings.colors.bgMain);
-    root.style.setProperty('--bg-section', themeSettings.colors.bgSection);
+    if (themeSettings?.colors) {
+      root.style.setProperty('--primary', themeSettings.colors.primary || '#0A2E5D');
+      root.style.setProperty('--secondary', themeSettings.colors.secondary || '#D4AF37');
+      root.style.setProperty('--bg-main', themeSettings.colors.bgMain || '#f8f9fa');
+      root.style.setProperty('--bg-section', themeSettings.colors.bgSection || '#ffffff');
+    }
     
-    Object.entries(themeSettings.sectionBackgrounds || {}).forEach(([section, color]) => {
+    Object.entries(themeSettings?.sectionBackgrounds || {}).forEach(([section, color]) => {
       root.style.setProperty(`--bg-${section}`, color);
     });
   }, [themeSettings]);
 
-  const updateTheme = (newThemeSettings) => setThemeSettings(newThemeSettings);
-  const toggleSectionVisibility = (sectionKey) => {
-    setSectionVisibility(prev => ({ ...prev, [sectionKey]: !prev[sectionKey] }));
+  const updateTheme = async (newThemeSettings) => {
+    setThemeSettings(newThemeSettings);
+    localStorage.setItem('dorek_cms_theme_settings', JSON.stringify(newThemeSettings));
+    await saveToFirebase({ themeSettings: newThemeSettings });
+  };
+
+  const toggleSectionVisibility = async (sectionKey) => {
+    const updated = { ...sectionVisibility, [sectionKey]: !sectionVisibility[sectionKey] };
+    setSectionVisibility(updated);
+    localStorage.setItem('dorek_cms_section_visibility', JSON.stringify(updated));
+    await saveToFirebase({ sectionVisibility: updated });
   };
   const isSectionVisible = (sectionKey) => sectionVisibility[sectionKey] !== false;
   

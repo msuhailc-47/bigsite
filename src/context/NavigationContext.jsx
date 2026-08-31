@@ -50,11 +50,16 @@ export function NavigationProvider({ children }) {
 
   useEffect(() => {
     localStorage.setItem('dorek_cms_navigation', JSON.stringify(navigation));
-    if (isFirebaseReady) saveToFirebase({ navigation });
-  }, [navigation, isFirebaseReady]);
+  }, [navigation]);
+
+  const updateNavigation = async (newNav) => {
+    setNavigation(newNav);
+    localStorage.setItem('dorek_cms_navigation', JSON.stringify(newNav));
+    await saveToFirebase({ navigation: newNav });
+  };
 
   return (
-    <NavigationContext.Provider value={{ navigation, setNavigation }}>
+    <NavigationContext.Provider value={{ navigation, setNavigation: updateNavigation }}>
       {children}
     </NavigationContext.Provider>
   );

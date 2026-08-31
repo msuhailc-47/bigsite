@@ -55,8 +55,7 @@ export function DataProvider({ children }) {
 
   useEffect(() => {
     localStorage.setItem('dorek_cms_media', JSON.stringify(mediaLibrary));
-    if (isFirebaseReady) saveToFirebase({ mediaLibrary });
-  }, [mediaLibrary, isFirebaseReady]);
+  }, [mediaLibrary]);
 
   useEffect(() => {
     localStorage.setItem('dorek_cms_submissions', JSON.stringify(submissions));
@@ -93,8 +92,17 @@ export function DataProvider({ children }) {
     saveToFirebase({ submissions: newSubmissions });
   };
 
-  const addMedia = (file) => setMediaLibrary(prev => [file, ...prev]);
-  const deleteMedia = (fileName) => setMediaLibrary(prev => prev.filter(f => f.name !== fileName));
+  const addMedia = (file) => {
+    const updated = [file, ...mediaLibrary];
+    setMediaLibrary(updated);
+    saveToFirebase({ mediaLibrary: updated });
+  };
+
+  const deleteMedia = (fileName) => {
+    const updated = mediaLibrary.filter(f => f.name !== fileName);
+    setMediaLibrary(updated);
+    saveToFirebase({ mediaLibrary: updated });
+  };
 
   return (
     <DataContext.Provider value={{ mediaLibrary, submissions, addSubmission, clearSubmissions, deleteSubmission, markSubmissionRead, markAllSubmissionsRead, addMedia, deleteMedia }}>

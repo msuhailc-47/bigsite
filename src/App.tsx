@@ -8,10 +8,8 @@ import AdminDashboard from './pages/AdminDashboard';
 import AdminLogin from './pages/AdminLogin';
 import './App.css';
 
-// Simple session check - no hooks needed
+// ProtectedRoute: Authenticates directly via Firebase Auth state
 const ProtectedRoute = ({ children }) => {
-  const hasSession = localStorage.getItem('dorek_admin_session') === 'true';
-  if (hasSession) return children;
   return <FirebaseAuthCheck>{children}</FirebaseAuthCheck>;
 };
 

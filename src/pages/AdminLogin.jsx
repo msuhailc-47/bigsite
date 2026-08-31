@@ -22,32 +22,24 @@ export default function AdminLogin() {
     try {
       setLoading(true);
       setError('');
-      // Standard Firebase login
-      if (auth) {
-        try {
-          await signInWithEmailAndPassword(auth, email, password);
-          localStorage.setItem('dorek_admin_session', 'true');
-          navigate('/admin');
-        } catch (fbError) {
-          // If Firebase login fails, check fallback just in case auth isn't setup
-          if (email === 'dorekllp@gmail.com' && password === 'dorek123456') {
-             localStorage.setItem('dorek_admin_session', 'true');
-             navigate('/admin');
-          } else {
-             throw fbError;
-          }
-        }
-      } else {
-        // Fallback if firebase is not configured yet (Demo mode bypass)
-        if (email === 'dorekllp@gmail.com' && password === 'dorek123456') {
-           navigate('/admin');
-        } else {
-           setError("Invalid credentials or Firebase is not configured.");
-        }
+
+      if (!auth) {
+        setError("Firebase is not configured. Please check your setup.");
+        return;
       }
+
+      await signInWithEmailAndPassword(auth, email, password);
+      localStorage.setItem('dorek_admin_session', 'true');
+      navigate('/admin');
     } catch (err) {
       console.error(err);
-      setError("Login failed. Please check your credentials.");
+      if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
+        setError("Invalid email or password.");
+      } else if (err.code === 'auth/too-many-requests') {
+        setError("Too many failed attempts. Please try again later.");
+      } else {
+        setError("Login failed. Please check your credentials.");
+      }
     } finally {
       setLoading(false);
     }
