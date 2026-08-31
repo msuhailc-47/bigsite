@@ -6,7 +6,7 @@ import {
   Search, Filter, ExternalLink, RefreshCw, AlertTriangle, MapPin, Users,
   Mail, Settings, Save, Check, Send, ShieldAlert, Phone, ChevronDown, ChevronUp,
   FileText, Globe, MessageCircle, Sparkles, Layers, RotateCcw, Eye, CheckCheck,
-  Smartphone, Columns, Maximize2
+  Smartphone, Columns, Maximize2, Plus, X, Tag
 } from 'lucide-react';
 
 const DEFAULT_PAGE_CONTENT = {
@@ -27,6 +27,9 @@ const DEFAULT_PAGE_CONTENT = {
   star2Text: '😕 Needs Improvement',
   star1Text: '⚠️ Poor Experience',
   tagsLabel: 'What stood out to you?',
+  highTags: ['🌟 Excellent Service', '🛍️ Great Product Quality', '⚡ Fast Checkout', '🤝 Helpful Staff', '✨ Clean & Organized', '💎 Best Value'],
+  mediumTags: ['👍 Good Service', '📦 Good Variety', '💳 Fair Pricing', '⌛ Normal Wait Time'],
+  lowTags: ['⏳ Slow Service', '📉 Out of Stock', '🧾 Billing Delay', '👤 Staff Assistance Needed', '🛠️ Quality Issue', '📢 Needs Management Attention'],
   namePlaceholder: 'Name (Optional)',
   phonePlaceholder: 'Phone (Optional)',
   commentPlaceholder: 'Share any additional comments or suggestions...',
@@ -71,8 +74,13 @@ export default function SmartQRTab() {
   const [hubFilter, setHubFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Page Content Sub-category: 'thankyou' | 'review' | 'service' | 'landing'
-  const [contentCategory, setContentCategory] = useState('thankyou');
+  // Page Content Sub-category: 'review' | 'thankyou' | 'service' | 'landing'
+  const [contentCategory, setContentCategory] = useState('review');
+
+  // Input states for adding new suggestion tags
+  const [newHighTag, setNewHighTag] = useState('');
+  const [newMedTag, setNewMedTag] = useState('');
+  const [newLowTag, setNewLowTag] = useState('');
 
   // Notification Settings State
   const [showNotifyPanel, setShowNotifyPanel] = useState(false);
@@ -129,7 +137,14 @@ export default function SmartQRTab() {
       try {
         const snap = await getDoc(doc(db, 'dorek_cms', 'pulse_page_content'));
         if (snap.exists()) {
-          setPageContent(prev => ({ ...prev, ...snap.data() }));
+          const data = snap.data();
+          setPageContent(prev => ({
+            ...prev,
+            ...data,
+            highTags: (data.highTags && data.highTags.length > 0) ? data.highTags : prev.highTags,
+            mediumTags: (data.mediumTags && data.mediumTags.length > 0) ? data.mediumTags : prev.mediumTags,
+            lowTags: (data.lowTags && data.lowTags.length > 0) ? data.lowTags : prev.lowTags
+          }));
         }
       } catch (err) {
         console.error('Error loading pulse page content:', err);
@@ -139,6 +154,42 @@ export default function SmartQRTab() {
 
     return () => unsubscribe();
   }, []);
+
+  // Tag Management Handlers
+  const handleAddTag = (group) => {
+    if (group === 'high' && newHighTag.trim()) {
+      const current = pageContent.highTags || DEFAULT_PAGE_CONTENT.highTags;
+      if (!current.includes(newHighTag.trim())) {
+        setPageContent({ ...pageContent, highTags: [...current, newHighTag.trim()] });
+      }
+      setNewHighTag('');
+    } else if (group === 'medium' && newMedTag.trim()) {
+      const current = pageContent.mediumTags || DEFAULT_PAGE_CONTENT.mediumTags;
+      if (!current.includes(newMedTag.trim())) {
+        setPageContent({ ...pageContent, mediumTags: [...current, newMedTag.trim()] });
+      }
+      setNewMedTag('');
+    } else if (group === 'low' && newLowTag.trim()) {
+      const current = pageContent.lowTags || DEFAULT_PAGE_CONTENT.lowTags;
+      if (!current.includes(newLowTag.trim())) {
+        setPageContent({ ...pageContent, lowTags: [...current, newLowTag.trim()] });
+      }
+      setNewLowTag('');
+    }
+  };
+
+  const handleRemoveTag = (group, tagToRemove) => {
+    if (group === 'high') {
+      const current = pageContent.highTags || DEFAULT_PAGE_CONTENT.highTags;
+      setPageContent({ ...pageContent, highTags: current.filter(t => t !== tagToRemove) });
+    } else if (group === 'medium') {
+      const current = pageContent.mediumTags || DEFAULT_PAGE_CONTENT.mediumTags;
+      setPageContent({ ...pageContent, mediumTags: current.filter(t => t !== tagToRemove) });
+    } else if (group === 'low') {
+      const current = pageContent.lowTags || DEFAULT_PAGE_CONTENT.lowTags;
+      setPageContent({ ...pageContent, lowTags: current.filter(t => t !== tagToRemove) });
+    }
+  };
 
   const handleSaveNotificationSettings = async () => {
     if (!db) return;
@@ -209,7 +260,7 @@ export default function SmartQRTab() {
         ...pageContent,
         updatedAt: Date.now()
       }, { merge: true });
-      setContentStatus('ക്യുആർ പേജ് ഉള്ളടക്കങ്ങളും ലിങ്കുകളും വിജയകരമായി സേവ് ചെയ്തു!');
+      setContentStatus('ക്യുആർ പേജ് ഉള്ളടക്കങ്ങളും സജഷൻ ടാഗുകളും വിജയകരമായി സേവ് ചെയ്തു!');
       setTimeout(() => setContentStatus(''), 4000);
     } catch (err) {
       console.error('Failed to save page content:', err);
@@ -220,7 +271,7 @@ export default function SmartQRTab() {
   };
 
   const handleResetContent = () => {
-    if (window.confirm('എല്ലാ ടെക്സ്റ്റുകളും ഡിഫോൾട്ട് രീതിയിലേക്ക് റീസെറ്റ് ചെയ്യണോ?')) {
+    if (window.confirm('എല്ലാ ടെക്സ്റ്റുകളും സജഷൻ ടാഗുകളും ഡിഫോൾട്ട് രീതിയിലേക്ക് റീസെറ്റ് ചെയ്യണോ?')) {
       setPageContent(DEFAULT_PAGE_CONTENT);
     }
   };
@@ -349,6 +400,10 @@ export default function SmartQRTab() {
     return true;
   });
 
+  const highTagsList = pageContent.highTags || DEFAULT_PAGE_CONTENT.highTags;
+  const medTagsList = pageContent.mediumTags || DEFAULT_PAGE_CONTENT.mediumTags;
+  const lowTagsList = pageContent.lowTags || DEFAULT_PAGE_CONTENT.lowTags;
+
   return (
     <div className="admin-panel-card animate-fadeIn" style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
       
@@ -375,7 +430,7 @@ export default function SmartQRTab() {
               Dorek Pulse — Smart QR & Outlet Hub
             </h2>
             <span style={{ fontSize: '12px', color: '#cbd5e1' }}>
-              Both Live Service Tickets & QR Page Content Editor are visible below
+              Live Customer Ratings, Service Dispatch & Dynamic Content Manager
             </span>
           </div>
         </div>
@@ -391,7 +446,7 @@ export default function SmartQRTab() {
               display: 'flex', alignItems: 'center', gap: '6px', fontWeight: '700', fontSize: '12px'
             }}
           >
-            <Mail size={14} /> {showNotifyPanel ? 'Hide Email Settings' : 'Email Alert Settings (അറിയിപ്പ് ക്രമീകരണങ്ങൾ)'}
+            <Mail size={14} /> {showNotifyPanel ? 'Hide Email Settings' : 'Email Alert Settings (അറിയിപ്പുകൾ)'}
           </button>
 
           <button 
@@ -627,7 +682,7 @@ export default function SmartQRTab() {
           </div>
 
           {/* Tickets Stream List */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '680px', overflowY: 'auto', paddingRight: '4px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '720px', overflowY: 'auto', paddingRight: '4px' }}>
             {filteredTickets.length === 0 ? (
               <div style={{ padding: '30px', textAlign: 'center', color: '#64748b', background: '#f8fafc', borderRadius: '8px' }}>
                 <CheckCircle2 size={30} color="#10b981" style={{ margin: '0 auto 8px' }} />
@@ -756,10 +811,10 @@ export default function SmartQRTab() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '12px', borderBottom: '2px solid #f1f5f9', flexWrap: 'wrap', gap: '8px' }}>
             <div>
               <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '800', color: '#0A2E5D', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <FileText size={18} color="#D4AF37" /> QR Page Contents & Links Editor (പേജ് കണ്ടന്റുകൾ)
+                <FileText size={18} color="#D4AF37" /> QR Page Contents & Suggestions Editor
               </h3>
               <p style={{ margin: '2px 0 0 0', fontSize: '12px', color: '#64748b' }}>
-                All text fields, review messages, WhatsApp pretext & redirect URLs
+                Manage all text fields, feedback suggestions & WhatsApp links
               </p>
             </div>
 
@@ -782,7 +837,7 @@ export default function SmartQRTab() {
               }}
             >
               <Save size={14} />
-              {savingContent ? 'Saving...' : 'Save All Page Content'}
+              {savingContent ? 'Saving...' : 'Save All Content'}
             </button>
           </div>
 
@@ -807,6 +862,17 @@ export default function SmartQRTab() {
           {/* Sub-category Pill Buttons */}
           <div style={{ display: 'flex', gap: '6px', background: '#f8fafc', padding: '4px', borderRadius: '8px', flexWrap: 'wrap' }}>
             <button
+              onClick={() => setContentCategory('review')}
+              style={{
+                padding: '6px 12px', borderRadius: '6px', border: 'none',
+                background: contentCategory === 'review' ? '#0A2E5D' : 'transparent',
+                color: contentCategory === 'review' ? '#D4AF37' : '#64748b',
+                fontWeight: '700', fontSize: '11px', cursor: 'pointer'
+              }}
+            >
+              ⭐ Review Form & Suggestions (സജഷൻസ്)
+            </button>
+            <button
               onClick={() => setContentCategory('thankyou')}
               style={{
                 padding: '6px 12px', borderRadius: '6px', border: 'none',
@@ -816,17 +882,6 @@ export default function SmartQRTab() {
               }}
             >
               💬 WhatsApp & Links
-            </button>
-            <button
-              onClick={() => setContentCategory('review')}
-              style={{
-                padding: '6px 12px', borderRadius: '6px', border: 'none',
-                background: contentCategory === 'review' ? '#0A2E5D' : 'transparent',
-                color: contentCategory === 'review' ? '#D4AF37' : '#64748b',
-                fontWeight: '700', fontSize: '11px', cursor: 'pointer'
-              }}
-            >
-              ⭐ Review Form Texts
             </button>
             <button
               onClick={() => setContentCategory('service')}
@@ -852,7 +907,279 @@ export default function SmartQRTab() {
             </button>
           </div>
 
-          {/* Category 1: WhatsApp & Links (Top Priority) */}
+          {/* ========================================================
+              CATEGORY 1: REVIEW FORM & SUGGESTIONS TAGS (USER REQUESTED!)
+              ======================================================== */}
+          {contentCategory === 'review' && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }} className="animate-fadeIn">
+              
+              <div>
+                <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', color: '#64748b', marginBottom: '3px' }}>Form Title</label>
+                <input type="text" value={pageContent.reviewHeaderTitle || ''} onChange={(e) => setPageContent({ ...pageContent, reviewHeaderTitle: e.target.value })} style={{ width: '100%', padding: '6px 10px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '12px', boxSizing: 'border-box' }} />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', color: '#64748b', marginBottom: '3px' }}>Submit Button Label</label>
+                <input type="text" value={pageContent.submitReviewBtnText || ''} onChange={(e) => setPageContent({ ...pageContent, submitReviewBtnText: e.target.value })} style={{ width: '100%', padding: '6px 10px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '12px', boxSizing: 'border-box' }} />
+              </div>
+
+              {/* Star Taglines */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#64748b', marginBottom: '2px' }}>5-Star Tagline</label>
+                  <input type="text" value={pageContent.star5Text || ''} onChange={(e) => setPageContent({ ...pageContent, star5Text: e.target.value })} style={{ width: '100%', padding: '5px 8px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '11px', boxSizing: 'border-box' }} />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#64748b', marginBottom: '2px' }}>4-Star Tagline</label>
+                  <input type="text" value={pageContent.star4Text || ''} onChange={(e) => setPageContent({ ...pageContent, star4Text: e.target.value })} style={{ width: '100%', padding: '5px 8px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '11px', boxSizing: 'border-box' }} />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#64748b', marginBottom: '2px' }}>3-Star Tagline</label>
+                  <input type="text" value={pageContent.star3Text || ''} onChange={(e) => setPageContent({ ...pageContent, star3Text: e.target.value })} style={{ width: '100%', padding: '5px 8px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '11px', boxSizing: 'border-box' }} />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#64748b', marginBottom: '2px' }}>1-2 Star Tagline</label>
+                  <input type="text" value={pageContent.star1Text || ''} onChange={(e) => setPageContent({ ...pageContent, star1Text: e.target.value })} style={{ width: '100%', padding: '5px 8px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '11px', boxSizing: 'border-box' }} />
+                </div>
+              </div>
+
+              {/* ----------------------------------------------------
+                  SUGGESTIONS / SENTIMENT TAGS MANAGER WITH ADD BUTTONS
+                  ---------------------------------------------------- */}
+              <div style={{
+                background: '#f8fafc',
+                border: '1px solid #e2e8f0',
+                borderRadius: '10px',
+                padding: '14px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '14px'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Tag size={15} color="#D4AF37" />
+                  <h4 style={{ margin: 0, fontSize: '13px', fontWeight: '800', color: '#0A2E5D' }}>
+                    Customer Suggestions / Sentiment Tags (സജഷൻ ടാഗുകൾ)
+                  </h4>
+                </div>
+
+                {/* 1. High Rating Suggestions (4-5 Stars) */}
+                <div style={{ background: '#ffffff', padding: '10px 12px', borderRadius: '8px', border: '1px solid #dcfce7' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                    <span style={{ fontSize: '11px', fontWeight: '800', color: '#15803d' }}>
+                      🌟 4-5 Star Suggestions (High Rating)
+                    </span>
+                    <span style={{ fontSize: '10px', color: '#64748b' }}>{highTagsList.length} tags</span>
+                  </div>
+
+                  {/* Badges with Delete button */}
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '8px' }}>
+                    {highTagsList.map((tag, idx) => (
+                      <span 
+                        key={idx} 
+                        style={{
+                          background: '#f0fdf4',
+                          border: '1px solid #bbf7d0',
+                          color: '#166534',
+                          padding: '3px 8px',
+                          borderRadius: '14px',
+                          fontSize: '11px',
+                          fontWeight: '600',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '4px'
+                        }}
+                      >
+                        {tag}
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveTag('high', tag)}
+                          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0 2px', color: '#ef4444', display: 'flex', alignItems: 'center' }}
+                          title="Remove Tag"
+                        >
+                          <X size={12} />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Add Input + Add Button */}
+                  <div style={{ display: 'flex', gap: '6px' }}>
+                    <input
+                      type="text"
+                      value={newHighTag}
+                      onChange={(e) => setNewHighTag(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag('high'))}
+                      placeholder="Type suggestion (e.g. ⚡ Friendly Staff)..."
+                      style={{ flex: 1, padding: '5px 8px', borderRadius: '6px', border: '1px solid #86efac', fontSize: '11px', boxSizing: 'border-box' }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleAddTag('high')}
+                      style={{
+                        padding: '5px 12px',
+                        borderRadius: '6px',
+                        border: 'none',
+                        background: '#15803d',
+                        color: '#ffffff',
+                        fontSize: '11px',
+                        fontWeight: '700',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px'
+                      }}
+                    >
+                      <Plus size={13} /> Add Tag
+                    </button>
+                  </div>
+                </div>
+
+                {/* 2. Medium Rating Suggestions (3 Stars) */}
+                <div style={{ background: '#ffffff', padding: '10px 12px', borderRadius: '8px', border: '1px solid #fef3c7' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                    <span style={{ fontSize: '11px', fontWeight: '800', color: '#b45309' }}>
+                      👍 3-Star Suggestions (Average Rating)
+                    </span>
+                    <span style={{ fontSize: '10px', color: '#64748b' }}>{medTagsList.length} tags</span>
+                  </div>
+
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '8px' }}>
+                    {medTagsList.map((tag, idx) => (
+                      <span 
+                        key={idx} 
+                        style={{
+                          background: '#fffbeb',
+                          border: '1px solid #fde68a',
+                          color: '#92400e',
+                          padding: '3px 8px',
+                          borderRadius: '14px',
+                          fontSize: '11px',
+                          fontWeight: '600',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '4px'
+                        }}
+                      >
+                        {tag}
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveTag('medium', tag)}
+                          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0 2px', color: '#ef4444', display: 'flex', alignItems: 'center' }}
+                          title="Remove Tag"
+                        >
+                          <X size={12} />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '6px' }}>
+                    <input
+                      type="text"
+                      value={newMedTag}
+                      onChange={(e) => setNewMedTag(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag('medium'))}
+                      placeholder="Type suggestion (e.g. 💳 Fair Pricing)..."
+                      style={{ flex: 1, padding: '5px 8px', borderRadius: '6px', border: '1px solid #fde68a', fontSize: '11px', boxSizing: 'border-box' }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleAddTag('medium')}
+                      style={{
+                        padding: '5px 12px',
+                        borderRadius: '6px',
+                        border: 'none',
+                        background: '#b45309',
+                        color: '#ffffff',
+                        fontSize: '11px',
+                        fontWeight: '700',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px'
+                      }}
+                    >
+                      <Plus size={13} /> Add Tag
+                    </button>
+                  </div>
+                </div>
+
+                {/* 3. Low Rating Suggestions (1-2 Stars) */}
+                <div style={{ background: '#ffffff', padding: '10px 12px', borderRadius: '8px', border: '1px solid #fee2e2' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                    <span style={{ fontSize: '11px', fontWeight: '800', color: '#b91c1c' }}>
+                      ⚠️ 1-2 Star Suggestions (Needs Improvement)
+                    </span>
+                    <span style={{ fontSize: '10px', color: '#64748b' }}>{lowTagsList.length} tags</span>
+                  </div>
+
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '8px' }}>
+                    {lowTagsList.map((tag, idx) => (
+                      <span 
+                        key={idx} 
+                        style={{
+                          background: '#fef2f2',
+                          border: '1px solid #fecaca',
+                          color: '#991b1b',
+                          padding: '3px 8px',
+                          borderRadius: '14px',
+                          fontSize: '11px',
+                          fontWeight: '600',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '4px'
+                        }}
+                      >
+                        {tag}
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveTag('low', tag)}
+                          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0 2px', color: '#ef4444', display: 'flex', alignItems: 'center' }}
+                          title="Remove Tag"
+                        >
+                          <X size={12} />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '6px' }}>
+                    <input
+                      type="text"
+                      value={newLowTag}
+                      onChange={(e) => setNewLowTag(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddTag('low'))}
+                      placeholder="Type suggestion (e.g. ⏳ Billing Delay)..."
+                      style={{ flex: 1, padding: '5px 8px', borderRadius: '6px', border: '1px solid #fecaca', fontSize: '11px', boxSizing: 'border-box' }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleAddTag('low')}
+                      style={{
+                        padding: '5px 12px',
+                        borderRadius: '6px',
+                        border: 'none',
+                        background: '#b91c1c',
+                        color: '#ffffff',
+                        fontSize: '11px',
+                        fontWeight: '700',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px'
+                      }}
+                    >
+                      <Plus size={13} /> Add Tag
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          )}
+
+          {/* Category 2: WhatsApp & Links */}
           {contentCategory === 'thankyou' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }} className="animate-fadeIn">
               
@@ -933,40 +1260,6 @@ export default function SmartQRTab() {
             </div>
           )}
 
-          {/* Category 2: Review Form Texts */}
-          {contentCategory === 'review' && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }} className="animate-fadeIn">
-              <div>
-                <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', color: '#64748b', marginBottom: '3px' }}>Form Title</label>
-                <input type="text" value={pageContent.reviewHeaderTitle || ''} onChange={(e) => setPageContent({ ...pageContent, reviewHeaderTitle: e.target.value })} style={{ width: '100%', padding: '6px 10px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '12px', boxSizing: 'border-box' }} />
-              </div>
-
-              <div>
-                <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', color: '#64748b', marginBottom: '3px' }}>Submit Button Label</label>
-                <input type="text" value={pageContent.submitReviewBtnText || ''} onChange={(e) => setPageContent({ ...pageContent, submitReviewBtnText: e.target.value })} style={{ width: '100%', padding: '6px 10px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '12px', boxSizing: 'border-box' }} />
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                <div>
-                  <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#64748b', marginBottom: '2px' }}>5-Star Tagline</label>
-                  <input type="text" value={pageContent.star5Text || ''} onChange={(e) => setPageContent({ ...pageContent, star5Text: e.target.value })} style={{ width: '100%', padding: '5px 8px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '11px', boxSizing: 'border-box' }} />
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#64748b', marginBottom: '2px' }}>4-Star Tagline</label>
-                  <input type="text" value={pageContent.star4Text || ''} onChange={(e) => setPageContent({ ...pageContent, star4Text: e.target.value })} style={{ width: '100%', padding: '5px 8px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '11px', boxSizing: 'border-box' }} />
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#64748b', marginBottom: '2px' }}>3-Star Tagline</label>
-                  <input type="text" value={pageContent.star3Text || ''} onChange={(e) => setPageContent({ ...pageContent, star3Text: e.target.value })} style={{ width: '100%', padding: '5px 8px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '11px', boxSizing: 'border-box' }} />
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '10px', fontWeight: '700', color: '#64748b', marginBottom: '2px' }}>1-2 Star Tagline</label>
-                  <input type="text" value={pageContent.star1Text || ''} onChange={(e) => setPageContent({ ...pageContent, star1Text: e.target.value })} style={{ width: '100%', padding: '5px 8px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '11px', boxSizing: 'border-box' }} />
-                </div>
-              </div>
-            </div>
-          )}
-
           {/* Category 3: Staff Call Options */}
           {contentCategory === 'service' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }} className="animate-fadeIn">
@@ -1008,7 +1301,7 @@ export default function SmartQRTab() {
               Reset Defaults
             </button>
             <button onClick={handleSavePageContent} disabled={savingContent} style={{ padding: '7px 18px', borderRadius: '6px', border: 'none', background: '#0A2E5D', color: '#D4AF37', fontSize: '12px', fontWeight: '800', cursor: 'pointer' }}>
-              {savingContent ? 'Saving...' : 'Save QR Page Content'}
+              {savingContent ? 'Saving...' : 'Save QR Page Content & Tags'}
             </button>
           </div>
         </div>
