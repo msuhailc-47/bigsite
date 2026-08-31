@@ -7,7 +7,8 @@ import {
   LayoutDashboard, Menu, Plus, Trash2, ArrowUp, ArrowDown, Save, FileText, Image,
   Inbox, Code, Shield, LogOut, Globe, Edit3, X, ChevronRight, Store, HardHat,
   Waves, Heart, Award, Leaf, Zap, Droplets, Wrench, Lightbulb,
-  ShieldAlert, FileDown, CheckCircle, Upload, RefreshCw, Palette, Eye, EyeOff, Loader
+  ShieldAlert, FileDown, CheckCircle, Upload, RefreshCw, Palette, Eye, EyeOff, Loader,
+  QrCode
 } from 'lucide-react';
 import NavigationTab from '../components/admin/NavigationTab';
 import ThemeSettingsTab from '../components/admin/ThemeSettingsTab';
@@ -17,6 +18,7 @@ import CustomSectionsTab from '../components/admin/CustomSectionsTab';
 import CodeSettingsTab from '../components/admin/CodeSettingsTab';
 import ContentEditorTab from '../components/admin/ContentEditorTab';
 import OverviewTab from '../components/admin/OverviewTab';
+import SmartQRTab from '../components/admin/SmartQRTab';
 import { optimizeImage } from '../utils/imageOptimizer';
 import './AdminDashboard.css';
 
@@ -415,6 +417,9 @@ export default function AdminDashboard() {
           <button className={`admin-menu-item ${activeTab === 'submissions' ? 'active' : ''}`} onClick={() => setActiveTab('submissions')}>
             <Inbox size={18} /> Form Submissions ({submissions.length})
           </button>
+          <button className={`admin-menu-item ${activeTab === 'smartqr' ? 'active' : ''}`} onClick={() => setActiveTab('smartqr')} style={activeTab === 'smartqr' ? { background: 'rgba(212, 175, 55, 0.2)', borderColor: '#D4AF37' } : {}}>
+            <QrCode size={18} style={{ color: '#D4AF37' }} /> Smart QR & Outlets
+          </button>
           <button className={`admin-menu-item ${activeTab === 'customSections' ? 'active' : ''}`} onClick={() => setActiveTab('customSections')}>
             <FileText size={18} /> Custom Sections
           </button>
@@ -539,6 +544,10 @@ export default function AdminDashboard() {
           />
         )}
 
+        {/* Tab: Smart QR & Outlets Live Hub */}
+        {activeTab === 'smartqr' && (
+          <SmartQRTab />
+        )}
         
         {/* Tab: Custom Sections */}
         {activeTab === 'customSections' && (
