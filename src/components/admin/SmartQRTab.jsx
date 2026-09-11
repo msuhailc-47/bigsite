@@ -42,6 +42,12 @@ const DEFAULT_PAGE_CONTENT = {
 
   // 3. Staff Call Screen
   callStaffHeaderTitle: 'Call Staff to Your Counter',
+  staffDirectPhone: '+918606999354',
+  staffDirectWhatsapp: '+918606999354',
+  staffDirectCallBtnText: 'Call Staff Directly',
+  staffDirectWhatsappBtnText: 'WhatsApp Staff',
+  enableDirectCall: true,
+  enableDirectWhatsapp: true,
   serviceOpt1Label: 'Product Assistance',
   serviceOpt1Desc: 'Need help finding an item or product specs',
   serviceOpt2Label: 'Price / Offer Check',
@@ -65,7 +71,7 @@ const DEFAULT_PAGE_CONTENT = {
   websiteBtnText: 'Visit Dorek International (dorek.in) →',
   websiteUrl: 'https://dorek.in',
   whatsappBtnText: '💬 Chat with Outlet on WhatsApp',
-  whatsappPhone: '+919747522000',
+  whatsappPhone: '+918606999354',
   whatsappPretext: 'Hi Dorek International, I visited your outlet and would like to connect with your team.',
   resetBtnText: 'Submit Another Response',
 
@@ -1362,6 +1368,99 @@ export default function SmartQRTab() {
               </div>
             </div>
 
+            {/* Direct Phone Call & WhatsApp Staff Connect Configuration Box */}
+            <div style={{ background: '#f8fafc', border: '1px solid #cbd5e1', borderRadius: '12px', padding: '16px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
+                <span style={{ fontSize: '18px' }}>📞</span>
+                <div>
+                  <h4 style={{ margin: 0, fontSize: '14px', fontWeight: '800', color: '#0f172a' }}>
+                    Direct Phone Call & WhatsApp Staff Connect (ക്വിക്ക് കോളിംഗ് സെറ്റിംഗ്സ്)
+                  </h4>
+                  <p style={{ margin: '2px 0 0', fontSize: '12px', color: '#64748b' }}>
+                    കസ്റ്റമർമാർക്ക് സ്റ്റാഫിനെ നേരിട്ട് ഫോൺ ചെയ്യാനും WhatsApp വഴി മെസ്സേജ്/കോൾ ചെയ്യാനുമുള്ള നമ്പറുകൾ ഇവിടെ ക്രമീകരിക്കാം.
+                  </p>
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '14px', marginBottom: '14px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: '#0284c7', marginBottom: '4px', textTransform: 'uppercase' }}>
+                    Staff Calling Phone Number (ഡയറക്റ്റ് കോൾ നമ്പർ)
+                  </label>
+                  <input 
+                    type="text" 
+                    value={pageContent.staffDirectPhone ?? '+918606999354'} 
+                    onChange={(e) => setPageContent({ ...pageContent, staffDirectPhone: e.target.value })} 
+                    placeholder="+918606999354"
+                    style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #38bdf8', fontSize: '13px', boxSizing: 'border-box', fontWeight: '600' }} 
+                  />
+                  <span style={{ fontSize: '11px', color: '#64748b', display: 'block', marginTop: '3px' }}>
+                    കസ്റ്റമർ Direct Call ഞെക്കുമ്പോൾ ഡയലറിൽ വരുന്ന നമ്പർ
+                  </span>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: '#16a34a', marginBottom: '4px', textTransform: 'uppercase' }}>
+                    Staff WhatsApp Number (വാട്സാപ്പ് നമ്പർ)
+                  </label>
+                  <input 
+                    type="text" 
+                    value={pageContent.staffDirectWhatsapp ?? '+918606999354'} 
+                    onChange={(e) => setPageContent({ ...pageContent, staffDirectWhatsapp: e.target.value })} 
+                    placeholder="+918606999354"
+                    style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #4ade80', fontSize: '13px', boxSizing: 'border-box', fontWeight: '600' }} 
+                  />
+                  <span style={{ fontSize: '11px', color: '#64748b', display: 'block', marginTop: '3px' }}>
+                    കസ്റ്റമർ WhatsApp Staff ഞെക്കുമ്പോൾ മെസ്സേജ് പോകുന്ന നമ്പർ
+                  </span>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: '#475569', marginBottom: '4px', textTransform: 'uppercase' }}>
+                    Direct Call Button Label
+                  </label>
+                  <input 
+                    type="text" 
+                    value={pageContent.staffDirectCallBtnText ?? 'Call Staff Directly'} 
+                    onChange={(e) => setPageContent({ ...pageContent, staffDirectCallBtnText: e.target.value })} 
+                    style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '13px', boxSizing: 'border-box' }} 
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: '#475569', marginBottom: '4px', textTransform: 'uppercase' }}>
+                    WhatsApp Button Label
+                  </label>
+                  <input 
+                    type="text" 
+                    value={pageContent.staffDirectWhatsappBtnText ?? 'WhatsApp Staff'} 
+                    onChange={(e) => setPageContent({ ...pageContent, staffDirectWhatsappBtnText: e.target.value })} 
+                    style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '13px', boxSizing: 'border-box' }} 
+                  />
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', alignItems: 'center', paddingTop: '4px', borderTop: '1px solid #e2e8f0' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', fontWeight: '700', color: '#334155', cursor: 'pointer', marginTop: '8px' }}>
+                  <input 
+                    type="checkbox" 
+                    checked={pageContent.enableDirectCall !== false} 
+                    onChange={(e) => setPageContent({ ...pageContent, enableDirectCall: e.target.checked })} 
+                  />
+                  <span>Enable Direct Phone Calling Button</span>
+                </label>
+
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', fontWeight: '700', color: '#334155', cursor: 'pointer', marginTop: '8px' }}>
+                  <input 
+                    type="checkbox" 
+                    checked={pageContent.enableDirectWhatsapp !== false} 
+                    onChange={(e) => setPageContent({ ...pageContent, enableDirectWhatsapp: e.target.checked })} 
+                  />
+                  <span>Enable WhatsApp Connect Button</span>
+                </label>
+              </div>
+            </div>
+
             {/* 5 Service Option Cards */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '14px' }}>
               
@@ -1436,7 +1535,7 @@ export default function SmartQRTab() {
                     type="text" 
                     value={pageContent.whatsappPhone || ''} 
                     onChange={(e) => setPageContent({ ...pageContent, whatsappPhone: e.target.value })}
-                    placeholder="+919747522000"
+                    placeholder="+918606999354"
                     style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #86efac', fontSize: '13px', boxSizing: 'border-box' }}
                   />
                 </div>
