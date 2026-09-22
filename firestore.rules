@@ -9,6 +9,13 @@ service cloud.firestore {
       allow read: if request.auth != null;
     }
 
+    match /dorek_submissions/{subId} {
+      // Scalable Subcollection: Anyone can submit inquiries
+      allow create: if true;
+      // Admin dashboard can read, update (mark read), and delete
+      allow read, update, delete: if true;
+    }
+
     match /dorek_cms/analytics {
       // Allow public write/increment for website visitor counter
       allow read, write: if true;
