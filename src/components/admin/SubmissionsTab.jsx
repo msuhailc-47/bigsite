@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Inbox, Trash2, Save, CheckCircle, Mail, MailOpen, Download, Filter } from 'lucide-react';
+import { Inbox, Trash2, Save, CheckCircle, Mail, MailOpen, Download, Filter, FileSpreadsheet } from 'lucide-react';
+import * as XLSX from 'xlsx';
 
 export default function SubmissionsTab({ submissions, deleteSubmission, markSubmissionRead, markAllSubmissionsRead, themeSettings, updateThemeSettings }) {
   const [notifEmail, setNotifEmail] = useState(themeSettings?.adminEmail || '');
@@ -25,41 +26,49 @@ export default function SubmissionsTab({ submissions, deleteSubmission, markSubm
     setTimeout(() => setSaved(false), 3000);
   };
 
-  const handleExportCSV = () => {
+  const handleExportExcel = () => {
     if (submissions.length === 0) return alert('No submissions to export.');
     
-    // Create CSV headers
-    const headers = ['ID', 'Date', 'Lead Type', 'Source', 'Name', 'Email', 'Phone', 'Subject', 'Message', 'Status'];
-    
-    // Create CSV rows
-    const rows = submissions.map(sub => {
+    // Create formatted data for Excel
+    const data = submissions.map((sub, idx) => {
       const isDk = isDoorcartsLead(sub);
-      return [
-        sub.id,
-        `"${sub.date || ''}"`,
-        isDk ? '"Doorcarts Lead"' : '"General Contact"',
-        `"${sub.source || (isDk ? 'Hero First Section' : 'Contact Section')}"`,
-        `"${sub.name || ''}"`,
-        `"${sub.email || ''}"`,
-        `"${sub.phone || ''}"`,
-        `"${sub.subject || ''}"`,
-        `"${(sub.message || '').replace(/"/g, '""')}"`, // Escape quotes in message
-        sub.isRead ? 'Read' : 'New'
-      ];
+      return {
+        'SL No': idx + 1,
+        'Date & Time': sub.date || sub.createdAt || '',
+        'Category / Lead Type': isDk ? 'Doorcarts Lead' : 'General Contact',
+        'Source': sub.source || (isDk ? 'Hero First Section' : 'Contact Section'),
+        'Full Name': sub.name || '',
+        'Email Address': sub.email || '',
+        'Phone Number': sub.phone || 'N/A',
+        'Subject': sub.subject || 'N/A',
+        'Message / Inquiry': sub.message || '',
+        'Status': sub.isRead ? 'Read' : 'New / Unread',
+        'Doc ID': sub.docId || sub.id || ''
+      };
     });
-    
-    // Combine headers and rows
-    const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-    
-    // Trigger download
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', `Dorek_Inquiries_${new Date().toISOString().split('T')[0]}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    // Auto-fit column widths for clear reading
+    worksheet['!cols'] = [
+      { wch: 8 },  // SL No
+      { wch: 22 }, // Date & Time
+      { wch: 22 }, // Category / Lead Type
+      { wch: 20 }, // Source
+      { wch: 24 }, // Full Name
+      { wch: 28 }, // Email Address
+      { wch: 18 }, // Phone Number
+      { wch: 26 }, // Subject
+      { wch: 50 }, // Message / Inquiry
+      { wch: 16 }, // Status
+      { wch: 24 }  // Doc ID
+    ];
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Inquiries');
+
+    const dateStr = new Date().toISOString().split('T')[0];
+    XLSX.writeFile(workbook, `Dorek_Inquiries_${dateStr}.xlsx`);
   };
 
   // Metric counts
@@ -159,23 +168,24 @@ export default function SubmissionsTab({ submissions, deleteSubmission, markSubm
           )}
 
           <button 
-            onClick={handleExportCSV}
+            onClick={handleExportExcel}
             style={{ 
               padding: '8px 16px', 
               borderRadius: '6px', 
               border: 'none', 
-              backgroundColor: '#10b981', 
+              backgroundColor: '#107c41', 
               color: '#fff', 
               cursor: 'pointer', 
               display: 'flex', 
               alignItems: 'center', 
               gap: '6px',
               fontWeight: '600',
-              fontSize: '13px'
+              fontSize: '13px',
+              boxShadow: '0 2px 6px rgba(16, 124, 65, 0.25)'
             }}
-            title="Download all messages as Excel/CSV with Category"
+            title="Download all inquiries as Microsoft Excel (.xlsx) spreadsheet"
           >
-            <Download size={15} /> Export CSV
+            <FileSpreadsheet size={16} /> Export Excel (.xlsx)
           </button>
         </div>
       </div>
