@@ -20,10 +20,24 @@ import ContentEditorTab from '../components/admin/ContentEditorTab';
 import OverviewTab from '../components/admin/OverviewTab';
 import SmartQRTab from '../components/admin/SmartQRTab';
 import { optimizeImage } from '../utils/imageOptimizer';
+import translations from '../i18n/translations';
 import './AdminDashboard.css';
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
+
+  const ensureDataWithFounders = (data) => {
+    if (!data) return data;
+    const copy = JSON.parse(JSON.stringify(data));
+    for (const l of ['en', 'ml']) {
+      if (copy[l] && copy[l].about) {
+        if (!copy[l].about.founders || !Array.isArray(copy[l].about.founders) || copy[l].about.founders.length === 0) {
+          copy[l].about.founders = (translations[l]?.about?.founders || []).map(f => ({ ...f }));
+        }
+      }
+    }
+    return copy;
+  };
   const {
     translationsData,
     navigation,
@@ -38,8 +52,11 @@ export default function AdminDashboard() {
     addMedia,
     deleteMedia,
     deleteSubmission,
+    deleteMultipleSubmissions,
+    clearSubmissions,
     markSubmissionRead,
     markAllSubmissionsRead,
+    markMultipleSubmissionsRead,
     saveCodeSettings,
     rollbackCodeSettings,
     resetAll,
@@ -57,8 +74,22 @@ export default function AdminDashboard() {
 
   // Input states for form fields
   const [sectionData, setSectionData] = useState(() => {
-    return JSON.parse(JSON.stringify(translationsData));
+    return ensureDataWithFounders(translationsData);
   });
+
+  // Keep sectionData in sync with translationsData, ensuring founders always present
+  React.useEffect(() => {
+    if (translationsData) {
+      setSectionData(prev => {
+        const enriched = ensureDataWithFounders(translationsData);
+        // If current state has missing founders, enrich it
+        if (!prev || !prev[editLang]?.about?.founders || prev[editLang]?.about?.founders.length === 0) {
+          return enriched;
+        }
+        return prev;
+      });
+    }
+  }, [translationsData, editLang]);
 
   // Local navigation state for builder
   const [navItems, setNavItems] = useState([...navigation]);
@@ -85,9 +116,12 @@ export default function AdminDashboard() {
 
   // Convert Google Drive view links to direct image links
   const convertDriveUrl = (url) => {
-    if (!url) return url;
+    if (!url || typeof url !== 'string') return url;
     try {
-      const match = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+      const trimmed = url.trim();
+      const match = trimmed.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || 
+                    trimmed.match(/[?&]id=([a-zA-Z0-9_-]+)/) ||
+                    trimmed.match(/\/d\/([a-zA-Z0-9_-]+)/);
       if (match && match[1]) {
         return `https://lh3.googleusercontent.com/d/${match[1]}`;
       }
@@ -107,10 +141,14 @@ export default function AdminDashboard() {
 
   // Handle section text updates
   const handleTextChange = (section, key, value, nestedKey = null) => {
-    if (typeof value === 'string' && value.includes('drive.google.com/file/d/')) value = convertDriveUrl(value);
+    if (typeof value === 'string' && (value.includes('drive.google.com') || value.includes('docs.google.com'))) {
+      value = convertDriveUrl(value);
+      triggerNotification('Google Drive link converted to direct image URL!');
+    }
     if (isReadOnly) return;
     setSectionData(prev => {
       const copy = { ...prev };
+      if (!copy[editLang]) copy[editLang] = {};
       if (!copy[editLang][section]) copy[editLang][section] = {};
       if (nestedKey) {
         copy[editLang][section][key] = {
@@ -126,12 +164,18 @@ export default function AdminDashboard() {
 
   // Handle item array updates (cards, timeline, list items)
   const handleArrayItemChange = (section, arrayName, index, field, value) => {
-    if (typeof value === 'string' && value.includes('drive.google.com/file/d/')) value = convertDriveUrl(value);
+    if (typeof value === 'string' && (value.includes('drive.google.com') || value.includes('docs.google.com'))) {
+      value = convertDriveUrl(value);
+      triggerNotification('Google Drive link converted to direct image URL!');
+    }
     if (isReadOnly) return;
     setSectionData(prev => {
       const copy = { ...prev };
-      const arr = [...copy[editLang][section][arrayName]];
-      if (typeof arr[index] === 'object') {
+      if (!copy[editLang]) copy[editLang] = {};
+      if (!copy[editLang][section]) copy[editLang][section] = {};
+      const rawArr = copy[editLang][section][arrayName];
+      const arr = Array.isArray(rawArr) ? [...rawArr] : [];
+      if (typeof arr[index] === 'object' && arr[index] !== null) {
         arr[index] = { ...arr[index], [field]: value };
       } else if (field) {
         // Convert old plain-string item to an object, keeping the string as 'title'
@@ -149,7 +193,10 @@ export default function AdminDashboard() {
     if (isReadOnly) return;
     setSectionData(prev => {
       const copy = { ...prev };
-      const arr = [...copy[editLang][section][arrayName]];
+      if (!copy[editLang]) copy[editLang] = {};
+      if (!copy[editLang][section]) copy[editLang][section] = {};
+      const rawArr = copy[editLang][section][arrayName];
+      const arr = Array.isArray(rawArr) ? [...rawArr] : [];
       arr.push(newItemTemplate);
       copy[editLang][section][arrayName] = arr;
       return copy;
@@ -161,7 +208,10 @@ export default function AdminDashboard() {
     if (isReadOnly) return;
     setSectionData(prev => {
       const copy = { ...prev };
-      const arr = [...copy[editLang][section][arrayName]];
+      if (!copy[editLang]) copy[editLang] = {};
+      if (!copy[editLang][section]) copy[editLang][section] = {};
+      const rawArr = copy[editLang][section][arrayName];
+      const arr = Array.isArray(rawArr) ? [...rawArr] : [];
       arr.splice(index, 1);
       copy[editLang][section][arrayName] = arr;
       return copy;
@@ -173,7 +223,10 @@ export default function AdminDashboard() {
     if (isReadOnly) return;
     setSectionData(prev => {
       const copy = { ...prev };
-      const arr = [...copy[editLang][section][arrayName]];
+      if (!copy[editLang]) copy[editLang] = {};
+      if (!copy[editLang][section]) copy[editLang][section] = {};
+      const rawArr = copy[editLang][section][arrayName];
+      const arr = Array.isArray(rawArr) ? [...rawArr] : [];
       if (direction === 'up' && index > 0) {
         const temp = arr[index];
         arr[index] = arr[index - 1];
@@ -537,8 +590,11 @@ export default function AdminDashboard() {
           <SubmissionsTab 
             submissions={submissions} 
             deleteSubmission={deleteSubmission}
+            deleteMultipleSubmissions={deleteMultipleSubmissions}
+            clearSubmissions={clearSubmissions}
             markSubmissionRead={markSubmissionRead} 
             markAllSubmissionsRead={markAllSubmissionsRead}
+            markMultipleSubmissionsRead={markMultipleSubmissionsRead}
             themeSettings={themeSettings}
             updateThemeSettings={updateTheme}
           />

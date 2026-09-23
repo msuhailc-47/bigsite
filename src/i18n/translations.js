@@ -40,8 +40,49 @@ const translations = {
       values: ['Integrity & Trust', 'Innovation & Excellence', 'Customer First', 'Teamwork & Growth', 'Social Responsibility', 'Sustainable Development'],
       founderTitle: 'Founder\'s Message',
       founderMsg: '"Our vision is clear — to build a corporate ecosystem that empowers every stakeholder. From our associates and franchise partners to our customers and investors, every relationship at Dorek is built on trust, transparency, and shared growth."',
-      founderName: 'Founder & Managing Partner',
+      founderName: 'Abdulla Ullattil',
+      founderRole: 'Founder & Managing Partner',
       founderCompany: 'Dorek International Enterprises LLP',
+      foundersTitle: 'Founders & Board of Leadership',
+      foundersSubtitle: 'Meet the 6 visionary founders driving excellence, innovation, and sustainable enterprise at Dorek International Enterprises LLP.',
+      founders: [
+        {
+          name: 'Abdulla Ullattil',
+          role: 'Founder & Managing Partner',
+          photo: '',
+          bio: 'Visionary leadership spearheading corporate governance, strategic investments, and multi-sector brand expansion across India.'
+        },
+        {
+          name: 'Co-Founder 2',
+          role: 'Co-Founder & Director of Operations',
+          photo: '',
+          bio: 'Spearheading retail operations, supply chain logistics, and dealer network distribution across Kerala and regional markets.'
+        },
+        {
+          name: 'Co-Founder 3',
+          role: 'Co-Founder & Director of Technology',
+          photo: '',
+          bio: 'Leading digital innovation, Dorek Pulse platform architectures, and enterprise technology systems across business divisions.'
+        },
+        {
+          name: 'Co-Founder 4',
+          role: 'Co-Founder & Director of Engineering',
+          photo: '',
+          bio: 'Overseeing renewable energy initiatives, solar infrastructure, and high-standard engineering service delivery.'
+        },
+        {
+          name: 'Co-Founder 5',
+          role: 'Co-Founder & Director of Business Development',
+          photo: '',
+          bio: 'Driving franchise expansion, strategic partnerships, institutional collaborations, and associate networks.'
+        },
+        {
+          name: 'Co-Founder 6',
+          role: 'Co-Founder & Director of Finance & Strategy',
+          photo: '',
+          bio: 'Steering financial strategy, corporate compliance, capital allocation, and investor relations for sustained long-term growth.'
+        }
+      ],
       timeline: 'Company Timeline',
       timelineItems: [
         { year: '2020', title: 'Foundation', desc: 'Dorek International Enterprises LLP was officially incorporated.' },
@@ -413,8 +454,49 @@ const translations = {
       values: ['സത്യസന്ധതയും വിശ്വാസവും', 'നവീകരണവും മികവും', 'ഉപഭോക്താവ് ആദ്യം', 'ടീംവർക്കും വളർച്ചയും', 'സാമൂഹിക ഉത്തരവാദിത്തം', 'സുസ്ഥിര വികസനം'],
       founderTitle: 'സ്ഥാപകന്റെ സന്ദേശം',
       founderMsg: '"ഞങ്ങളുടെ ദർശനം വ്യക്തമാണ് — ഓരോ പങ്കാളിയെയും ശാക്തീകരിക്കുന്ന ഒരു കോർപ്പറേറ്റ് ആവാസവ്യവസ്ഥ കെട്ടിപ്പടുക്കുക. ഡോറെക്കിലെ ഓരോ ബന്ധവും വിശ്വാസത്തിലും സുതാര്യതയിലും പരസ്പര വളർച്ചയിലും നിർമ്മിച്ചതാണ്."',
-      founderName: 'സ്ഥാപകനും മാനേജിംഗ് പാർട്ണറും',
+      founderName: 'അബ്ദുള്ള ഉള്ളാട്ടിൽ',
+      founderRole: 'സ്ഥാപകൻ & മാനേജിംഗ് പാർട്ണർ',
       founderCompany: 'ഡോറെക് ഇന്റർനാഷണൽ എന്റർപ്രൈസസ് LLP',
+      foundersTitle: 'സ്ഥാപകരും നേതൃത്വവും',
+      foundersSubtitle: 'ഡോറക് ഇന്റർനാഷണൽ എന്റർപ്രൈസസ് എൽഎൽപിയുടെ വളർച്ചയ്ക്ക് നേതൃത്വം നൽകുന്ന 6 ദർശനാത്മക സ്ഥാപകർ.',
+      founders: [
+        {
+          name: 'അബ്ദുള്ള ഉള്ളാട്ടിൽ',
+          role: 'ഫൗണ്ടർ & മാനേജിംഗ് പാർട്ണർ',
+          photo: '',
+          bio: 'കോർപ്പറേറ്റ് തന്ത്രങ്ങൾ, സുസ്ഥിര ഭരണം, മൾട്ടി-സെക്ടർ ബിസിനസ് വിപുലീകരണം എന്നിവയ്ക്ക് നേതൃത്വം നൽകുന്നു.'
+        },
+        {
+          name: 'കോ-ഫൗണ്ടർ 2',
+          role: 'കോ-ഫൗണ്ടർ & ഡയറക്ടർ ഓഫ് ഓപ്പറേഷൻസ്',
+          photo: '',
+          bio: 'റീട്ടെയിൽ ശൃംഖല, സപ്ലൈ ചെയിൻ മാനേജ്‌മെന്റ്, വിതരണ വികസനം എന്നിവ ഏകോപിപ്പിക്കുന്നു.'
+        },
+        {
+          name: 'കോ-ഫൗണ്ടർ 3',
+          role: 'കോ-ഫൗണ്ടർ & ഡയറക്ടർ ഓഫ് ടെക്നോളജി',
+          photo: '',
+          bio: 'ഡിജിറ്റൽ ആർക്കിടെക്ചർ, ഡോറക് പൾസ് പ്ലാറ്റ്‌ഫോം, ഐടി നവീകരണങ്ങൾ എന്നിവയ്ക്ക് നേതൃത്വം നൽകുന്നു.'
+        },
+        {
+          name: 'കോ-ഫൗണ്ടർ 4',
+          role: 'കോ-ഫൗണ്ടർ & ഡയറക്ടർ ഓഫ് എഞ്ചിനീയറിംഗ്',
+          photo: '',
+          bio: 'ഇൻഡസ്ട്രിയൽ ഇൻഫ്രാസ്ട്രക്ചർ, പുനരുപയോഗ ഊർജ്ജ പദ്ധതികൾ, സോളാർ എഞ്ചിനീയറിംഗ് എന്നിവ നിയന്ത്രിക്കുന്നു.'
+        },
+        {
+          name: 'കോ-ഫൗണ്ടർ 5',
+          role: 'കോ-ഫൗണ്ടർ & ബിസിനസ് ഡെവലപ്‌മെന്റ് ഡയറക്ടർ',
+          photo: '',
+          bio: 'ഫ്രാഞ്ചൈസി പങ്കാളിത്തങ്ങൾ, വിപണി വികസനം, അസോസിയേറ്റ് ശൃംഖല എന്നിവ നയിക്കുന്നു.'
+        },
+        {
+          name: 'കോ-ഫൗണ്ടർ 6',
+          role: 'കോ-ഫൗണ്ടർ & ഫിനാൻസ് & സ്ട്രാറ്റജി ഡയറക്ടർ',
+          photo: '',
+          bio: 'സാമ്പത്തിക ആസൂത്രണം, ഇൻവെസ്റ്റർ റിലേഷൻസ്, മൂലധന വിനിയോഗം എന്നിവയ്ക്ക് മേൽനോട്ടം വഹിക്കുന്നു.'
+        }
+      ],
       timeline: 'കമ്പനി ടൈംലൈൻ',
       timelineItems: [
         { year: '2020', title: 'സ്ഥാപനം', desc: 'ഡോറെക് ഇന്റർനാഷണൽ എന്റർപ്രൈസസ് LLP ഔദ്യോഗികമായി രജിസ്റ്റർ ചെയ്തു.' },

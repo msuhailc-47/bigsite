@@ -2,11 +2,31 @@ import React, { useState } from 'react';
 import { Inbox, Trash2, Save, CheckCircle, Mail, MailOpen, Download, Filter, FileSpreadsheet } from 'lucide-react';
 import * as XLSX from 'xlsx';
 
-export default function SubmissionsTab({ submissions, deleteSubmission, markSubmissionRead, markAllSubmissionsRead, themeSettings, updateThemeSettings }) {
+export default function SubmissionsTab({ 
+  submissions, 
+  deleteSubmission, 
+  deleteMultipleSubmissions,
+  clearSubmissions,
+  markSubmissionRead, 
+  markAllSubmissionsRead, 
+  markMultipleSubmissionsRead,
+  themeSettings, 
+  updateThemeSettings 
+}) {
   const [notifEmail, setNotifEmail] = useState(themeSettings?.adminEmail || '');
   const [saved, setSaved] = useState(false);
   const [viewMode, setViewMode] = useState('new'); // 'new' or 'all'
   const [categoryFilter, setCategoryFilter] = useState('all'); // 'all', 'doorcarts', 'general'
+  const [selectedIds, setSelectedIds] = useState(new Set());
+
+  const toggleSelect = (id) => {
+    setSelectedIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
 
   const isDoorcartsLead = (sub) => {
     if (!sub) return false;
@@ -91,6 +111,55 @@ export default function SubmissionsTab({ submissions, deleteSubmission, markSubm
     if (categoryFilter === 'general' && isDk) return false;
     return true;
   });
+
+  const allVisibleSelected = displaySubmissions.length > 0 && displaySubmissions.every(s => selectedIds.has(s.id));
+
+  const toggleSelectAllVisible = () => {
+    setSelectedIds(prev => {
+      const next = new Set(prev);
+      if (allVisibleSelected) {
+        displaySubmissions.forEach(s => next.delete(s.id));
+      } else {
+        displaySubmissions.forEach(s => next.add(s.id));
+      }
+      return next;
+    });
+  };
+
+  const handleDeleteSelected = () => {
+    if (selectedIds.size === 0) return;
+    if (window.confirm(`Are you sure you want to permanently delete ${selectedIds.size} selected submissions? This action cannot be undone.`)) {
+      if (deleteMultipleSubmissions) {
+        deleteMultipleSubmissions(Array.from(selectedIds));
+      } else {
+        selectedIds.forEach(id => deleteSubmission(id));
+      }
+      setSelectedIds(new Set());
+    }
+  };
+
+  const handleMarkSelectedRead = () => {
+    if (selectedIds.size === 0) return;
+    if (markMultipleSubmissionsRead) {
+      markMultipleSubmissionsRead(Array.from(selectedIds));
+    } else {
+      selectedIds.forEach(id => markSubmissionRead(id));
+    }
+    setSelectedIds(new Set());
+  };
+
+  const handleClearAll = () => {
+    if (submissions.length === 0) return alert('No submissions to clear.');
+    const confirmMsg = `⚠️ WARNING: Are you sure you want to permanently DELETE ALL ${submissions.length} submissions from Firebase?\n\n` +
+      `Please ensure you have already downloaded the weekly Excel backup (.xlsx) before clearing.\n\n` +
+      `Click OK to proceed with deletion.`;
+    if (window.confirm(confirmMsg)) {
+      if (clearSubmissions) {
+        clearSubmissions();
+      }
+      setSelectedIds(new Set());
+    }
+  };
 
   return (
     <div className="admin-panel-card animate-fadeIn">
@@ -187,6 +256,29 @@ export default function SubmissionsTab({ submissions, deleteSubmission, markSubm
           >
             <FileSpreadsheet size={16} /> Export Excel (.xlsx)
           </button>
+
+          {submissions.length > 0 && (
+            <button 
+              onClick={handleClearAll}
+              style={{ 
+                padding: '8px 16px', 
+                borderRadius: '6px', 
+                border: '1px solid #fecaca', 
+                backgroundColor: '#fff1f2', 
+                color: '#e11d48', 
+                cursor: 'pointer', 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '6px',
+                fontWeight: '600',
+                fontSize: '13px',
+                transition: 'all 0.2s ease'
+              }}
+              title="Permanently clear all inquiries (recommended after downloading weekly Excel)"
+            >
+              <Trash2 size={15} /> Clear All Inquiries ({totalCount})
+            </button>
+          )}
         </div>
       </div>
 
@@ -274,7 +366,75 @@ export default function SubmissionsTab({ submissions, deleteSubmission, markSubm
             </span>
           )}
         </button>
+
+        {displaySubmissions.length > 0 && (
+          <label style={{ 
+            display: 'inline-flex', 
+            alignItems: 'center', 
+            gap: '8px', 
+            marginLeft: 'auto',
+            fontSize: '13px', 
+            fontWeight: '600', 
+            color: '#475569', 
+            cursor: 'pointer',
+            padding: '5px 12px',
+            borderRadius: '20px',
+            background: allVisibleSelected ? 'rgba(10, 46, 93, 0.1)' : '#f1f5f9',
+            border: '1px solid #cbd5e1',
+            transition: 'all 0.15s ease'
+          }}>
+            <input 
+              type="checkbox" 
+              checked={allVisibleSelected} 
+              onChange={toggleSelectAllVisible}
+              style={{ width: '16px', height: '16px', cursor: 'pointer', accentColor: '#0A2E5D' }}
+            />
+            Select All Visible ({displaySubmissions.length})
+          </label>
+        )}
       </div>
+
+      {/* Floating / Sticky Bulk Action Bar */}
+      {selectedIds.size > 0 && (
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          background: 'linear-gradient(135deg, #0A2E5D 0%, #173b70 100%)',
+          color: '#ffffff',
+          padding: '12px 20px',
+          borderRadius: '10px',
+          marginBottom: '20px',
+          boxShadow: '0 8px 24px rgba(10, 46, 93, 0.25)',
+          flexWrap: 'wrap',
+          gap: '12px'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', fontWeight: '600' }}>
+            <span>✓ {selectedIds.size} message{selectedIds.size > 1 ? 's' : ''} selected</span>
+            <button 
+              onClick={() => setSelectedIds(new Set())}
+              style={{ background: 'transparent', border: 'none', color: '#93c5fd', textDecoration: 'underline', cursor: 'pointer', fontSize: '13px' }}
+            >
+              Deselect All
+            </button>
+          </div>
+
+          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+            <button
+              onClick={handleMarkSelectedRead}
+              style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)', color: '#ffffff', padding: '7px 14px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}
+            >
+              <CheckCircle size={14} /> Mark Selected Read ({selectedIds.size})
+            </button>
+            <button
+              onClick={handleDeleteSelected}
+              style={{ background: '#ef4444', border: 'none', color: '#ffffff', padding: '7px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '6px', boxShadow: '0 2px 8px rgba(239,68,68,0.4)' }}
+            >
+              <Trash2 size={14} /> Delete Selected ({selectedIds.size})
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="submissions-list">
         {displaySubmissions.length === 0 ? (
@@ -301,51 +461,62 @@ export default function SubmissionsTab({ submissions, deleteSubmission, markSubm
                   borderLeft: !sub.isRead 
                     ? (isDk ? '4px solid #F59E0B' : '4px solid #e11d48') 
                     : (isDk ? '4px solid rgba(212, 175, 55, 0.45)' : '1px solid rgba(10, 46, 93, 0.06)'),
-                  backgroundColor: !sub.isRead && isDk ? 'rgba(254, 243, 199, 0.25)' : undefined
+                  backgroundColor: selectedIds.has(sub.id)
+                    ? 'rgba(10, 46, 93, 0.05)'
+                    : (!sub.isRead && isDk ? 'rgba(254, 243, 199, 0.25)' : undefined)
                 }}
               >
                 <div className="submission-card-header">
-                  <div className="sender-meta">
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '4px' }}>
-                      <h4 style={{ margin: 0 }}>{sub.name}</h4>
-                      {isDk ? (
-                        <span style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '4px',
-                          background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(245, 158, 11, 0.22) 100%)',
-                          color: '#B45309',
-                          border: '1px solid rgba(212, 175, 55, 0.45)',
-                          padding: '2px 9px',
-                          borderRadius: '12px',
-                          fontSize: '11px',
-                          fontWeight: '700'
-                        }}>
-                          🚀 Doorcarts Lead
-                        </span>
-                      ) : (
-                        <span style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '4px',
-                          background: 'rgba(10, 46, 93, 0.08)',
-                          color: '#0A2E5D',
-                          border: '1px solid rgba(10, 46, 93, 0.18)',
-                          padding: '2px 9px',
-                          borderRadius: '12px',
-                          fontSize: '11px',
-                          fontWeight: '600'
-                        }}>
-                          📩 General Contact
-                        </span>
-                      )}
-                      {!sub.isRead && (
-                        <span style={{ fontSize: '10px', background: '#e11d48', color: '#fff', padding: '2px 6px', borderRadius: '8px', fontWeight: 'bold' }}>
-                          NEW
-                        </span>
-                      )}
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                    <input 
+                      type="checkbox"
+                      checked={selectedIds.has(sub.id)}
+                      onChange={() => toggleSelect(sub.id)}
+                      style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#0A2E5D', marginTop: '3px' }}
+                      title="Select message"
+                    />
+                    <div className="sender-meta">
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '4px' }}>
+                        <h4 style={{ margin: 0 }}>{sub.name}</h4>
+                        {isDk ? (
+                          <span style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                            background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(245, 158, 11, 0.22) 100%)',
+                            color: '#B45309',
+                            border: '1px solid rgba(212, 175, 55, 0.45)',
+                            padding: '2px 9px',
+                            borderRadius: '12px',
+                            fontSize: '11px',
+                            fontWeight: '700'
+                          }}>
+                            🚀 Doorcarts Lead
+                          </span>
+                        ) : (
+                          <span style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                            background: 'rgba(10, 46, 93, 0.08)',
+                            color: '#0A2E5D',
+                            border: '1px solid rgba(10, 46, 93, 0.18)',
+                            padding: '2px 9px',
+                            borderRadius: '12px',
+                            fontSize: '11px',
+                            fontWeight: '600'
+                          }}>
+                            📩 General Contact
+                          </span>
+                        )}
+                        {!sub.isRead && (
+                          <span style={{ fontSize: '10px', background: '#e11d48', color: '#fff', padding: '2px 6px', borderRadius: '8px', fontWeight: 'bold' }}>
+                            NEW
+                          </span>
+                        )}
+                      </div>
+                      <span>{sub.email} | {sub.phone || 'No phone'}</span>
                     </div>
-                    <span>{sub.email} | {sub.phone || 'No phone'}</span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <span className="submission-date">{sub.date}</span>

@@ -133,13 +133,20 @@ export function DataProvider({ children }) {
   const clearSubmissions = async () => {
     if (db) {
       try {
-        const batch = writeBatch(db);
-        submissions.forEach(s => {
-          if (s.docId) {
-            batch.delete(doc(db, 'dorek_submissions', s.docId));
-          }
-        });
-        await batch.commit();
+        // Chunk batch operations to prevent exceeding Firestore 500-op limit
+        const chunkSize = 400;
+        for (let i = 0; i < submissions.length; i += chunkSize) {
+          const chunk = submissions.slice(i, i + chunkSize);
+          const batch = writeBatch(db);
+          chunk.forEach(s => {
+            const docId = s.docId || `sub_${s.id}`;
+            if (docId) {
+              batch.delete(doc(db, 'dorek_submissions', docId));
+            }
+          });
+          await batch.commit();
+        }
+
         // Also clear legacy doc
         await setDoc(doc(db, 'dorek_cms', 'submissions'), { submissions: [] }, { merge: true });
       } catch (err) {
@@ -147,6 +154,62 @@ export function DataProvider({ children }) {
       }
     }
     setSubmissions([]);
+  };
+
+  const deleteMultipleSubmissions = async (ids) => {
+    if (!ids || ids.length === 0) return;
+    const idSet = new Set(ids.map(String));
+    const toDelete = submissions.filter(s => idSet.has(String(s.id)) || (s.docId && idSet.has(String(s.docId))));
+
+    if (db) {
+      try {
+        const chunkSize = 400;
+        for (let i = 0; i < toDelete.length; i += chunkSize) {
+          const chunk = toDelete.slice(i, i + chunkSize);
+          const batch = writeBatch(db);
+          chunk.forEach(s => {
+            const docId = s.docId || `sub_${s.id}`;
+            batch.delete(doc(db, 'dorek_submissions', docId));
+          });
+          await batch.commit();
+        }
+
+        const remaining = submissions.filter(s => !idSet.has(String(s.id)) && (!s.docId || !idSet.has(String(s.docId))));
+        await setDoc(doc(db, 'dorek_cms', 'submissions'), { submissions: remaining }, { merge: true });
+      } catch (err) {
+        console.error("Error deleting multiple submissions:", err);
+      }
+    }
+
+    setSubmissions(prev => prev.filter(s => !idSet.has(String(s.id)) && (!s.docId || !idSet.has(String(s.docId)))));
+  };
+
+  const markMultipleSubmissionsRead = async (ids) => {
+    if (!ids || ids.length === 0) return;
+    const idSet = new Set(ids.map(String));
+    const toMark = submissions.filter(s => (idSet.has(String(s.id)) || (s.docId && idSet.has(String(s.docId)))) && !s.isRead);
+
+    if (db) {
+      try {
+        const chunkSize = 400;
+        for (let i = 0; i < toMark.length; i += chunkSize) {
+          const chunk = toMark.slice(i, i + chunkSize);
+          const batch = writeBatch(db);
+          chunk.forEach(s => {
+            const docId = s.docId || `sub_${s.id}`;
+            batch.update(doc(db, 'dorek_submissions', docId), { isRead: true });
+          });
+          await batch.commit();
+        }
+
+        const updated = submissions.map(s => (idSet.has(String(s.id)) || (s.docId && idSet.has(String(s.docId)))) ? { ...s, isRead: true } : s);
+        await setDoc(doc(db, 'dorek_cms', 'submissions'), { submissions: updated }, { merge: true });
+      } catch (err) {
+        console.error("Error marking multiple read:", err);
+      }
+    }
+
+    setSubmissions(prev => prev.map(s => (idSet.has(String(s.id)) || (s.docId && idSet.has(String(s.docId)))) ? { ...s, isRead: true } : s));
   };
   
   const deleteSubmission = async (id) => {
@@ -229,7 +292,19 @@ export function DataProvider({ children }) {
   };
 
   return (
-    <DataContext.Provider value={{ mediaLibrary, submissions, addSubmission, clearSubmissions, deleteSubmission, markSubmissionRead, markAllSubmissionsRead, addMedia, deleteMedia }}>
+    <DataContext.Provider value={{ 
+      mediaLibrary, 
+      submissions, 
+      addSubmission, 
+      clearSubmissions, 
+      deleteSubmission, 
+      deleteMultipleSubmissions,
+      markSubmissionRead, 
+      markAllSubmissionsRead, 
+      markMultipleSubmissionsRead,
+      addMedia, 
+      deleteMedia 
+    }}>
       {children}
     </DataContext.Provider>
   );

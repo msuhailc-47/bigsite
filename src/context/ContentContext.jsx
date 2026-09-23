@@ -6,10 +6,29 @@ import translations from '../i18n/translations';
 
 const ContentContext = createContext(null);
 
+const mergeWithDefaults = (remoteData) => {
+  if (!remoteData) return translations;
+  const merged = { ...translations };
+  for (const l of ['en', 'ml']) {
+    merged[l] = {
+      ...translations[l],
+      ...(remoteData[l] || {}),
+      about: {
+        ...translations[l]?.about,
+        ...(remoteData[l]?.about || {}),
+        founders: (remoteData[l]?.about?.founders && Array.isArray(remoteData[l].about.founders) && remoteData[l].about.founders.length > 0)
+          ? remoteData[l].about.founders
+          : (translations[l]?.about?.founders || [])
+      }
+    };
+  }
+  return merged;
+};
+
 export function ContentProvider({ children }) {
   const [translationsData, setTranslationsData] = useState(() => {
     const saved = localStorage.getItem('dorek_cms_translations');
-    return saved ? JSON.parse(saved) : translations;
+    return saved ? mergeWithDefaults(JSON.parse(saved)) : translations;
   });
 
   const [isSyncing, setIsSyncing] = useState(false);
@@ -21,10 +40,11 @@ export function ContentProvider({ children }) {
     const unsubscribeTrans = onSnapshot(transDocRef, (docSnap) => {
       if (docSnap.exists() && docSnap.data().translationsData) {
         const remoteData = docSnap.data().translationsData;
+        const merged = mergeWithDefaults(remoteData);
         setTranslationsData((prev) => {
-          if (JSON.stringify(prev) !== JSON.stringify(remoteData)) {
-            localStorage.setItem('dorek_cms_translations', JSON.stringify(remoteData));
-            return remoteData;
+          if (JSON.stringify(prev) !== JSON.stringify(merged)) {
+            localStorage.setItem('dorek_cms_translations', JSON.stringify(merged));
+            return merged;
           }
           return prev;
         });
