@@ -13,6 +13,18 @@ const mergeWithDefaults = (remoteData) => {
     merged[l] = {
       ...translations[l],
       ...(remoteData[l] || {}),
+      hero: {
+        ...translations[l]?.hero,
+        ...(remoteData[l]?.hero || {}),
+        stats: {
+          ...translations[l]?.hero?.stats,
+          ...(remoteData[l]?.hero?.stats || {}),
+          counts: {
+            ...translations[l]?.hero?.stats?.counts,
+            ...(remoteData[l]?.hero?.stats?.counts || {})
+          }
+        }
+      },
       about: {
         ...translations[l]?.about,
         ...(remoteData[l]?.about || {}),

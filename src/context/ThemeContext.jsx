@@ -13,7 +13,8 @@ const defaultThemeSettings = {
     investors: 'slide-up', careers: 'fade-in', news: 'slide-up', gallery: 'zoom-in',
     downloads: 'fade-in', testimonials: 'slide-up', csr: 'fade-in', contact: 'slide-up'
   },
-  sectionBackgrounds: {}
+  sectionBackgrounds: {},
+  appBrandLayout: 'op1'
 };
 
 const defaultSectionVisibility = {

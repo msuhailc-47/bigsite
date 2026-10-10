@@ -36,8 +36,8 @@ export default function GalleryEditor({
             <div key={idx} className="array-item-row" style={{ padding: '15px', border: '1px solid #ddd', borderRadius: '8px', marginBottom: '12px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                 <strong>Photo {idx + 1}</strong>
-                <button className="admin-btn-outline" style={{borderColor: 'red', color: 'red'}} onClick={() => handleDeleteArrayItem('gallery', 'photos', idx)}>
-                  <Trash2 size={12} /> Remove
+                <button type="button" className="nav-delete-btn" title="Remove Photo" onClick={() => handleDeleteArrayItem('gallery', 'photos', idx)}>
+                  <Trash2 size={15} />
                 </button>
               </div>
               <div className="form-group" style={{ marginBottom: '8px' }}>
@@ -91,8 +91,8 @@ export default function GalleryEditor({
             <div key={idx} className="array-item-row" style={{ padding: '15px', border: '1px solid #ddd', borderRadius: '8px', marginBottom: '12px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                 <strong>Video {idx + 1}</strong>
-                <button className="admin-btn-outline" style={{borderColor: 'red', color: 'red'}} onClick={() => handleDeleteArrayItem('gallery', 'videos', idx)}>
-                  <Trash2 size={12} /> Remove
+                <button type="button" className="nav-delete-btn" title="Remove Video" onClick={() => handleDeleteArrayItem('gallery', 'videos', idx)}>
+                  <Trash2 size={15} />
                 </button>
               </div>
               <div className="form-group" style={{ marginBottom: '8px' }}>
@@ -144,16 +144,10 @@ export default function GalleryEditor({
             <div key={idx} className="array-item-row" style={{ padding: '15px', border: '1px solid #ddd', borderRadius: '8px', marginBottom: '12px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                 <strong>Achievement {idx + 1}</strong>
-                <div style={{ display: 'flex', gap: '6px' }}>
-                  <button className="admin-btn-outline" onClick={() => handleMoveArrayItem('gallery', 'achievements', idx, 'up')} disabled={idx === 0}>
-                    <ArrowUp size={12} />
-                  </button>
-                  <button className="admin-btn-outline" onClick={() => handleMoveArrayItem('gallery', 'achievements', idx, 'down')} disabled={idx === (sectionData[editLang].gallery.achievements || []).length - 1}>
-                    <ArrowDown size={12} />
-                  </button>
-                  <button className="admin-btn-outline" style={{borderColor: 'red', color: 'red'}} onClick={() => handleDeleteArrayItem('gallery', 'achievements', idx)}>
-                    <Trash2 size={12} /> Remove
-                  </button>
+                <div className="array-actions">
+                  <button type="button" className="nav-order-btn" onClick={() => handleMoveArrayItem('gallery', 'achievements', idx, 'up')} disabled={idx === 0}><ArrowUp size={12} /></button>
+                  <button type="button" className="nav-order-btn" onClick={() => handleMoveArrayItem('gallery', 'achievements', idx, 'down')} disabled={idx === (sectionData[editLang].gallery.achievements || []).length - 1}><ArrowDown size={12} /></button>
+                  <button type="button" className="nav-delete-btn" title="Remove Achievement" onClick={() => handleDeleteArrayItem('gallery', 'achievements', idx)}><Trash2 size={12} /></button>
                 </div>
               </div>
               <div className="form-group" style={{ marginBottom: '8px' }}>

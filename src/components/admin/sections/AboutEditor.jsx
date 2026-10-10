@@ -347,41 +347,53 @@ export default function AboutEditor({
                   <h4>Timeline Milestones</h4>
                   <div className="array-items-list">
                     {(aboutData.timelineItems || []).map((item, idx) => (
-                      <div key={idx} className="array-item-row">
-                          <button className="admin-btn-outline" style={{borderColor: 'red', color: 'red', marginBottom: '10px'}} onClick={() => handleDeleteArrayItem('about', 'timelineItems', idx)}>Remove Item</button>
-                        <div className="array-fields-grid">
-                          <input
-                            type="text"
-                            value={item.year}
-                            onChange={(e) => handleArrayItemChange('about', 'timelineItems', idx, 'year', e.target.value)}
-                            className="form-control font-bold"
-                            placeholder="Year"
-                          />
-                          <input
-                            type="text"
-                            value={item.title}
-                            onChange={(e) => handleArrayItemChange('about', 'timelineItems', idx, 'title', e.target.value)}
-                            className="form-control"
-                            placeholder="Milestone Title"
-                          />
+                      <div key={idx} className="array-item-row no-flex-row" style={{ padding: '18px 20px', gap: '14px', marginBottom: '14px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', borderBottom: '1px solid #e2e8f0', paddingBottom: '10px' }}>
+                          <span style={{ fontWeight: '700', fontSize: '0.95rem', color: '#1e293b' }}>
+                            #{idx + 1} — {item.year ? `Year ${item.year}: ${item.title || 'Milestone'}` : (item.title || 'Milestone')}
+                          </span>
+                          <div className="array-actions">
+                            <button type="button" className="nav-order-btn" onClick={() => handleMoveArrayItem('about', 'timelineItems', idx, 'up')} disabled={idx === 0}><ArrowUp size={12} /></button>
+                            <button type="button" className="nav-order-btn" onClick={() => handleMoveArrayItem('about', 'timelineItems', idx, 'down')} disabled={idx === (aboutData.timelineItems || []).length - 1}><ArrowDown size={12} /></button>
+                            <button type="button" className="nav-delete-btn" onClick={() => handleDeleteArrayItem('about', 'timelineItems', idx)}><Trash2 size={12} /></button>
+                          </div>
+                        </div>
+                        <div style={{ display: 'grid', gridTemplateColumns: '140px 1fr', gap: '12px', width: '100%' }}>
+                          <div>
+                            <label style={{ fontSize: '0.82rem', fontWeight: 600, color: '#475569', marginBottom: '4px', display: 'block' }}>YEAR</label>
+                            <input
+                              type="text"
+                              value={item.year}
+                              onChange={(e) => handleArrayItemChange('about', 'timelineItems', idx, 'year', e.target.value)}
+                              className="form-control font-bold"
+                              placeholder="Year"
+                            />
+                          </div>
+                          <div>
+                            <label style={{ fontSize: '0.82rem', fontWeight: 600, color: '#475569', marginBottom: '4px', display: 'block' }}>MILESTONE TITLE</label>
+                            <input
+                              type="text"
+                              value={item.title}
+                              onChange={(e) => handleArrayItemChange('about', 'timelineItems', idx, 'title', e.target.value)}
+                              className="form-control"
+                              placeholder="Milestone Title"
+                            />
+                          </div>
+                        </div>
+                        <div className="form-group" style={{ margin: 0, width: '100%' }}>
+                          <label style={{ fontSize: '0.82rem', fontWeight: 600, color: '#475569', marginBottom: '4px', display: 'block' }}>MILESTONE DESCRIPTION</label>
                           <textarea
                             value={item.desc}
                             onChange={(e) => handleArrayItemChange('about', 'timelineItems', idx, 'desc', e.target.value)}
-                            className="form-control col-span-2"
-                            placeholder="Description"
-                            rows={1}
+                            className="form-control"
+                            placeholder="Milestone description"
+                            rows={3}
                           />
-                        </div>
-                        <div className="array-actions">
-                          <button className="nav-order-btn" onClick={() => handleMoveArrayItem('about', 'timelineItems', idx, 'up')} disabled={idx === 0}><ArrowUp size={12} /></button>
-                          <button className="nav-order-btn" onClick={() => handleMoveArrayItem('about', 'timelineItems', idx, 'down')} disabled={idx === (aboutData.timelineItems || []).length - 1}><ArrowDown size={12} /></button>
-                          <button className="nav-delete-btn" onClick={() => handleDeleteArrayItem('about', 'timelineItems', idx)}><Trash2 size={12} /></button>
                         </div>
                       </div>
                     ))}
-                    <button className="admin-btn" style={{marginTop: '10px'}} onClick={() => handleAddArrayItem('about', 'timelineItems', {"year":"","title":"","desc":""})}>+ Add New</button>
                   </div>
-                  <button className="secondary-action-btn" onClick={() => handleAddArrayItem('about', 'timelineItems', { year: '2026', title: 'New Event', desc: 'Event details' })}>
+                  <button className="secondary-action-btn" style={{ marginTop: '12px' }} onClick={() => handleAddArrayItem('about', 'timelineItems', { year: '2026', title: 'New Event', desc: 'Event details' })}>
                     <Plus size={14} /> Add Timeline Milestone
                   </button>
                 </div>

@@ -7,21 +7,31 @@ const translations = {
     },
     hero: {
       image: '',
+      badge: 'DOREK INTERNATIONAL ENTERPRISES LLP',
+      titleLine1: 'Engineering Excellence.',
+      titleLine2: 'Powering Future Brands.',
       tagline: 'Think Better... Work Better... Grow Together...',
-      subtitle: 'Dorek International Enterprises LLP is a leading parent company powering multiple brands and delivering complete engineering solutions across Kerala.',
-      getStarted: 'Get Started',
-      contactUs: 'Contact Us',
+      subtitle: 'A diversified global enterprise delivering complete turnkey engineering, commercial solar energy, smart retail networks, and enterprise software systems across India and global markets.',
+      getStarted: 'Explore Our Businesses',
+      contactUs: 'Connect With Team',
       portalLogin: 'Portal Login',
+      formBadge: 'Dorek Flagship Brand • Doorcarts',
+      formTitle: 'Partner With Doorcarts',
+      formSubtitle: 'Connect with Dorek International to explore Doorcarts franchise stores, dealership territories, or turnkey project partnerships.',
+      formQuestion: 'Why are you interested in Doorcarts?',
+      formPlaceholder: 'e.g. Franchise ownership, retail partner, smart QR, supplier...',
+      formSubmitBtn: 'Submit Doorcarts Enquiry',
+      formTrustText: 'Direct response within 24 hours • Confidential',
       stats: {
-        divisions: 'Divisions',
-        districts: 'Districts',
-        associates: 'Associates',
-        sectors: 'Sectors',
+        divisions: 'Core Divisions',
+        districts: 'Districts Covered',
+        associates: 'Active Partners',
+        sectors: 'Standard & Vision',
         counts: {
           divisions: '8+',
           districts: '14',
           associates: '500+',
-          sectors: '10+'
+          sectors: 'Global'
         }
       }
     },
@@ -427,16 +437,32 @@ const translations = {
     },
     hero: {
       image: '',
+      badge: 'ഡോറക് ഇന്റർനാഷണൽ എന്റർപ്രൈസസ്',
+      titleLine1: 'എഞ്ചിനീയറിംഗ് മികവ്.',
+      titleLine2: 'നാളെയുടെ ബ്രാൻഡുകൾക്ക് കരുത്ത്.',
       tagline: 'Think Better... Work Better... Grow Together...',
-      subtitle: 'ഡോറെക് ഇന്റർനാഷണൽ എന്റർപ്രൈസസ് LLP കേരളത്തിലുടനീളം ഒന്നിലധികം ബ്രാൻഡുകൾക്കും സമ്പൂർണ്ണ എഞ്ചിനീയറിംഗ് സൊല്യൂഷനുകൾക്കും ശക്തി പകരുന്ന ഒരു മുൻനിര മാതൃ കമ്പനിയാണ്.',
-      getStarted: 'ആരംഭിക്കുക',
+      subtitle: 'ടേൺകീ എഞ്ചിനീയറിംഗ്, സോളാർ എനർജി, സ്മാർട്ട് റീട്ടെയിൽ ശൃംഖല, എന്റർപ്രൈസ് സോഫ്റ്റ്‌വെയർ എന്നിവയിൽ ലോകോത്തര സേവനങ്ങൾ നൽകുന്ന പ്രമുഖ സ്ഥാപനം.',
+      getStarted: 'ഞങ്ങളുടെ ബിസിനസുകൾ',
       contactUs: 'ബന്ധപ്പെടുക',
       portalLogin: 'പോർട്ടൽ ലോഗിൻ',
+      formBadge: 'ഡോറക് ഫ്ലാഗ്‌ഷിപ്പ് സംരംഭം • ഡോർകാർട്സ്',
+      formTitle: 'ഡോർകാർട്സുമായി കൈകോർക്കാം',
+      formSubtitle: 'ഡോറക് ഇന്റർനാഷണലിന്റെ ഫ്ലാഗ്‌ഷിപ്പ് സംരംഭമായ ഡോർകാർട്സ് ഫ്രാഞ്ചൈസി, ഡീലർഷിപ്പ്, പ്രോജക്ട് പാർട്ണർഷിപ്പ് വിവരങ്ങൾക്ക് ബന്ധപ്പെടുക.',
+      formQuestion: 'ഡോർകാർട്സിൽ താങ്കൾക്കുള്ള താല്പര്യം എന്താണ്?',
+      formPlaceholder: 'ഉദാ: ഫ്രാഞ്ചൈസി, റീട്ടെയിൽ പാർട്ണർ, സ്മാർട്ട് ക്യുആർ...',
+      formSubmitBtn: 'അന്വേഷണം അയക്കുക',
+      formTrustText: '24 മണിക്കൂറിനകം പ്രതികരണം • പൂർണ്ണ രഹസ്യസ്വഭാവം',
       stats: {
-        divisions: 'വിഭാഗങ്ങൾ',
+        divisions: 'ഡിവിഷനുകൾ',
         districts: 'ജില്ലകൾ',
-        associates: 'അസോസിയേറ്റുകൾ',
-        sectors: 'മേഖലകൾ'
+        associates: 'പങ്കാളികൾ',
+        sectors: 'നിലവാരം',
+        counts: {
+          divisions: '8+',
+          districts: '14',
+          associates: '500+',
+          sectors: 'Global'
+        }
       }
     },
     about: {

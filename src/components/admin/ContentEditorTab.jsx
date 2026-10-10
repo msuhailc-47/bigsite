@@ -3,6 +3,7 @@ import { Eye, EyeOff, ArrowUp, ArrowDown, Trash2, Plus, RefreshCw } from 'lucide
 import HeroEditor from './sections/HeroEditor';
 import AboutEditor from './sections/AboutEditor';
 import BusinessesEditor from './sections/BusinessesEditor';
+import AppBrandsEditor from './sections/AppBrandsEditor';
 import WhyChooseEditor from './sections/WhyChooseEditor';
 import ProductsEditor from './sections/ProductsEditor';
 import OpportunitiesEditor from './sections/OpportunitiesEditor';
@@ -30,52 +31,119 @@ export default function ContentEditorTab({
   handleArrayItemChange, handleAddArrayItem, handleDeleteArrayItem, handleMoveArrayItem,
   triggerNotification, navItems
 }) {
-  return (
-        
-          <div className="admin-pages-layout animate-fadeIn">
-            {/* Left page sub-navigator */}
-            <aside className="admin-pages-sidebar">
-              <h4>Select Section</h4>
-              {[
-                { key: 'nav', label: 'Navbar Translations', noToggle: true },
-                { key: 'hero', label: 'Hero Banner' },
-                { key: 'about', label: 'About Us' },
-                { key: 'businesses', label: 'Businesses' },
-                { key: 'whyChoose', label: 'Why Choose Us' },
-                { key: 'products', label: 'Products & Services' },
-                { key: 'opportunities', label: 'Opportunities' },
-                { key: 'software', label: 'Software Solutions' },
-                { key: 'network', label: 'Network Stats' },
-                { key: 'investors', label: 'Investors' },
-                { key: 'careers', label: 'Careers' },
-                { key: 'news', label: 'News & Events' },
-                { key: 'gallery', label: 'Gallery' },
-                { key: 'downloads', label: 'Downloads' },
-                { key: 'testimonials', label: 'Testimonials' },
-                { key: 'csr', label: 'CSR Section' },
-                { key: 'contact', label: 'Contact Info' },
-                { key: 'legal', label: 'Legal Pages', noToggle: true },
-                { key: 'footer', label: 'Footer Links', noToggle: true }
-              ].map(sec => (
-                <div key={sec.key} className={`page-side-row ${editingSection === sec.key ? 'active' : ''} ${sectionVisibility[sec.key] === false ? 'hidden-section' : ''}`}>
-                  <button className="page-side-btn" onClick={() => setEditingSection(sec.key)}>
-                    {sec.label}
-                  </button>
-                  {!sec.noToggle && (
-                    <button
-                      className={`visibility-toggle ${sectionVisibility[sec.key] === false ? 'off' : 'on'}`}
-                      onClick={(e) => { e.stopPropagation(); toggleSectionVisibility(sec.key); }}
-                      title={sectionVisibility[sec.key] === false ? 'Section Hidden — Click to Show' : 'Section Visible — Click to Hide'}
-                    >
-                      {sectionVisibility[sec.key] === false ? <EyeOff size={14} /> : <Eye size={14} />}
-                    </button>
-                  )}
-                </div>
-              ))}
-            </aside>
+  const SECTIONS_LIST = [
+    { key: 'nav', label: 'Navbar Translations', noToggle: true },
+    { key: 'hero', label: 'Hero Banner' },
+    { key: 'about', label: 'About Us' },
+    { key: 'businesses', label: 'Businesses' },
+    { key: 'appBrands', label: 'App & Partner Brands' },
+    { key: 'whyChoose', label: 'Why Choose Us' },
+    { key: 'products', label: 'Products & Services' },
+    { key: 'opportunities', label: 'Opportunities' },
+    { key: 'software', label: 'Software Solutions' },
+    { key: 'network', label: 'Network Stats' },
+    { key: 'investors', label: 'Investors' },
+    { key: 'careers', label: 'Careers' },
+    { key: 'news', label: 'News & Events' },
+    { key: 'gallery', label: 'Gallery' },
+    { key: 'downloads', label: 'Downloads' },
+    { key: 'testimonials', label: 'Testimonials' },
+    { key: 'csr', label: 'CSR Section' },
+    { key: 'contact', label: 'Contact Info' },
+    { key: 'legal', label: 'Legal Pages', noToggle: true },
+    { key: 'footer', label: 'Footer Links', noToggle: true }
+  ];
 
-            {/* Right page content form */}
-            <div className="admin-page-content-fields">
+  const currentSecObj = SECTIONS_LIST.find(s => s.key === editingSection) || SECTIONS_LIST[0];
+
+  return (
+    <div className="admin-pages-layout animate-fadeIn">
+      {/* Top Horizontal Section Navigator */}
+      <div className="admin-sections-topbar">
+        <div className="admin-sections-topbar-header">
+          <div className="admin-sections-title-group">
+            <span className="admin-sections-badge">SELECT SECTION</span>
+            <div className="admin-sections-active-info">
+              <h3>{currentSecObj.label}</h3>
+              {!currentSecObj.noToggle && (
+                <button
+                  type="button"
+                  className={`active-section-toggle ${sectionVisibility[editingSection] === false ? 'off' : 'on'}`}
+                  onClick={() => toggleSectionVisibility(editingSection)}
+                  title={sectionVisibility[editingSection] === false ? 'Section is hidden on website — Click to show' : 'Section is visible on website — Click to hide'}
+                >
+                  {sectionVisibility[editingSection] === false ? (
+                    <>
+                      <EyeOff size={14} />
+                      <span>Hidden on Live Website</span>
+                    </>
+                  ) : (
+                    <>
+                      <Eye size={14} />
+                      <span>Visible on Live Website</span>
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Quick Dropdown Jump */}
+          <div className="admin-sections-dropdown-wrapper">
+            <label>Quick Jump:</label>
+            <select
+              value={editingSection}
+              onChange={(e) => {
+                setEditingSection(e.target.value);
+                const contentEl = document.querySelector('.admin-content');
+                if (contentEl) contentEl.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="admin-sections-select"
+            >
+              {SECTIONS_LIST.map(sec => (
+                <option key={sec.key} value={sec.key}>
+                  {sec.label} {sectionVisibility[sec.key] === false ? '(Hidden)' : ''}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Horizontal Scrollable Pills of All 20 Sections */}
+        <div className="admin-sections-scroll-track">
+          {SECTIONS_LIST.map(sec => (
+            <div
+              key={sec.key}
+              className={`sec-pill ${editingSection === sec.key ? 'active' : ''} ${sectionVisibility[sec.key] === false ? 'hidden-sec' : ''}`}
+            >
+              <button
+                type="button"
+                className="sec-pill-btn"
+                onClick={() => {
+                  setEditingSection(sec.key);
+                  const contentEl = document.querySelector('.admin-content');
+                  if (contentEl) contentEl.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+              >
+                {sec.label}
+              </button>
+              {!sec.noToggle && (
+                <button
+                  type="button"
+                  className={`sec-pill-eye ${sectionVisibility[sec.key] === false ? 'off' : 'on'}`}
+                  onClick={(e) => { e.stopPropagation(); toggleSectionVisibility(sec.key); }}
+                  title={sectionVisibility[sec.key] === false ? 'Section Hidden — Click to Show' : 'Section Visible — Click to Hide'}
+                >
+                  {sectionVisibility[sec.key] === false ? <EyeOff size={13} /> : <Eye size={13} />}
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Full-Width Page Content Form */}
+      <div className="admin-page-content-fields full-width">
 
               {/* SECTION: Navbar */}
               {editingSection === 'nav' && (
@@ -120,6 +188,21 @@ export default function ContentEditorTab({
               {/* SECTION: Businesses */}
               {editingSection === 'businesses' && (
                 <BusinessesEditor
+                  sectionData={sectionData}
+                  setSectionData={setSectionData}
+                  editLang={editLang}
+                  handleTextChange={handleTextChange}
+                  handleArrayItemChange={handleArrayItemChange}
+                  handleAddArrayItem={handleAddArrayItem}
+                  handleDeleteArrayItem={handleDeleteArrayItem}
+                  handleMoveArrayItem={handleMoveArrayItem}
+                  handleFileUpload={handleFileUpload}
+                />
+              )}
+
+              {/* SECTION: App & Partner Brands */}
+              {editingSection === 'appBrands' && (
+                <AppBrandsEditor
                   sectionData={sectionData}
                   setSectionData={setSectionData}
                   editLang={editLang}

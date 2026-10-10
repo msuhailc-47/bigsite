@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCMS } from '../context/CMSContext';
-import { storage } from '../firebase';
+import { storage, auth } from '../firebase';
+import { signOut } from 'firebase/auth';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import {
   LayoutDashboard, Menu, Plus, Trash2, ArrowUp, ArrowDown, Save, FileText, Image,
   Inbox, Code, Shield, LogOut, Globe, Edit3, X, ChevronRight, Store, HardHat,
   Waves, Heart, Award, Leaf, Zap, Droplets, Wrench, Lightbulb,
   ShieldAlert, FileDown, CheckCircle, Upload, RefreshCw, Palette, Eye, EyeOff, Loader,
-  QrCode
+  QrCode, ExternalLink
 } from 'lucide-react';
 import NavigationTab from '../components/admin/NavigationTab';
 import ThemeSettingsTab from '../components/admin/ThemeSettingsTab';
@@ -19,6 +20,7 @@ import CodeSettingsTab from '../components/admin/CodeSettingsTab';
 import ContentEditorTab from '../components/admin/ContentEditorTab';
 import OverviewTab from '../components/admin/OverviewTab';
 import SmartQRTab from '../components/admin/SmartQRTab';
+import { DEFAULT_ADMIN_BRANDS } from '../components/admin/sections/AppBrandsEditor';
 import { optimizeImage } from '../utils/imageOptimizer';
 import translations from '../i18n/translations';
 import './AdminDashboard.css';
@@ -30,10 +32,41 @@ export default function AdminDashboard() {
     if (!data) return data;
     const copy = JSON.parse(JSON.stringify(data));
     for (const l of ['en', 'ml']) {
-      if (copy[l] && copy[l].about) {
+      if (!copy[l]) copy[l] = {};
+      copy[l].hero = {
+        ...(translations[l]?.hero || {}),
+        ...(copy[l].hero || {}),
+        stats: {
+          ...(translations[l]?.hero?.stats || {}),
+          ...(copy[l].hero?.stats || {}),
+          counts: {
+            ...(translations[l]?.hero?.stats?.counts || {}),
+            ...(copy[l].hero?.stats?.counts || {})
+          }
+        }
+      };
+      if (copy[l].about) {
         if (!copy[l].about.founders || !Array.isArray(copy[l].about.founders) || copy[l].about.founders.length === 0) {
           copy[l].about.founders = (translations[l]?.about?.founders || []).map(f => ({ ...f }));
         }
+      }
+      if (!copy[l].appBrands) {
+        copy[l].appBrands = {
+          label: l === 'en' ? 'DOORCARTS APP & PARTNER BRANDS' : 'മൊബൈൽ ആപ്പും ബ്രാൻഡുകളും',
+          title: l === 'en' ? 'Every Brand for Every Budget — In One App' : 'നിങ്ങളുടെ ബജറ്റിന് ഇണങ്ങുന്ന എല്ലാ കമ്പനികളും ഒറ്റ ആപ്പിൽ',
+          subtitle: l === 'en'
+            ? 'Check whether your preferred company and budget range are available right here before downloading the Doorcarts app.'
+            : 'ആപ്പ് ഡൗൺലോഡ് ചെയ്യുന്നതിന് മുൻപ് തന്നെ നിങ്ങൾ ഉദ്ദേശിക്കുന്ന കമ്പനിയും ബജറ്റിന് പറ്റിയ ഉൽപ്പന്നങ്ങളും ഉണ്ടോ എന്ന് ഇവിടെ പരിശോധിക്കാം.',
+          appName: l === 'en' ? 'Doorcarts by Dorek' : 'ഡോർകാർട്ട്സ് മൊബൈൽ ആപ്പ്',
+          appDesc: l === 'en'
+            ? 'Explore 10,000+ electrical, plumbing, solar, lighting, and hardware products across Premium, Standard, and Budget-Friendly brands with live wholesale & retail pricing.'
+            : 'ഇലക്ട്രിക്കൽ, പ്ലമ്പിംഗ്, സോളാർ, സാനിറ്ററി, ഹാർഡ്‌വെയർ മേഖലകളിലെ പ്രീമിയം, സ്റ്റാൻഡേർഡ്, ബജറ്റ് ബ്രാൻഡുകളുടെ വിലയും സ്റ്റോക്കും ആപ്പിലൂടെ നേരിട്ട് അറിയാം.',
+          playStoreUrl: '',
+          appStoreUrl: '',
+          brands: DEFAULT_ADMIN_BRANDS.map(b => ({ ...b }))
+        };
+      } else if (!Array.isArray(copy[l].appBrands.brands) || copy[l].appBrands.brands.length === 0) {
+        copy[l].appBrands.brands = DEFAULT_ADMIN_BRANDS.map(b => ({ ...b }));
       }
     }
     return copy;
@@ -77,13 +110,19 @@ export default function AdminDashboard() {
     return ensureDataWithFounders(translationsData);
   });
 
-  // Keep sectionData in sync with translationsData, ensuring founders always present
+  // Keep sectionData in sync with translationsData, ensuring founders, hero & appBrands always present
   React.useEffect(() => {
     if (translationsData) {
       setSectionData(prev => {
         const enriched = ensureDataWithFounders(translationsData);
-        // If current state has missing founders, enrich it
-        if (!prev || !prev[editLang]?.about?.founders || prev[editLang]?.about?.founders.length === 0) {
+        if (
+          !prev ||
+          !prev[editLang]?.hero?.formTitle ||
+          !prev[editLang]?.about?.founders ||
+          prev[editLang]?.about?.founders.length === 0 ||
+          !prev[editLang]?.appBrands?.brands ||
+          prev[editLang]?.appBrands?.brands.length === 0
+        ) {
           return enriched;
         }
         return prev;
@@ -108,6 +147,10 @@ export default function AdminDashboard() {
   
   // Theme settings local state
   const [themeData, setThemeData] = useState(() => JSON.parse(JSON.stringify(themeSettings)));
+
+  useEffect(() => {
+    setThemeData(JSON.parse(JSON.stringify(themeSettings)));
+  }, [themeSettings]);
 
   const triggerNotification = (msg) => {
     setNotification(msg);
@@ -242,6 +285,7 @@ export default function AdminDashboard() {
   };
 
   const validateSectionData = (section, data) => {
+    if (!data) return true;
     switch (section) {
       case 'hero':
         if (!data.tagline?.trim()) {
@@ -264,8 +308,14 @@ export default function AdminDashboard() {
           triggerNotification("Error: Businesses Section Title is required.");
           return false;
         }
-        if (data.items && data.items.some(item => !item.title?.trim())) {
-          triggerNotification("Error: All Business Items must have a title.");
+        if (data.items && data.items.some(item => !(item.name || item.title)?.trim())) {
+          triggerNotification("Error: All Business Items must have a name.");
+          return false;
+        }
+        break;
+      case 'appBrands':
+        if (data.brands && data.brands.some(b => !b.name?.trim())) {
+          triggerNotification("Error: All Partner Brands must have a brand name.");
           return false;
         }
         break;
@@ -484,9 +534,32 @@ export default function AdminDashboard() {
           </button>
         </nav>
 
-        <div className="admin-sidebar-footer">
-          <button className="admin-back-btn" onClick={() => navigate('/')}>
-            <LogOut size={16} /> Exit Panel
+        <div className="admin-sidebar-footer" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <button
+            type="button"
+            className="admin-back-btn"
+            style={{ background: 'rgba(212, 175, 55, 0.14)', borderColor: 'rgba(212, 175, 55, 0.35)', color: '#D4AF37' }}
+            onClick={() => {
+              const siteUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://dorekinternational.in';
+              window.open(siteUrl, '_blank', 'noopener,noreferrer');
+            }}
+          >
+            <ExternalLink size={16} /> View Live Website
+          </button>
+          <button
+            type="button"
+            className="admin-back-btn"
+            onClick={async () => {
+              try {
+                if (auth) await signOut(auth);
+              } catch (err) {
+                console.error('Error signing out:', err);
+              }
+              localStorage.removeItem('dorek_admin_session');
+              navigate('/admin-login', { replace: true });
+            }}
+          >
+            <LogOut size={16} /> Sign Out / Exit Panel
           </button>
         </div>
       </aside>
