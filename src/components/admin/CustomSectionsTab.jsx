@@ -3,6 +3,7 @@ import { storage } from '../../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { Plus, Trash2, Image as ImageIcon, Link, FileText, Type } from 'lucide-react';
 import { optimizeImage } from '../../utils/imageOptimizer';
+import { convertDriveUrl } from '../../utils/getOptimizedUrl';
 
 export default function CustomSectionsTab({
   sectionData,
@@ -111,9 +112,9 @@ export default function CustomSectionsTab({
               <div className="image-upload-row">
                 <div className="input-with-icon" style={{ flex: 1 }}>
                   <Link size={16} className="input-icon" />
-                  <input type="text" className="form-control" placeholder="Direct Image URL" value={section.image || ''} onChange={(e) => {
+                  <input type="text" className="form-control" placeholder="Direct Image URL or Google Drive link" value={section.image || ''} onChange={(e) => {
                     const updated = [...(sectionData[editLang].customSections || [])];
-                    updated[idx].image = e.target.value;
+                    updated[idx].image = convertDriveUrl(e.target.value);
                     setSectionData(prev => ({ ...prev, [editLang]: { ...prev[editLang], customSections: updated } }));
                   }} />
                 </div>
@@ -151,7 +152,7 @@ export default function CustomSectionsTab({
               </div>
               {section.image && (
                 <div className="image-preview" style={{ marginTop: '10px' }}>
-                  <img src={section.image} alt="preview" style={{ height: '80px', borderRadius: '4px', border: '1px solid var(--border-color)' }} />
+                  <img src={convertDriveUrl(section.image)} alt="preview" referrerPolicy="no-referrer" style={{ height: '80px', borderRadius: '4px', border: '1px solid var(--border-color)' }} />
                 </div>
               )}
             </div>

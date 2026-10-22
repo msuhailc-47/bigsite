@@ -39,13 +39,13 @@ const translations = {
       image: '',
       label: 'About Us',
       title: 'About Dorek International',
-      subtitle: 'Dorek International Enterprises LLP is a professionally managed, multi-divisional enterprise headquartered in Kerala, India. With a vision to build a powerful ecosystem of brands and services, Dorek operates across multiple sectors including retail, distribution, engineering, software, and franchise networks.',
+      subtitle: 'At Dorek International Enterprises LLP, we are redefining the way electrical, plumbing, and building materials reach people and professionals. Headquartered in Delhi, with a regional office in Kochi and registered office in Kottakkal, we combine innovation, technology, and trust to serve customers across the globe.',
       history: 'Our History',
-      historyText: 'Founded with a vision to revolutionize the way engineering products and services are delivered, Dorek International Enterprises LLP has grown from a small regional enterprise into a multi-brand corporate group. Our journey is marked by continuous innovation, strategic partnerships, and unwavering commitment to quality.',
+      historyText: 'We operate through two powerful platforms: Doorcarts — our customer-focused marketplace offering quality electrical, plumbing, and home appliances delivered to your doorstep; and Doorcarts MyStore — a unique virtual shop empowering electricians and service professionals to create branded stores and sell directly. With both online and offline presence, Dorek International bridges traditional retail with modern e-commerce.',
       vision: 'Vision',
-      visionText: 'To become the most trusted and innovative enterprise group in India, empowering communities through technology-driven solutions, sustainable business models, and a network of empowered entrepreneurs.',
+      visionText: "To become the world's leading and trusted brand to fulfil the fundamental needs of human life.",
       mission: 'Mission',
-      missionText: 'To deliver world-class products, professional services, and entrepreneurial opportunities through our integrated ecosystem of brands, technology platforms, and strategic partnerships.',
+      missionText: "Deliver high-quality, sustainable, and innovative building materials through seamless manufacturing, procurement, and distribution — ensuring accessibility and affordability to support the growth and wellbeing of communities worldwide.",
       coreValues: 'Core Values',
       values: ['Integrity & Trust', 'Innovation & Excellence', 'Customer First', 'Teamwork & Growth', 'Social Responsibility', 'Sustainable Development'],
       founderTitle: 'Founder\'s Message',
@@ -53,45 +53,49 @@ const translations = {
       founderName: 'Abdulla Ullattil',
       founderRole: 'Founder & Managing Partner',
       founderCompany: 'Dorek International Enterprises LLP',
-      foundersTitle: 'Founders & Board of Leadership',
-      foundersSubtitle: 'Meet the 6 visionary founders driving excellence, innovation, and sustainable enterprise at Dorek International Enterprises LLP.',
+            foundersTitle: 'Founders & Executive Leadership',
+      foundersSubtitle: 'Meet the 5 executive leaders driving innovation, operations, and business excellence at Dorek International Enterprises LLP.',
       founders: [
         {
           name: 'Abdulla Ullattil',
-          role: 'Founder & Managing Partner',
+          role: 'Chief Founder',
           photo: '',
           bio: 'Visionary leadership spearheading corporate governance, strategic investments, and multi-sector brand expansion across India.'
         },
         {
-          name: 'Co-Founder 2',
-          role: 'Co-Founder & Director of Operations',
+          name: 'Faizal Charath',
+          role: 'CEO',
           photo: '',
-          bio: 'Spearheading retail operations, supply chain logistics, and dealer network distribution across Kerala and regional markets.'
+          bio: 'Chief Executive Officer leading enterprise operations, digital marketplace scaling, and executive management across Dorek divisions.'
         },
         {
-          name: 'Co-Founder 3',
-          role: 'Co-Founder & Director of Technology',
+          name: 'Er. Irshad Rafi',
+          role: 'Managing Director',
           photo: '',
-          bio: 'Leading digital innovation, Dorek Pulse platform architectures, and enterprise technology systems across business divisions.'
+          bio: 'Managing Director overseeing strategic execution, commercial project engineering, and nationwide channel development.'
         },
         {
-          name: 'Co-Founder 4',
-          role: 'Co-Founder & Director of Engineering',
+          name: 'Ashraf Parammal',
+          role: 'Vice President',
           photo: '',
-          bio: 'Overseeing renewable energy initiatives, solar infrastructure, and high-standard engineering service delivery.'
+          bio: 'Vice President driving organizational strategy, partnership ecosystems, and high-standard institutional relations.'
         },
         {
-          name: 'Co-Founder 5',
-          role: 'Co-Founder & Director of Business Development',
+          name: 'Shahajan T',
+          role: 'Treasurer',
           photo: '',
-          bio: 'Driving franchise expansion, strategic partnerships, institutional collaborations, and associate networks.'
-        },
-        {
-          name: 'Co-Founder 6',
-          role: 'Co-Founder & Director of Finance & Strategy',
-          photo: '',
-          bio: 'Steering financial strategy, corporate compliance, capital allocation, and investor relations for sustained long-term growth.'
+          bio: 'Treasurer directing fiscal stewardship, treasury allocations, corporate accounts, and sustainable financial health.'
         }
+      ],
+      boardMembers: [
+        { name: 'Jafar C', role: 'Board Member', photo: '' },
+        { name: 'Ismail Haji CK', role: 'Board Member', photo: '' },
+        { name: 'Shihab Kottakkal', role: 'Board Member', photo: '' },
+        { name: 'Afzal Wizard', role: 'Board Member', photo: '' },
+        { name: 'Rafeeq Thaikkadan', role: 'Board Member', photo: '' },
+        { name: 'Muhammed Thahseen', role: 'Director', photo: '' },
+        { name: 'Saithalavi MP Tanur', role: 'Director', photo: '' },
+        { name: 'Ashraf Manarikkel', role: 'Director', photo: '' }
       ],
       timeline: 'Company Timeline',
       timelineItems: [
@@ -366,7 +370,7 @@ const translations = {
       addressLabel: 'Address',
       phoneLabel: 'Phone Number',
       emailLabel: 'Email Address',
-      address: 'Dorek International Enterprises LLP\nKerala, India',
+      address: 'Headquarters: New Delhi\nRegional Office: Kochi, Kerala\nRegistered Office: Kottakkal, Malappuram, Kerala',
       phone: '+91 XXXXX XXXXX',
       email: 'info@dorek.in',
       whatsapp: '+91 XXXXX XXXXX',
@@ -471,7 +475,7 @@ const translations = {
       title: 'ഡോറെക് ഇന്റർനാഷണൽ',
       subtitle: 'ഡോറെക് ഇന്റർനാഷണൽ എന്റർപ്രൈസസ് LLP കേരളത്തിൽ ആസ്ഥാനമായി പ്രവർത്തിക്കുന്ന, പ്രൊഫഷണലായി നിയന്ത്രിക്കപ്പെടുന്ന, ബഹു-വിഭാഗ എന്റർപ്രൈസ് ആണ്.',
       history: 'ഞങ്ങളുടെ ചരിത്രം',
-      historyText: 'എഞ്ചിനീയറിംഗ് ഉൽപ്പന്നങ്ങളും സേവനങ്ങളും നൽകുന്ന രീതിയിൽ വിപ്ലവം സൃഷ്ടിക്കാനുള്ള ഒരു ദർശനത്തോടെ സ്ഥാപിതമായ ഡോറെക്, ഒരു ചെറിയ പ്രാദേശിക സംരംഭത്തിൽ നിന്ന് ഒരു മൾട്ടി-ബ്രാൻഡ് കോർപ്പറേറ്റ് ഗ്രൂപ്പായി വളർന്നു.',
+      historyText: 'ഉപഭോക്താക്കൾക്കായി ഡോർകാർട്ട്സ് (Doorcarts) ഇ-കൊമേഴ്സ് മാർക്കറ്റ് പ്ലേസും, ഇലക്ട്രീഷ്യൻമാർക്കും ടെക്നീഷ്യൻമാർക്കും സ്വന്തമായി ബിസിനസ്സ് ചെയ്യാനായി ഡോർകാർട്ട്സ് മൈ സ്റ്റോറും (Doorcarts MyStore) ഞങ്ങൾ ഒരുക്കിയിരിക്കുന്നു. പരമ്പരാഗത വ്യാപാരത്തെയും ആധുനിക സാങ്കേതികവിദ്യയെയും ബന്ധിപ്പിച്ച് ക്വാളിറ്റിയും ആജീവനാന്ത സർവീസും ഞങ്ങൾ ഉറപ്പുനൽകുന്നു.',
       vision: 'ദർശനം',
       visionText: 'സാങ്കേതിക-ചാലിത പരിഹാരങ്ങൾ, സുസ്ഥിര ബിസിനസ് മോഡലുകൾ, ശാക്തീകരിക്കപ്പെട്ട സംരംഭകരുടെ ശൃംഖല എന്നിവയിലൂടെ സമൂഹങ്ങളെ ശാക്തീകരിക്കുന്ന ഇന്ത്യയിലെ ഏറ്റവും വിശ്വസ്തവും നൂതനവുമായ എന്റർപ്രൈസ് ഗ്രൂപ്പായി മാറുക.',
       mission: 'ദൗത്യം',
@@ -483,45 +487,49 @@ const translations = {
       founderName: 'അബ്ദുള്ള ഉള്ളാട്ടിൽ',
       founderRole: 'സ്ഥാപകൻ & മാനേജിംഗ് പാർട്ണർ',
       founderCompany: 'ഡോറെക് ഇന്റർനാഷണൽ എന്റർപ്രൈസസ് LLP',
-      foundersTitle: 'സ്ഥാപകരും നേതൃത്വവും',
-      foundersSubtitle: 'ഡോറക് ഇന്റർനാഷണൽ എന്റർപ്രൈസസ് എൽഎൽപിയുടെ വളർച്ചയ്ക്ക് നേതൃത്വം നൽകുന്ന 6 ദർശനാത്മക സ്ഥാപകർ.',
+            foundersTitle: 'സ്ഥാപകരും എക്സിക്യൂട്ടീവ് നേതൃത്വവും',
+      foundersSubtitle: 'ഡോറക് ഇന്റർനാഷണൽ എന്റർപ്രൈസസ് എൽഎൽപിയുടെ വളർച്ചയ്ക്ക് നേതൃത്വം നൽകുന്ന 5 പ്രധാന സ്ഥാപക പങ്കാളികൾ.',
       founders: [
         {
           name: 'അബ്ദുള്ള ഉള്ളാട്ടിൽ',
-          role: 'ഫൗണ്ടർ & മാനേജിംഗ് പാർട്ണർ',
+          role: 'ചീഫ് ഫൗണ്ടർ',
           photo: '',
-          bio: 'കോർപ്പറേറ്റ് തന്ത്രങ്ങൾ, സുസ്ഥിര ഭരണം, മൾട്ടി-സെക്ടർ ബിസിനസ് വിപുലീകരണം എന്നിവയ്ക്ക് നേതൃത്വം നൽകുന്നു.'
+          bio: 'കോർപ്പറേറ്റ് ഭരണനിർവ്വഹണം, തന്ത്രപരമായ നിക്ഷേപങ്ങൾ, ദേശീയതലത്തിലുള്ള വിപുലീകരണം എന്നിവക്ക് നേതൃത്വം നൽകുന്നു.'
         },
         {
-          name: 'കോ-ഫൗണ്ടർ 2',
-          role: 'കോ-ഫൗണ്ടർ & ഡയറക്ടർ ഓഫ് ഓപ്പറേഷൻസ്',
+          name: 'ഫൈസൽ ചാറത്ത്',
+          role: 'സിഇഒ (CEO)',
           photo: '',
-          bio: 'റീട്ടെയിൽ ശൃംഖല, സപ്ലൈ ചെയിൻ മാനേജ്‌മെന്റ്, വിതരണ വികസനം എന്നിവ ഏകോപിപ്പിക്കുന്നു.'
+          bio: 'ഡിജിറ്റൽ പ്ലാറ്റ്‌ഫോം വിപുലീകരണം, കമ്പനി ഓപ്പറേഷൻസ്, എക്സിക്യൂട്ടീവ് മാനേജ്‌മെന്റ് എന്നിവ നയിക്കുന്നു.'
         },
         {
-          name: 'കോ-ഫൗണ്ടർ 3',
-          role: 'കോ-ഫൗണ്ടർ & ഡയറക്ടർ ഓഫ് ടെക്നോളജി',
+          name: 'എർ. ഇർഷാദ് റാഫി',
+          role: 'മാനേജിംഗ് ഡയറക്ടർ',
           photo: '',
-          bio: 'ഡിജിറ്റൽ ആർക്കിടെക്ചർ, ഡോറക് പൾസ് പ്ലാറ്റ്‌ഫോം, ഐടി നവീകരണങ്ങൾ എന്നിവയ്ക്ക് നേതൃത്വം നൽകുന്നു.'
+          bio: 'തന്ത്രപരമായ നിർവ്വഹണം, വാണിജ്യ പ്രോജക്ട് എഞ്ചിനീയറിംഗ്, ബിസിനസ് വികസനം എന്നിവയ്ക്ക് മേൽനോട്ടം വഹിക്കുന്നു.'
         },
         {
-          name: 'കോ-ഫൗണ്ടർ 4',
-          role: 'കോ-ഫൗണ്ടർ & ഡയറക്ടർ ഓഫ് എഞ്ചിനീയറിംഗ്',
+          name: 'അഷ്റഫ് പറമ്മൽ',
+          role: 'വൈസ് പ്രസിഡന്റ്',
           photo: '',
-          bio: 'ഇൻഡസ്ട്രിയൽ ഇൻഫ്രാസ്ട്രക്ചർ, പുനരുപയോഗ ഊർജ്ജ പദ്ധതികൾ, സോളാർ എഞ്ചിനീയറിംഗ് എന്നിവ നിയന്ത്രിക്കുന്നു.'
+          bio: 'ഓർഗനൈസേഷൻ സ്ട്രാറ്റജി, പങ്കാളിത്ത ശൃംഖല, ഉന്നതതല ബന്ധങ്ങൾ എന്നിവ നയിക്കുന്നു.'
         },
         {
-          name: 'കോ-ഫൗണ്ടർ 5',
-          role: 'കോ-ഫൗണ്ടർ & ബിസിനസ് ഡെവലപ്‌മെന്റ് ഡയറക്ടർ',
+          name: 'ഷാജഹാൻ ടി',
+          role: 'ട്രഷറർ',
           photo: '',
-          bio: 'ഫ്രാഞ്ചൈസി പങ്കാളിത്തങ്ങൾ, വിപണി വികസനം, അസോസിയേറ്റ് ശൃംഖല എന്നിവ നയിക്കുന്നു.'
-        },
-        {
-          name: 'കോ-ഫൗണ്ടർ 6',
-          role: 'കോ-ഫൗണ്ടർ & ഫിനാൻസ് & സ്ട്രാറ്റജി ഡയറക്ടർ',
-          photo: '',
-          bio: 'സാമ്പത്തിക ആസൂത്രണം, ഇൻവെസ്റ്റർ റിലേഷൻസ്, മൂലധന വിനിയോഗം എന്നിവയ്ക്ക് മേൽനോട്ടം വഹിക്കുന്നു.'
+          bio: 'ധനകാര്യ മാനേജ്‌മെന്റ്, ട്രഷറി വിഹിതങ്ങൾ, സാമ്പത്തിക സുസ്ഥിരത എന്നിവ ഉറപ്പുവരുത്തുന്നു.'
         }
+      ],
+      boardMembers: [
+        { name: 'ജാഫർ സി', role: 'ബോർഡ് മെമ്പർ', photo: '' },
+        { name: 'ഇസ്മായിൽ ഹാജി സി.കെ', role: 'ബോർഡ് മെമ്പർ', photo: '' },
+        { name: 'ശിഹാബ് കോട്ടക്കൽ', role: 'ബോർഡ് മെമ്പർ', photo: '' },
+        { name: 'അഫ്സൽ വിസാർഡ്', role: 'ബോർഡ് മെമ്പർ', photo: '' },
+        { name: 'റഫീഖ് തൈക്കാടൻ', role: 'ബോർഡ് മെമ്പർ', photo: '' },
+        { name: 'മുഹമ്മദ് തഹ്സീൻ', role: 'ഡയറക്ടർ', photo: '' },
+        { name: 'സൈതലവി എം.പി താനൂർ', role: 'ഡയറക്ടർ', photo: '' },
+        { name: 'അഷ്റഫ് മനരിക്കൽ', role: 'ഡയറക്ടർ', photo: '' }
       ],
       timeline: 'കമ്പനി ടൈംലൈൻ',
       timelineItems: [
@@ -759,7 +767,7 @@ const translations = {
       addressLabel: 'വിലാസം',
       phoneLabel: 'ഫോൺ നമ്പർ',
       emailLabel: 'ഇമെയിൽ വിലാസം',
-      address: 'ഡോറെക് ഇന്റർനാഷണൽ എന്റർപ്രൈസസ് LLP\nകേരളം, ഇന്ത്യ',
+      address: 'ഹെഡ്ക്വാർട്ടേഴ്സ്: ന്യൂഡൽഹി\nറീജിയണൽ ഓഫീസ്: കൊച്ചി, കേരളം\nരജിസ്റ്റേർഡ് ഓഫീസ്: കോട്ടക്കൽ, മലപ്പുറം, കേരളം',
       phone: '+91 XXXXX XXXXX',
       email: 'info@dorek.in',
       whatsapp: '+91 XXXXX XXXXX',

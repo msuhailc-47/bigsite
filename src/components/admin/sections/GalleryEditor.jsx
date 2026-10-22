@@ -106,23 +106,32 @@ export default function GalleryEditor({
                 />
               </div>
               <div className="form-group" style={{ marginBottom: '8px' }}>
-                <label style={{ fontSize: '0.8rem', color: '#666' }}>Video URL (YouTube link)</label>
+                <label style={{ fontSize: '0.8rem', color: '#666' }}>Video URL (YouTube or Google Drive link)</label>
                 <input
                   type="text"
                   value={video.url || ''}
                   onChange={(e) => handleArrayItemChange('gallery', 'videos', idx, 'url', e.target.value)}
                   className="form-control"
-                  placeholder="https://www.youtube.com/watch?v=..."
+                  placeholder="https://www.youtube.com/watch?v=... or Google Drive video link"
                 />
               </div>
-              {video.url && video.url.includes('youtu') && (
+              {video.url && (
                 <div style={{ marginTop: '8px' }}>
-                  <iframe
-                    width="200" height="120"
-                    src={`https://www.youtube.com/embed/${video.url.includes('v=') ? video.url.split('v=')[1]?.split('&')[0] : video.url.split('/').pop()}`}
-                    style={{ borderRadius: '6px', border: '1px solid #ddd' }}
-                    allowFullScreen
-                  />
+                  {video.url.includes('youtu') ? (
+                    <iframe
+                      width="200" height="120"
+                      src={`https://www.youtube.com/embed/${video.url.includes('v=') ? video.url.split('v=')[1]?.split('&')[0] : video.url.split('/').pop()}`}
+                      style={{ borderRadius: '6px', border: '1px solid #ddd' }}
+                      allowFullScreen
+                    />
+                  ) : (video.url.includes('drive.google.com') || video.url.includes('/preview')) ? (
+                    <iframe
+                      width="200" height="120"
+                      src={video.url.includes('/preview') ? video.url : (video.url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/)?.[1] ? `https://drive.google.com/file/d/${video.url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/)[1]}/preview` : video.url)}
+                      style={{ borderRadius: '6px', border: '1px solid #ddd' }}
+                      allowFullScreen
+                    />
+                  ) : null}
                 </div>
               )}
             </div>

@@ -33,6 +33,22 @@ export default function AboutEditor({
     });
   };
 
+  const rawBoardMembers = aboutData.boardMembers;
+  const boardMembersList = (Array.isArray(rawBoardMembers) && rawBoardMembers.length > 0)
+    ? rawBoardMembers
+    : (translations[editLang]?.about?.boardMembers || translations.en?.about?.boardMembers || []);
+
+  const loadDefaultBoardMembers = () => {
+    const defaults = (translations[editLang]?.about?.boardMembers || translations.en?.about?.boardMembers || []).map(b => ({ ...b }));
+    setSectionData(prev => {
+      const copy = { ...prev };
+      if (!copy[editLang]) copy[editLang] = {};
+      if (!copy[editLang].about) copy[editLang].about = {};
+      copy[editLang].about.boardMembers = defaults;
+      return copy;
+    });
+  };
+
   return (
     <div className="section-form">
                   <h3>Edit About Us</h3>
@@ -59,15 +75,26 @@ export default function AboutEditor({
                     <div className="admin-form-group">
                     <label>About Section Image URL</label>
                     <div style={{ display: 'flex', gap: '10px' }}>
-      <input
-        type="text"
-        value={aboutData.image || ''}
-        onChange={(e) => handleTextChange('about', 'image', e.target.value)}
-        placeholder="Paste image URL here"
-        style={{ flex: 1 }}
-      />
-      <input type="file" accept="image/*" onChange={(e) => handleFileUpload(e, 'about', 'image')} />
-    </div>
+                      <input
+                        type="text"
+                        value={aboutData.image || ''}
+                        onChange={(e) => handleTextChange('about', 'image', e.target.value)}
+                        placeholder="Paste Google Drive link or Image URL..."
+                        style={{ flex: 1 }}
+                      />
+                      <input type="file" accept="image/*" onChange={(e) => handleFileUpload(e, 'about', 'image')} />
+                    </div>
+                    {aboutData.image && (
+                      <div style={{ marginTop: '8px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <img 
+                          src={convertDriveUrl(aboutData.image)} 
+                          alt="About Preview" 
+                          referrerPolicy="no-referrer"
+                          style={{ height: '60px', borderRadius: '6px', objectFit: 'cover', border: '1px solid #cbd5e1' }} 
+                        />
+                        <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 600 }}>✓ About Image Active</span>
+                      </div>
+                    )}
                   </div>
                   <textarea
                       value={aboutData.subtitle || ''}
@@ -334,13 +361,123 @@ export default function AboutEditor({
                       className="secondary-action-btn" 
                       style={{ marginTop: '8px', width: 'auto' }}
                       onClick={() => handleAddArrayItem('about', 'founders', { 
-                        name: 'Co-Founder Name', 
-                        role: 'Co-Founder & Director', 
+                        name: 'Executive Name', 
+                        role: 'Executive Director', 
                         photo: '', 
-                        bio: 'Brief description about founder responsibilities and vision.' 
+                        bio: 'Brief description about executive responsibilities and vision.' 
                       })}
                     >
                       <Plus size={14} /> Add Founder Profile
+                    </button>
+                  </div>
+
+                  {/* Board of Directors Section (8 Members) */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '36px', marginBottom: '10px' }}>
+                    <h4 style={{ margin: 0 }}>Board of Directors ({boardMembersList.length} Members)</h4>
+                    <button
+                      type="button"
+                      className="admin-btn-outline"
+                      onClick={loadDefaultBoardMembers}
+                      style={{ fontSize: '12px', padding: '4px 10px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                      title="Load default 8 board member profiles"
+                    >
+                      <RefreshCw size={13} /> Restore Default 8 Directors
+                    </button>
+                  </div>
+
+                  <p style={{ fontSize: '0.85rem', color: '#475569', marginBottom: '14px', background: '#f8fafc', padding: '10px 14px', borderRadius: '8px', borderLeft: '4px solid #0A2E5D' }}>
+                    👔 <strong>Board of Directors Page (/directors):</strong> These directors appear on the public Board of Directors page. Edit their names, designations, and optional photos (Google Drive image links auto-convert!).
+                  </p>
+
+                  <div className="array-items-list" style={{ marginBottom: '32px' }}>
+                    {boardMembersList.map((member, idx) => (
+                      <div key={idx} className="array-item-row" style={{ display: 'block', padding: '16px', background: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0', marginBottom: '14px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                          <strong style={{ color: 'var(--primary, #0A2E5D)', fontSize: '14px' }}>
+                            Director #{idx + 1}: {member.name || 'Untitled Director'}
+                          </strong>
+                          <div className="array-actions">
+                            <button type="button" className="nav-order-btn" title="Move Up" onClick={() => handleMoveArrayItem('about', 'boardMembers', idx, 'up')} disabled={idx === 0}><ArrowUp size={12} /></button>
+                            <button type="button" className="nav-order-btn" title="Move Down" onClick={() => handleMoveArrayItem('about', 'boardMembers', idx, 'down')} disabled={idx === boardMembersList.length - 1}><ArrowDown size={12} /></button>
+                            <button type="button" className="nav-delete-btn" title="Remove Director" onClick={() => handleDeleteArrayItem('about', 'boardMembers', idx)}><Trash2 size={12} /></button>
+                          </div>
+                        </div>
+
+                        <div className="form-row" style={{ marginBottom: '10px' }}>
+                          <div className="form-group col-6">
+                            <label style={{ fontSize: '12px' }}>Full Name *</label>
+                            <input
+                              type="text"
+                              value={member.name || ''}
+                              onChange={(e) => handleArrayItemChange('about', 'boardMembers', idx, 'name', e.target.value)}
+                              className="form-control font-bold"
+                              placeholder="e.g. Jafar C"
+                            />
+                          </div>
+                          <div className="form-group col-6">
+                            <label style={{ fontSize: '12px' }}>Designation / Title</label>
+                            <input
+                              type="text"
+                              value={member.role || 'Board Member'}
+                              onChange={(e) => handleArrayItemChange('about', 'boardMembers', idx, 'role', e.target.value)}
+                              className="form-control"
+                              placeholder="e.g. Board Member or Director"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="form-group" style={{ marginBottom: '8px' }}>
+                          <label style={{ fontSize: '12px' }}>Photo URL (Optional - Google Drive or Web Link)</label>
+                          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            <input
+                              type="text"
+                              value={member.photo || ''}
+                              onChange={(e) => {
+                                let val = e.target.value;
+                                if (val.includes('drive.google.com') || val.includes('docs.google.com')) {
+                                  val = convertDriveUrl(val);
+                                }
+                                handleArrayItemChange('about', 'boardMembers', idx, 'photo', val);
+                              }}
+                              className="form-control"
+                              placeholder="Paste Google Drive share link or image URL..."
+                            />
+                            {member.photo && (
+                              <button
+                                type="button"
+                                onClick={() => handleArrayItemChange('about', 'boardMembers', idx, 'photo', '')}
+                                style={{ background: '#fee2e2', border: '1px solid #fca5a5', borderRadius: '6px', color: '#dc2626', padding: '6px 8px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}
+                              >
+                                <X size={14} />
+                              </button>
+                            )}
+                          </div>
+                          {member.photo && (
+                            <div style={{ marginTop: '8px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                              <img 
+                                src={convertDriveUrl(member.photo)} 
+                                alt={member.name} 
+                                referrerPolicy="no-referrer"
+                                style={{ width: '42px', height: '42px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #0A2E5D' }} 
+                              />
+                              <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 600 }}>✓ Photo active</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+
+                    <button 
+                      type="button"
+                      className="secondary-action-btn" 
+                      style={{ marginTop: '8px', width: 'auto' }}
+                      onClick={() => handleAddArrayItem('about', 'boardMembers', { 
+                        name: 'New Director Name', 
+                        role: 'Board Member', 
+                        photo: '' 
+                      })}
+                    >
+                      <Plus size={14} /> Add Board Member
                     </button>
                   </div>
 

@@ -18,7 +18,7 @@ const defaultThemeSettings = {
 };
 
 const defaultSectionVisibility = {
-  hero: true, about: true, businesses: true, whyChoose: true, products: true,
+  hero: true, about: true, businesses: true, appBrands: true, whyChoose: true, products: true,
   opportunities: true, software: true, network: true, investors: true,
   careers: true, news: true, gallery: true, downloads: true, testimonials: true,
   csr: true, contact: true

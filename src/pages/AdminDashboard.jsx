@@ -49,18 +49,21 @@ export default function AdminDashboard() {
         if (!copy[l].about.founders || !Array.isArray(copy[l].about.founders) || copy[l].about.founders.length === 0) {
           copy[l].about.founders = (translations[l]?.about?.founders || []).map(f => ({ ...f }));
         }
+        if (!copy[l].about.boardMembers || !Array.isArray(copy[l].about.boardMembers) || copy[l].about.boardMembers.length === 0) {
+          copy[l].about.boardMembers = (translations[l]?.about?.boardMembers || []).map(b => ({ ...b }));
+        }
       }
       if (!copy[l].appBrands) {
         copy[l].appBrands = {
-          label: l === 'en' ? 'DOORCARTS APP & PARTNER BRANDS' : 'മൊബൈൽ ആപ്പും ബ്രാൻഡുകളും',
-          title: l === 'en' ? 'Every Brand for Every Budget — In One App' : 'നിങ്ങളുടെ ബജറ്റിന് ഇണങ്ങുന്ന എല്ലാ കമ്പനികളും ഒറ്റ ആപ്പിൽ',
+          label: l === 'en' ? 'OEM SOURCING & BRAND PARTNERS' : 'ഓഥറൈസ്ഡ് ബ്രാൻഡ് പാർട്ണർഷിപ്പുകൾ & ഡിസ്ട്രിബ്യൂഷൻ',
+          title: l === 'en' ? 'Authorised Brand Partners & Multi-Tier Supply Ecosystem' : 'ആഗോള ബ്രാൻഡുകൾ, മികച്ച ക്വാളിറ്റി, നേരിട്ടുള്ള കമ്പനി വിതരണം',
           subtitle: l === 'en'
-            ? 'Check whether your preferred company and budget range are available right here before downloading the Doorcarts app.'
-            : 'ആപ്പ് ഡൗൺലോഡ് ചെയ്യുന്നതിന് മുൻപ് തന്നെ നിങ്ങൾ ഉദ്ദേശിക്കുന്ന കമ്പനിയും ബജറ്റിന് പറ്റിയ ഉൽപ്പന്നങ്ങളും ഉണ്ടോ എന്ന് ഇവിടെ പരിശോധിക്കാം.',
-          appName: l === 'en' ? 'Doorcarts by Dorek' : 'ഡോർകാർട്ട്സ് മൊബൈൽ ആപ്പ്',
+            ? 'Through Doorcarts enterprise network, Dorek International connects residential developments, infrastructure projects, and commercial builders directly with certified global and national manufacturers.'
+            : 'ഡോർകാർട്ട്സ് വിതരണ ശൃംഖലയിലൂടെ ഇന്ത്യയിലെയും ലോകത്തെയും മുൻനിര ബ്രാൻഡുകളുടെ ഉൽപ്പന്നങ്ങൾ ബിസിനസ്സ് ആവശ്യങ്ങൾക്കും വീടുകൾക്കും കമ്പനി വാറന്റിയോടെ ലഭ്യമാക്കുന്നു.',
+          appName: l === 'en' ? 'Doorcarts Enterprise & Mobile' : 'ഡോർകാർട്ട്സ് മൊബൈൽ ആപ്പ് & പോർട്ടൽ',
           appDesc: l === 'en'
-            ? 'Explore 10,000+ electrical, plumbing, solar, lighting, and hardware products across Premium, Standard, and Budget-Friendly brands with live wholesale & retail pricing.'
-            : 'ഇലക്ട്രിക്കൽ, പ്ലമ്പിംഗ്, സോളാർ, സാനിറ്ററി, ഹാർഡ്‌വെയർ മേഖലകളിലെ പ്രീമിയം, സ്റ്റാൻഡേർഡ്, ബജറ്റ് ബ്രാൻഡുകളുടെ വിലയും സ്റ്റോക്കും ആപ്പിലൂടെ നേരിട്ട് അറിയാം.',
+            ? 'Through Doorcarts, Dorek International equips builders, contractors, engineers, and property owners with direct access to 10,000+ certified products across Electrical, Plumbing, Solar EPC, Lighting, and Sanitaryware with district-level warehousing across all 14 Kerala districts.'
+            : 'ഇലക്ട്രിക്കൽ, പ്ലമ്പിംഗ്, സോളാർ, ലൈറ്റിംഗ്, സാനിറ്ററി മേഖലകളിലെ 10,000-ലധികം ഉൽപ്പന്നങ്ങൾ കമ്പനി വാറന്റിയോടെയും ട്രാൻസ്പരന്റ് റേറ്റുകളോടെയും കേരളത്തിലെ 14 ജില്ലകളിലും ലഭ്യമാണ്.',
           playStoreUrl: '',
           appStoreUrl: '',
           brands: DEFAULT_ADMIN_BRANDS.map(b => ({ ...b }))
@@ -185,8 +188,10 @@ export default function AdminDashboard() {
   // Handle section text updates
   const handleTextChange = (section, key, value, nestedKey = null) => {
     if (typeof value === 'string' && (value.includes('drive.google.com') || value.includes('docs.google.com'))) {
-      value = convertDriveUrl(value);
-      triggerNotification('Google Drive link converted to direct image URL!');
+      if (key === 'image' || key === 'logo' || key === 'photo' || nestedKey === 'image' || nestedKey === 'logo') {
+        value = convertDriveUrl(value);
+        triggerNotification('Google Drive link converted to direct image URL!');
+      }
     }
     if (isReadOnly) return;
     setSectionData(prev => {
@@ -208,8 +213,29 @@ export default function AdminDashboard() {
   // Handle item array updates (cards, timeline, list items)
   const handleArrayItemChange = (section, arrayName, index, field, value) => {
     if (typeof value === 'string' && (value.includes('drive.google.com') || value.includes('docs.google.com'))) {
-      value = convertDriveUrl(value);
-      triggerNotification('Google Drive link converted to direct image URL!');
+      if (section === 'downloads') {
+        // Document / PDF handling: Keep clean Google Drive view & download link
+        const match = value.trim().match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || 
+                      value.trim().match(/[?&]id=([a-zA-Z0-9_-]+)/) ||
+                      value.trim().match(/\/d\/([a-zA-Z0-9_-]+)/);
+        if (match && match[1]) {
+          value = `https://drive.google.com/file/d/${match[1]}/view?usp=sharing`;
+        }
+        triggerNotification('Google Drive document link configured for viewing & download!');
+      } else if (section === 'gallery' && arrayName === 'videos') {
+        // Video handling: Google Drive video preview player
+        const match = value.trim().match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || 
+                      value.trim().match(/[?&]id=([a-zA-Z0-9_-]+)/) ||
+                      value.trim().match(/\/d\/([a-zA-Z0-9_-]+)/);
+        if (match && match[1]) {
+          value = `https://drive.google.com/file/d/${match[1]}/preview`;
+        }
+        triggerNotification('Google Drive video link configured for player!');
+      } else {
+        // Images (photos, brand logos, founder photos)
+        value = convertDriveUrl(value);
+        triggerNotification('Google Drive link converted to direct image URL!');
+      }
     }
     if (isReadOnly) return;
     setSectionData(prev => {

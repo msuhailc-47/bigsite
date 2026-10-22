@@ -99,6 +99,14 @@ export default function DownloadsEditor({
                   style={{ maxWidth: '200px' }}
                 />
               </div>
+              {item.url && (
+                <div style={{ marginTop: '6px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 600 }}>✓ Document link active</span>
+                  <a href={item.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: '11px', color: '#0A2E5D', textDecoration: 'underline', fontWeight: 600 }}>
+                    Test Document Link ↗
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         ))}

@@ -35,6 +35,12 @@ export const getOptimizedUrl = (url, options = {}) => {
   }
 
   const targetUrl = convertDriveUrl(url);
+
+  // Directly serve Google Drive CDN images without proxying through Cloudinary (avoids 400 error)
+  if (targetUrl.includes('googleusercontent.com') || targetUrl.includes('drive.google.com')) {
+    return targetUrl;
+  }
+
   const CLOUD_NAME = 'mgeyukbq';
   const width = options.width || 1200;
   
