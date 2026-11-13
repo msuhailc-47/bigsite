@@ -7,6 +7,8 @@ export default function CodeSettingsTab({
   customJs, setCustomJs,
   headerScripts, setHeaderScripts,
   footerScripts, setFooterScripts,
+  metaPixelId, setMetaPixelId,
+  googleAnalyticsId, setGoogleAnalyticsId,
   handleSaveCodeSettings,
   codeSettings,
   rollbackCodeSettings,
@@ -15,8 +17,54 @@ export default function CodeSettingsTab({
 }) {
   return (
     <div className="admin-panel-card animate-fadeIn">
-      <h3>Advanced Code Settings</h3>
-      <p className="section-description">Inject custom tracking scripts, CSS overrides, or HTML modules to customize layout.</p>
+      <h3>Advanced Code & Analytics Settings</h3>
+      <p className="section-description">Configure Meta Pixel, Google Analytics, custom tracking scripts, and CSS/JS overrides.</p>
+
+      {/* Dedicated Marketing & Analytics Section */}
+      <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '20px', marginBottom: '24px' }}>
+        <h4 style={{ margin: '0 0 12px 0', color: '#0A2E5D', fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          📈 Social Media Marketing & Conversion Tracking (Meta Pixel & GA4)
+        </h4>
+        <p style={{ margin: '0 0 18px 0', fontSize: '0.84rem', color: '#64748b', lineHeight: 1.5 }}>
+          Enter your Meta Pixel ID to automatically track Facebook/Instagram visitors and WhatsApp catalogue enquiries for ad retargeting.
+        </p>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+          <div>
+            <label style={{ fontSize: '0.82rem', fontWeight: 600, color: '#1e293b', marginBottom: '6px', display: 'block' }}>
+              META PIXEL ID (FACEBOOK & INSTAGRAM)
+            </label>
+            <input
+              type="text"
+              value={metaPixelId || ''}
+              onChange={(e) => setMetaPixelId(e.target.value.trim())}
+              className="form-control"
+              placeholder="e.g. 123456789012345"
+              disabled={!canManageCode}
+            />
+            <span style={{ fontSize: '11px', color: '#16a34a', marginTop: '4px', display: 'block' }}>
+              Tracks page views, catalog visits, and fires 'WhatsApp_Enquiry' custom events.
+            </span>
+          </div>
+
+          <div>
+            <label style={{ fontSize: '0.82rem', fontWeight: 600, color: '#1e293b', marginBottom: '6px', display: 'block' }}>
+              GOOGLE ANALYTICS GA4 MEASUREMENT ID
+            </label>
+            <input
+              type="text"
+              value={googleAnalyticsId || ''}
+              onChange={(e) => setGoogleAnalyticsId(e.target.value.trim())}
+              className="form-control"
+              placeholder="e.g. G-XXXXXXXXXX"
+              disabled={!canManageCode}
+            />
+            <span style={{ fontSize: '11px', color: '#16a34a', marginTop: '4px', display: 'block' }}>
+              Directly loads Google Analytics GA4 tag across all pages.
+            </span>
+          </div>
+        </div>
+      </div>
 
       {!canManageCode && (
         <div className="cms-warning-banner mb-20">

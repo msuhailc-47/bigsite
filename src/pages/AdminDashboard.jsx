@@ -143,6 +143,8 @@ export default function AdminDashboard() {
   const [customJs, setCustomJs] = useState(codeSettings.customJs);
   const [headerScripts, setHeaderScripts] = useState(codeSettings.headerScripts);
   const [footerScripts, setFooterScripts] = useState(codeSettings.footerScripts);
+  const [metaPixelId, setMetaPixelId] = useState(codeSettings.metaPixelId || '');
+  const [googleAnalyticsId, setGoogleAnalyticsId] = useState(codeSettings.googleAnalyticsId || '');
 
   // Status notifications and loading
   const [notification, setNotification] = useState('');
@@ -483,7 +485,9 @@ export default function AdminDashboard() {
       customCss,
       customJs,
       headerScripts,
-      footerScripts
+      footerScripts,
+      metaPixelId,
+      googleAnalyticsId
     });
     triggerNotification("Custom scripts saved and applied!");
   };
@@ -738,6 +742,10 @@ export default function AdminDashboard() {
               setHeaderScripts={setHeaderScripts}
               footerScripts={footerScripts}
               setFooterScripts={setFooterScripts}
+              metaPixelId={metaPixelId}
+              setMetaPixelId={setMetaPixelId}
+              googleAnalyticsId={googleAnalyticsId}
+              setGoogleAnalyticsId={setGoogleAnalyticsId}
               handleSaveCodeSettings={handleSaveCodeSettings}
               codeSettings={codeSettings}
               rollbackCodeSettings={rollbackCodeSettings}

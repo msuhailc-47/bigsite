@@ -2,6 +2,7 @@ import React from 'react';
 import { Eye, EyeOff, ArrowUp, ArrowDown, Trash2, Plus, RefreshCw } from 'lucide-react';
 import HeroEditor from './sections/HeroEditor';
 import AboutEditor from './sections/AboutEditor';
+import CatalogEditor from './sections/CatalogEditor';
 import BusinessesEditor from './sections/BusinessesEditor';
 import AppBrandsEditor from './sections/AppBrandsEditor';
 import WhyChooseEditor from './sections/WhyChooseEditor';
@@ -35,6 +36,7 @@ export default function ContentEditorTab({
     { key: 'nav', label: 'Navbar Translations', noToggle: true },
     { key: 'hero', label: 'Hero Banner' },
     { key: 'about', label: 'About Us' },
+    { key: 'catalog', label: 'Doorcarts Catalog' },
     { key: 'businesses', label: 'Businesses' },
     { key: 'appBrands', label: 'App & Partner Brands' },
     { key: 'whyChoose', label: 'Why Choose Us' },
@@ -173,6 +175,21 @@ export default function ContentEditorTab({
               {/* SECTION: About Us */}
               {editingSection === 'about' && (
                 <AboutEditor
+                  sectionData={sectionData}
+                  setSectionData={setSectionData}
+                  editLang={editLang}
+                  handleTextChange={handleTextChange}
+                  handleArrayItemChange={handleArrayItemChange}
+                  handleAddArrayItem={handleAddArrayItem}
+                  handleDeleteArrayItem={handleDeleteArrayItem}
+                  handleMoveArrayItem={handleMoveArrayItem}
+                  handleFileUpload={handleFileUpload}
+                />
+              )}
+
+              {/* SECTION: Doorcarts Catalog */}
+              {editingSection === 'catalog' && (
+                <CatalogEditor
                   sectionData={sectionData}
                   setSectionData={setSectionData}
                   editLang={editLang}

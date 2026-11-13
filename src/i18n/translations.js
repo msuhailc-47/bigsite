@@ -431,6 +431,297 @@ const translations = {
       reply: 'Thank you for your message. A representative will get back to you shortly.',
       online: 'Online',
       options: ['Products & Services', 'Business Opportunities', 'Franchise Info', 'Contact Sales']
+    },
+    catalog: {
+          "badge": "DOORCARTS PRODUCT CATALOG",
+          "title": "Explore Our Building & Living Collections",
+          "subtitle": "Browse premium electrical, luxury chandeliers, designer bathware, and heavy-duty plumbing supplies direct from Doorcarts regional warehouses with instant WhatsApp wholesale quotes.",
+          "searchPlaceholder": "Search by product name, model code, or specification...",
+          "allCategories": "All Collections",
+          "enquireBtn": "Enquire on WhatsApp",
+          "downloadBrochureBtn": "Download PDF Catalog",
+          "brochureUrl": "",
+          "whatsappNumber": "+918606999350",
+          "categories": [
+                {
+                      "id": "switches",
+                      "name": "Modular Switches & Electricals",
+                      "desc": "Contemporary glass touch plates, smart automation & safe distribution boards"
+                },
+                {
+                      "id": "lighting",
+                      "name": "Luxury Chandeliers & Lighting",
+                      "desc": "Crystal chandeliers, designer pendants & architectural anti-glare downlights"
+                },
+                {
+                      "id": "sanitary",
+                      "name": "Sanitaryware & Bathware",
+                      "desc": "Wall-hung rimless commodes, matte black showers & designer art basins"
+                },
+                {
+                      "id": "plumbing",
+                      "name": "Plumbing & Pipes Godown",
+                      "desc": "Industrial CPVC/UPVC pipes, brass valves & underground drainage systems"
+                }
+          ],
+          "products": [
+                {
+                      "id": "sw-1",
+                      "category": "switches",
+                      "name": "Ultra-Slim Glass Touch Modular Switch Panel",
+                      "code": "DC-SW-101",
+                      "badge": "Best Seller",
+                      "image": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+                      "description": "Tempered crystal glass touch panel with LED backlight indicator, surge protection and anti-scratch finish.",
+                      "specs": [
+                            "10A / 16A Multi-Module",
+                            "Capacitive Feather Touch",
+                            "Flame Retardant PC Body",
+                            "10-Year Warranty"
+                      ],
+                      "whatsappMessage": "Hi Doorcarts, I am interested in 'Ultra-Slim Glass Touch Modular Switch Panel' (Model: DC-SW-101) from your catalog. Please share wholesale and retail pricing."
+                },
+                {
+                      "id": "sw-2",
+                      "category": "switches",
+                      "name": "Smart Wi-Fi & Voice Automation Switch Hub",
+                      "code": "DC-SW-102",
+                      "badge": "Smart IoT",
+                      "image": "https://images.unsplash.com/photo-1558227691-41ea78d1f631?auto=format&fit=crop&w=800&q=80",
+                      "description": "Integrated IoT switch supporting Alexa, Google Home & smartphone app control with energy monitoring.",
+                      "specs": [
+                            "No Neutral Wire Needed",
+                            "Real-time Power Tracker",
+                            "Timer & Scene Schedules",
+                            "Surge Protected"
+                      ],
+                      "whatsappMessage": "Hi Doorcarts, I would like details and quotation for 'Smart Wi-Fi & Voice Automation Switch Hub' (Model: DC-SW-102)."
+                },
+                {
+                      "id": "sw-3",
+                      "category": "switches",
+                      "name": "Metallic Brushed Brass & Matte Black Socket Plate",
+                      "code": "DC-SW-103",
+                      "badge": "Luxury Finish",
+                      "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+                      "description": "Anodized brushed metal finish plate with high-speed dual USB-C fast charging ports and safety shutters.",
+                      "specs": [
+                            "Dual 20W Type-C Fast Charge",
+                            "Child-Safe Internal Shutters",
+                            "Solid Brass Frame Accent",
+                            "Anti-Corrosion Coating"
+                      ],
+                      "whatsappMessage": "Hi Doorcarts, please share catalog pricing for 'Metallic Brushed Brass & Matte Black Socket Plate' (Model: DC-SW-103)."
+                },
+                {
+                      "id": "sw-4",
+                      "category": "switches",
+                      "name": "Heavy-Duty Industrial Distribution Board & MCB System",
+                      "code": "DC-SW-104",
+                      "badge": "Industrial Grade",
+                      "image": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80",
+                      "description": "Double door weather-sealed distribution enclosure with 10kA rupture capacity MCBs and RCCB earth leakage protection.",
+                      "specs": [
+                            "10kA Short Circuit Capacity",
+                            "ISI & CE Certified",
+                            "CRCA Steel Enclosure IP42",
+                            "Copper Busbar Integrated"
+                      ],
+                      "whatsappMessage": "Hi Doorcarts, I am looking for quotation for 'Heavy-Duty Industrial Distribution Board & MCB System' (Model: DC-SW-104)."
+                },
+                {
+                      "id": "lt-1",
+                      "category": "lighting",
+                      "name": "Contemporary Multi-Ring Crystal LED Chandelier",
+                      "code": "DC-LT-201",
+                      "badge": "Luxury Masterpiece",
+                      "image": "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&w=800&q=80",
+                      "description": "Grand spiral multi-ring chandelier embedded with hand-cut K9 crystals and remote-controlled CCT light tuning.",
+                      "specs": [
+                            "K9 Brilliant Crystals",
+                            "3-Color CCT Switching (Warm/Natural/White)",
+                            "Adjustable Suspension Height",
+                            "50,000h Life Driver"
+                      ],
+                      "whatsappMessage": "Hi Doorcarts, I am interested in the 'Contemporary Multi-Ring Crystal LED Chandelier' (Model: DC-LT-201). Please share dimensions and price."
+                },
+                {
+                      "id": "lt-2",
+                      "category": "lighting",
+                      "name": "Nordic Minimalist Geometric Dining Pendant Light",
+                      "code": "DC-LT-202",
+                      "badge": "Trending Design",
+                      "image": "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=800&q=80",
+                      "description": "Sleek architectural linear pendant with natural walnut wood accents and anti-glare soft ambient illumination.",
+                      "specs": [
+                            "Natural Solid Wood Accent",
+                            "Anti-Glare Honeycomb Diffuser",
+                            "Energy Saving High-Lumen LED",
+                            "Ideal for Kitchen Islands"
+                      ],
+                      "whatsappMessage": "Hi Doorcarts, please send details and price for 'Nordic Minimalist Geometric Dining Pendant Light' (Model: DC-LT-202)."
+                },
+                {
+                      "id": "lt-3",
+                      "category": "lighting",
+                      "name": "Low-Voltage 48V Magnetic Track Lighting System",
+                      "code": "DC-LT-203",
+                      "badge": "Architect Choice",
+                      "image": "https://images.unsplash.com/photo-1540932239986-30128078f3c5?auto=format&fit=crop&w=800&q=80",
+                      "description": "Touch-safe 48V recessed magnetic track with plug-and-play adjustable spotlights, floodlights, and linear modules.",
+                      "specs": [
+                            "48V DC Human-Safe Voltage",
+                            "CRI > 92 True Color Index",
+                            "Modular Magnetic Click Fit",
+                            "Smart Zigbee / 0-10V Dimming"
+                      ],
+                      "whatsappMessage": "Hi Doorcarts, I would like to request project estimation for 'Low-Voltage 48V Magnetic Track Lighting System' (Model: DC-LT-203)."
+                },
+                {
+                      "id": "lt-4",
+                      "category": "lighting",
+                      "name": "Waterproof Deep Recessed Anti-Glare Downlight",
+                      "code": "DC-LT-204",
+                      "badge": "Essential Lighting",
+                      "image": "https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?auto=format&fit=crop&w=800&q=80",
+                      "description": "Architectural recessed COB downlight with deep UGR<16 baffle preventing eye glare, suitable for living rooms and bathrooms.",
+                      "specs": [
+                            "UGR < 16 Deep Anti-Glare",
+                            "IP54 Moisture & Dust Proof",
+                            "Die-Cast Aluminum Heat Sink",
+                            "Flicker-Free Constant Driver"
+                      ],
+                      "whatsappMessage": "Hi Doorcarts, please send bulk quotation for 'Waterproof Deep Recessed Anti-Glare Downlight' (Model: DC-LT-204)."
+                },
+                {
+                      "id": "sn-1",
+                      "category": "sanitary",
+                      "name": "Rimless Tornado-Flush Wall Hung Smart Commode",
+                      "code": "DC-SN-301",
+                      "badge": "Best Seller",
+                      "image": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+                      "description": "Contemporary European-style wall hung closet with 360° dual tornado flush and ultra-smooth nano antibacterial glaze.",
+                      "specs": [
+                            "360° Tornado Dual Flush",
+                            "Nano Anti-Bacterial Glaze",
+                            "UF Soft-Closing Seat Cover",
+                            "Load Tested up to 400kg"
+                      ],
+                      "whatsappMessage": "Hi Doorcarts, I am interested in the 'Rimless Tornado-Flush Wall Hung Smart Commode' (Model: DC-SN-301). Please share availability."
+                },
+                {
+                      "id": "sn-2",
+                      "category": "sanitary",
+                      "name": "Matte Black Thermostatic Rainfall Shower Tower Set",
+                      "code": "DC-SN-302",
+                      "badge": "Spa Edition",
+                      "image": "https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=800&q=80",
+                      "description": "Luxury solid brass exposed shower column with 38°C safety thermostatic mixer, large overhead rain shower and handheld bidet spray.",
+                      "specs": [
+                            "38°C Safety Lock Thermostat",
+                            "Solid Brass Cartridge",
+                            "12-Inch Ultra-Slim Rainfall Head",
+                            "Electroplated Anti-Chip Matte Finish"
+                      ],
+                      "whatsappMessage": "Hi Doorcarts, please share specifications and wholesale price for 'Matte Black Thermostatic Rainfall Shower Tower Set' (Model: DC-SN-302)."
+                },
+                {
+                      "id": "sn-3",
+                      "category": "sanitary",
+                      "name": "Artisanal Countertop Ceramic Vessel Table Basin",
+                      "code": "DC-SN-303",
+                      "badge": "Artisan Craft",
+                      "image": "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=800&q=80",
+                      "description": "High-fire ceramic art basin with organic curved contour, stain-resistant porcelain glaze, and zero water splash profile.",
+                      "specs": [
+                            "High-Fire Vitreous China",
+                            "Stain & Scratch Resistant",
+                            "Slim Edge Design",
+                            "Compatible with Tall Pillar Taps"
+                      ],
+                      "whatsappMessage": "Hi Doorcarts, please send pricing for 'Artisanal Countertop Ceramic Vessel Table Basin' (Model: DC-SN-303)."
+                },
+                {
+                      "id": "sn-4",
+                      "category": "sanitary",
+                      "name": "LED Touch-Sensor Anti-Fog Smart Bathroom Vanity Mirror",
+                      "code": "DC-SN-304",
+                      "badge": "Smart Bath",
+                      "image": "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=800&q=80",
+                      "description": "High-definition 5mm copper-free silver mirror with integrated demister heating pad, ambient dual lighting, and digital clock.",
+                      "specs": [
+                            "Demister Anti-Fog Film",
+                            "3-Color LED Dimmable Backlight",
+                            "Digital Time & Temp Display",
+                            "IP44 Water Resistant Power"
+                      ],
+                      "whatsappMessage": "Hi Doorcarts, I am interested in 'LED Touch-Sensor Anti-Fog Smart Bathroom Vanity Mirror' (Model: DC-SN-304). Please share catalog details."
+                },
+                {
+                      "id": "pl-1",
+                      "category": "plumbing",
+                      "name": "Heavy-Duty Industrial CPVC Hot & Cold Pressure Pipes",
+                      "code": "DC-PL-401",
+                      "badge": "High Pressure",
+                      "image": "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?auto=format&fit=crop&w=800&q=80",
+                      "description": "Top-grade chlorinated polyvinyl chloride plumbing pipes certified for high-temperature solar water and potable domestic supply.",
+                      "specs": [
+                            "SDR 11 & SDR 13.5 Pressure Class",
+                            "Heat Resistant up to 93°C",
+                            "100% Lead-Free & Potable Safe",
+                            "Corrosion & Scale Free"
+                      ],
+                      "whatsappMessage": "Hi Doorcarts, I need bulk godown pricing for 'Heavy-Duty Industrial CPVC Hot & Cold Pressure Pipes' (Model: DC-PL-401)."
+                },
+                {
+                      "id": "pl-2",
+                      "category": "plumbing",
+                      "name": "Solid Forged Brass Full-Bore Ball Valve System",
+                      "code": "DC-PL-402",
+                      "badge": "Heavy Duty",
+                      "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
+                      "description": "Heavy duty forged brass full-port isolation valve with blowout-proof stem, PTFE Teflon seals, and rustproof stainless steel lever.",
+                      "specs": [
+                            "PN25 High Pressure Rating",
+                            "100% Factory Hydro-Tested",
+                            "PTFE Teflon Leakproof Seats",
+                            "Quarter-Turn Smooth Handle"
+                      ],
+                      "whatsappMessage": "Hi Doorcarts, please share wholesale godown rates for 'Solid Forged Brass Full-Bore Ball Valve System' (Model: DC-PL-402)."
+                },
+                {
+                      "id": "pl-3",
+                      "category": "plumbing",
+                      "name": "SWR Underground Push-Fit Drainage & Sewage Pipe System",
+                      "code": "DC-PL-403",
+                      "badge": "Godown Direct",
+                      "image": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=800&q=80",
+                      "description": "Rigid PVC drainage pipe system with elastomeric sealing ring joints ensuring 100% watertight leak-proof underground waste discharge.",
+                      "specs": [
+                            "Self-Lubricating Rubber Ring Joints",
+                            "High Impact & Crack Resistant",
+                            "Chemical & Acid Resistant",
+                            "Smooth Bore Mirror Finish"
+                      ],
+                      "whatsappMessage": "Hi Doorcarts, I am looking for supply quotation for 'SWR Underground Push-Fit Drainage Pipe System' (Model: DC-PL-403)."
+                },
+                {
+                      "id": "pl-4",
+                      "category": "plumbing",
+                      "name": "Multi-Layer Antibacterial Overhead Water Storage Tank",
+                      "code": "DC-PL-404",
+                      "badge": "10-Year Warranty",
+                      "image": "https://images.unsplash.com/photo-1542013936693-884638332954?auto=format&fit=crop&w=800&q=80",
+                      "description": "Heavy 4-layer virgin food-grade polymer water tank with UV sun shield, heat insulation foam, and microbial prevention inner lining.",
+                      "specs": [
+                            "100% Virgin Food-Grade Polymer",
+                            "UV-Stabilized Outer Sun Shield",
+                            "Anti-Bacterial Active Inner Wall",
+                            "500L / 1000L / 2000L Options"
+                      ],
+                      "whatsappMessage": "Hi Doorcarts, please share available capacities and dealership prices for 'Multi-Layer Antibacterial Overhead Water Storage Tank' (Model: DC-PL-404)."
+                }
+          ]
     }
   },
   ml: {
@@ -828,6 +1119,297 @@ const translations = {
       reply: 'നിങ്ങളുടെ സന്ദേശത്തിന് നന്ദി. ഒരു പ്രതിനിധി ഉടൻ തന്നെ നിങ്ങളെ ബന്ധപ്പെടും.',
       online: 'ഓൺലൈൻ',
       options: ['ഉൽപ്പന്നങ്ങൾ & സേവനങ്ങൾ', 'ബിസിനസ് അവസരങ്ങൾ', 'ഫ്രാഞ്ചൈസ് വിവരങ്ങൾ', 'സെയിൽസ് ബന്ധപ്പെടുക']
+    },
+    catalog: {
+          "badge": "ഡോർകാർട്സ് പ്രൊഡക്റ്റ് കാറ്റലോഗ്",
+          "title": "ഞങ്ങളുടെ പ്രീമിയം ഉൽപ്പന്ന ശേഖരം",
+          "subtitle": "പ്രീമിയം ഇലക്ട്രിക്കൽ സ്വിച്ചുകൾ, അത്യാകർഷകമായ ഷാൻഡിലിയേഴ്സ്, സാനിറ്ററിവെയർ, പ്ലംബിംഗ് സാമഗ്രികൾ നേരിട്ട് കണ്ട് വാട്സാപ്പിൽ ബന്ധപ്പെടൂ.",
+          "searchPlaceholder": "ഉൽപ്പന്നങ്ങൾ, മോഡൽ നമ്പർ അല്ലെങ്കിൽ ഫീച്ചറുകൾ തിരയുക...",
+          "allCategories": "എല്ലാ കളക്ഷനുകളും",
+          "enquireBtn": "വാട്സാപ്പിൽ ചോദിക്കാം",
+          "downloadBrochureBtn": "PDF കാറ്റലോഗ് ഡൗൺലോഡ്",
+          "brochureUrl": "",
+          "whatsappNumber": "+918606999350",
+          "categories": [
+                {
+                      "id": "switches",
+                      "name": "മോഡുലാർ സ്വിച്ചുകൾ & ഇലക്ട്രിക്കൽസ്",
+                      "desc": "ആധുനിക ഗ്ലാസ് ടച്ച് സ്വിച്ചുകൾ, സ്മാർട്ട് ഓട്ടോമേഷൻ & ഡിസ്ട്രിബ്യൂഷൻ ബോർഡുകൾ"
+                },
+                {
+                      "id": "lighting",
+                      "name": "ആഡംബര ഷാൻഡിലിയേഴ്സ് & ലൈറ്റിംഗ്",
+                      "desc": "ക്രിസ്റ്റൽ ഷാൻഡിലിയേഴ്സ്, ഡിസൈനർ പെൻഡന്റുകൾ & ആന്റി-ഗ്ലെയർ ഡൗൺലൈറ്റുകൾ"
+                },
+                {
+                      "id": "sanitary",
+                      "name": "സാനിറ്ററിവെയർ & ബാത്ത്വെയർ",
+                      "desc": "വാൾ-ഹങ് റിംലെസ് ക്ലോസറ്റുകൾ, മാറ്റ് ബ്ലാക്ക് ഷവറുകൾ & ഡിസൈനർ വാഷ് ബേസിനുകൾ"
+                },
+                {
+                      "id": "plumbing",
+                      "name": "പ്ലംബിംഗ് & പൈപ്പ് ഗോഡൗൺ",
+                      "desc": "ഇൻഡസ്ട്രിയൽ CPVC/UPVC പൈപ്പുകൾ, ബ്രാസ് വാൽവുകൾ & ഡ്രെയിനേജ് സിസ്റ്റങ്ങൾ"
+                }
+          ],
+          "products": [
+                {
+                      "id": "sw-1",
+                      "category": "switches",
+                      "name": "Ultra-Slim Glass Touch Modular Switch Panel",
+                      "code": "DC-SW-101",
+                      "badge": "Best Seller",
+                      "image": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80",
+                      "description": "Tempered crystal glass touch panel with LED backlight indicator, surge protection and anti-scratch finish.",
+                      "specs": [
+                            "10A / 16A Multi-Module",
+                            "Capacitive Feather Touch",
+                            "Flame Retardant PC Body",
+                            "10-Year Warranty"
+                      ],
+                      "whatsappMessage": "ഹലോ ഡോർകാർട്സ്, നിങ്ങളുടെ കാറ്റലോഗിലെ 'Ultra-Slim Glass Touch Modular Switch Panel' (മോഡൽ: DC-SW-101)-നെക്കുറിച്ചുള്ള കൂടുതൽ വിവരങ്ങളും ഹോൾസെയിൽ വിലയും അറിയാൻ താല്പര്യമുണ്ട്."
+                },
+                {
+                      "id": "sw-2",
+                      "category": "switches",
+                      "name": "Smart Wi-Fi & Voice Automation Switch Hub",
+                      "code": "DC-SW-102",
+                      "badge": "Smart IoT",
+                      "image": "https://images.unsplash.com/photo-1558227691-41ea78d1f631?auto=format&fit=crop&w=800&q=80",
+                      "description": "Integrated IoT switch supporting Alexa, Google Home & smartphone app control with energy monitoring.",
+                      "specs": [
+                            "No Neutral Wire Needed",
+                            "Real-time Power Tracker",
+                            "Timer & Scene Schedules",
+                            "Surge Protected"
+                      ],
+                      "whatsappMessage": "ഹലോ ഡോർകാർട്സ്, നിങ്ങളുടെ കാറ്റലോഗിലെ 'Smart Wi-Fi & Voice Automation Switch Hub' (മോഡൽ: DC-SW-102)-നെക്കുറിച്ചുള്ള കൂടുതൽ വിവരങ്ങളും ഹോൾസെയിൽ വിലയും അറിയാൻ താല്പര്യമുണ്ട്."
+                },
+                {
+                      "id": "sw-3",
+                      "category": "switches",
+                      "name": "Metallic Brushed Brass & Matte Black Socket Plate",
+                      "code": "DC-SW-103",
+                      "badge": "Luxury Finish",
+                      "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+                      "description": "Anodized brushed metal finish plate with high-speed dual USB-C fast charging ports and safety shutters.",
+                      "specs": [
+                            "Dual 20W Type-C Fast Charge",
+                            "Child-Safe Internal Shutters",
+                            "Solid Brass Frame Accent",
+                            "Anti-Corrosion Coating"
+                      ],
+                      "whatsappMessage": "ഹലോ ഡോർകാർട്സ്, നിങ്ങളുടെ കാറ്റലോഗിലെ 'Metallic Brushed Brass & Matte Black Socket Plate' (മോഡൽ: DC-SW-103)-നെക്കുറിച്ചുള്ള കൂടുതൽ വിവരങ്ങളും ഹോൾസെയിൽ വിലയും അറിയാൻ താല്പര്യമുണ്ട്."
+                },
+                {
+                      "id": "sw-4",
+                      "category": "switches",
+                      "name": "Heavy-Duty Industrial Distribution Board & MCB System",
+                      "code": "DC-SW-104",
+                      "badge": "Industrial Grade",
+                      "image": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80",
+                      "description": "Double door weather-sealed distribution enclosure with 10kA rupture capacity MCBs and RCCB earth leakage protection.",
+                      "specs": [
+                            "10kA Short Circuit Capacity",
+                            "ISI & CE Certified",
+                            "CRCA Steel Enclosure IP42",
+                            "Copper Busbar Integrated"
+                      ],
+                      "whatsappMessage": "ഹലോ ഡോർകാർട്സ്, നിങ്ങളുടെ കാറ്റലോഗിലെ 'Heavy-Duty Industrial Distribution Board & MCB System' (മോഡൽ: DC-SW-104)-നെക്കുറിച്ചുള്ള കൂടുതൽ വിവരങ്ങളും ഹോൾസെയിൽ വിലയും അറിയാൻ താല്പര്യമുണ്ട്."
+                },
+                {
+                      "id": "lt-1",
+                      "category": "lighting",
+                      "name": "Contemporary Multi-Ring Crystal LED Chandelier",
+                      "code": "DC-LT-201",
+                      "badge": "Luxury Masterpiece",
+                      "image": "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&w=800&q=80",
+                      "description": "Grand spiral multi-ring chandelier embedded with hand-cut K9 crystals and remote-controlled CCT light tuning.",
+                      "specs": [
+                            "K9 Brilliant Crystals",
+                            "3-Color CCT Switching (Warm/Natural/White)",
+                            "Adjustable Suspension Height",
+                            "50,000h Life Driver"
+                      ],
+                      "whatsappMessage": "ഹലോ ഡോർകാർട്സ്, നിങ്ങളുടെ കാറ്റലോഗിലെ 'Contemporary Multi-Ring Crystal LED Chandelier' (മോഡൽ: DC-LT-201)-നെക്കുറിച്ചുള്ള കൂടുതൽ വിവരങ്ങളും ഹോൾസെയിൽ വിലയും അറിയാൻ താല്പര്യമുണ്ട്."
+                },
+                {
+                      "id": "lt-2",
+                      "category": "lighting",
+                      "name": "Nordic Minimalist Geometric Dining Pendant Light",
+                      "code": "DC-LT-202",
+                      "badge": "Trending Design",
+                      "image": "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=800&q=80",
+                      "description": "Sleek architectural linear pendant with natural walnut wood accents and anti-glare soft ambient illumination.",
+                      "specs": [
+                            "Natural Solid Wood Accent",
+                            "Anti-Glare Honeycomb Diffuser",
+                            "Energy Saving High-Lumen LED",
+                            "Ideal for Kitchen Islands"
+                      ],
+                      "whatsappMessage": "ഹലോ ഡോർകാർട്സ്, നിങ്ങളുടെ കാറ്റലോഗിലെ 'Nordic Minimalist Geometric Dining Pendant Light' (മോഡൽ: DC-LT-202)-നെക്കുറിച്ചുള്ള കൂടുതൽ വിവരങ്ങളും ഹോൾസെയിൽ വിലയും അറിയാൻ താല്പര്യമുണ്ട്."
+                },
+                {
+                      "id": "lt-3",
+                      "category": "lighting",
+                      "name": "Low-Voltage 48V Magnetic Track Lighting System",
+                      "code": "DC-LT-203",
+                      "badge": "Architect Choice",
+                      "image": "https://images.unsplash.com/photo-1540932239986-30128078f3c5?auto=format&fit=crop&w=800&q=80",
+                      "description": "Touch-safe 48V recessed magnetic track with plug-and-play adjustable spotlights, floodlights, and linear modules.",
+                      "specs": [
+                            "48V DC Human-Safe Voltage",
+                            "CRI > 92 True Color Index",
+                            "Modular Magnetic Click Fit",
+                            "Smart Zigbee / 0-10V Dimming"
+                      ],
+                      "whatsappMessage": "ഹലോ ഡോർകാർട്സ്, നിങ്ങളുടെ കാറ്റലോഗിലെ 'Low-Voltage 48V Magnetic Track Lighting System' (മോഡൽ: DC-LT-203)-നെക്കുറിച്ചുള്ള കൂടുതൽ വിവരങ്ങളും ഹോൾസെയിൽ വിലയും അറിയാൻ താല്പര്യമുണ്ട്."
+                },
+                {
+                      "id": "lt-4",
+                      "category": "lighting",
+                      "name": "Waterproof Deep Recessed Anti-Glare Downlight",
+                      "code": "DC-LT-204",
+                      "badge": "Essential Lighting",
+                      "image": "https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?auto=format&fit=crop&w=800&q=80",
+                      "description": "Architectural recessed COB downlight with deep UGR<16 baffle preventing eye glare, suitable for living rooms and bathrooms.",
+                      "specs": [
+                            "UGR < 16 Deep Anti-Glare",
+                            "IP54 Moisture & Dust Proof",
+                            "Die-Cast Aluminum Heat Sink",
+                            "Flicker-Free Constant Driver"
+                      ],
+                      "whatsappMessage": "ഹലോ ഡോർകാർട്സ്, നിങ്ങളുടെ കാറ്റലോഗിലെ 'Waterproof Deep Recessed Anti-Glare Downlight' (മോഡൽ: DC-LT-204)-നെക്കുറിച്ചുള്ള കൂടുതൽ വിവരങ്ങളും ഹോൾസെയിൽ വിലയും അറിയാൻ താല്പര്യമുണ്ട്."
+                },
+                {
+                      "id": "sn-1",
+                      "category": "sanitary",
+                      "name": "Rimless Tornado-Flush Wall Hung Smart Commode",
+                      "code": "DC-SN-301",
+                      "badge": "Best Seller",
+                      "image": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+                      "description": "Contemporary European-style wall hung closet with 360° dual tornado flush and ultra-smooth nano antibacterial glaze.",
+                      "specs": [
+                            "360° Tornado Dual Flush",
+                            "Nano Anti-Bacterial Glaze",
+                            "UF Soft-Closing Seat Cover",
+                            "Load Tested up to 400kg"
+                      ],
+                      "whatsappMessage": "ഹലോ ഡോർകാർട്സ്, നിങ്ങളുടെ കാറ്റലോഗിലെ 'Rimless Tornado-Flush Wall Hung Smart Commode' (മോഡൽ: DC-SN-301)-നെക്കുറിച്ചുള്ള കൂടുതൽ വിവരങ്ങളും ഹോൾസെയിൽ വിലയും അറിയാൻ താല്പര്യമുണ്ട്."
+                },
+                {
+                      "id": "sn-2",
+                      "category": "sanitary",
+                      "name": "Matte Black Thermostatic Rainfall Shower Tower Set",
+                      "code": "DC-SN-302",
+                      "badge": "Spa Edition",
+                      "image": "https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=800&q=80",
+                      "description": "Luxury solid brass exposed shower column with 38°C safety thermostatic mixer, large overhead rain shower and handheld bidet spray.",
+                      "specs": [
+                            "38°C Safety Lock Thermostat",
+                            "Solid Brass Cartridge",
+                            "12-Inch Ultra-Slim Rainfall Head",
+                            "Electroplated Anti-Chip Matte Finish"
+                      ],
+                      "whatsappMessage": "ഹലോ ഡോർകാർട്സ്, നിങ്ങളുടെ കാറ്റലോഗിലെ 'Matte Black Thermostatic Rainfall Shower Tower Set' (മോഡൽ: DC-SN-302)-നെക്കുറിച്ചുള്ള കൂടുതൽ വിവരങ്ങളും ഹോൾസെയിൽ വിലയും അറിയാൻ താല്പര്യമുണ്ട്."
+                },
+                {
+                      "id": "sn-3",
+                      "category": "sanitary",
+                      "name": "Artisanal Countertop Ceramic Vessel Table Basin",
+                      "code": "DC-SN-303",
+                      "badge": "Artisan Craft",
+                      "image": "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=800&q=80",
+                      "description": "High-fire ceramic art basin with organic curved contour, stain-resistant porcelain glaze, and zero water splash profile.",
+                      "specs": [
+                            "High-Fire Vitreous China",
+                            "Stain & Scratch Resistant",
+                            "Slim Edge Design",
+                            "Compatible with Tall Pillar Taps"
+                      ],
+                      "whatsappMessage": "ഹലോ ഡോർകാർട്സ്, നിങ്ങളുടെ കാറ്റലോഗിലെ 'Artisanal Countertop Ceramic Vessel Table Basin' (മോഡൽ: DC-SN-303)-നെക്കുറിച്ചുള്ള കൂടുതൽ വിവരങ്ങളും ഹോൾസെയിൽ വിലയും അറിയാൻ താല്പര്യമുണ്ട്."
+                },
+                {
+                      "id": "sn-4",
+                      "category": "sanitary",
+                      "name": "LED Touch-Sensor Anti-Fog Smart Bathroom Vanity Mirror",
+                      "code": "DC-SN-304",
+                      "badge": "Smart Bath",
+                      "image": "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=800&q=80",
+                      "description": "High-definition 5mm copper-free silver mirror with integrated demister heating pad, ambient dual lighting, and digital clock.",
+                      "specs": [
+                            "Demister Anti-Fog Film",
+                            "3-Color LED Dimmable Backlight",
+                            "Digital Time & Temp Display",
+                            "IP44 Water Resistant Power"
+                      ],
+                      "whatsappMessage": "ഹലോ ഡോർകാർട്സ്, നിങ്ങളുടെ കാറ്റലോഗിലെ 'LED Touch-Sensor Anti-Fog Smart Bathroom Vanity Mirror' (മോഡൽ: DC-SN-304)-നെക്കുറിച്ചുള്ള കൂടുതൽ വിവരങ്ങളും ഹോൾസെയിൽ വിലയും അറിയാൻ താല്പര്യമുണ്ട്."
+                },
+                {
+                      "id": "pl-1",
+                      "category": "plumbing",
+                      "name": "Heavy-Duty Industrial CPVC Hot & Cold Pressure Pipes",
+                      "code": "DC-PL-401",
+                      "badge": "High Pressure",
+                      "image": "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?auto=format&fit=crop&w=800&q=80",
+                      "description": "Top-grade chlorinated polyvinyl chloride plumbing pipes certified for high-temperature solar water and potable domestic supply.",
+                      "specs": [
+                            "SDR 11 & SDR 13.5 Pressure Class",
+                            "Heat Resistant up to 93°C",
+                            "100% Lead-Free & Potable Safe",
+                            "Corrosion & Scale Free"
+                      ],
+                      "whatsappMessage": "ഹലോ ഡോർകാർട്സ്, നിങ്ങളുടെ കാറ്റലോഗിലെ 'Heavy-Duty Industrial CPVC Hot & Cold Pressure Pipes' (മോഡൽ: DC-PL-401)-നെക്കുറിച്ചുള്ള കൂടുതൽ വിവരങ്ങളും ഹോൾസെയിൽ വിലയും അറിയാൻ താല്പര്യമുണ്ട്."
+                },
+                {
+                      "id": "pl-2",
+                      "category": "plumbing",
+                      "name": "Solid Forged Brass Full-Bore Ball Valve System",
+                      "code": "DC-PL-402",
+                      "badge": "Heavy Duty",
+                      "image": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
+                      "description": "Heavy duty forged brass full-port isolation valve with blowout-proof stem, PTFE Teflon seals, and rustproof stainless steel lever.",
+                      "specs": [
+                            "PN25 High Pressure Rating",
+                            "100% Factory Hydro-Tested",
+                            "PTFE Teflon Leakproof Seats",
+                            "Quarter-Turn Smooth Handle"
+                      ],
+                      "whatsappMessage": "ഹലോ ഡോർകാർട്സ്, നിങ്ങളുടെ കാറ്റലോഗിലെ 'Solid Forged Brass Full-Bore Ball Valve System' (മോഡൽ: DC-PL-402)-നെക്കുറിച്ചുള്ള കൂടുതൽ വിവരങ്ങളും ഹോൾസെയിൽ വിലയും അറിയാൻ താല്പര്യമുണ്ട്."
+                },
+                {
+                      "id": "pl-3",
+                      "category": "plumbing",
+                      "name": "SWR Underground Push-Fit Drainage & Sewage Pipe System",
+                      "code": "DC-PL-403",
+                      "badge": "Godown Direct",
+                      "image": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=800&q=80",
+                      "description": "Rigid PVC drainage pipe system with elastomeric sealing ring joints ensuring 100% watertight leak-proof underground waste discharge.",
+                      "specs": [
+                            "Self-Lubricating Rubber Ring Joints",
+                            "High Impact & Crack Resistant",
+                            "Chemical & Acid Resistant",
+                            "Smooth Bore Mirror Finish"
+                      ],
+                      "whatsappMessage": "ഹലോ ഡോർകാർട്സ്, നിങ്ങളുടെ കാറ്റലോഗിലെ 'SWR Underground Push-Fit Drainage & Sewage Pipe System' (മോഡൽ: DC-PL-403)-നെക്കുറിച്ചുള്ള കൂടുതൽ വിവരങ്ങളും ഹോൾസെയിൽ വിലയും അറിയാൻ താല്പര്യമുണ്ട്."
+                },
+                {
+                      "id": "pl-4",
+                      "category": "plumbing",
+                      "name": "Multi-Layer Antibacterial Overhead Water Storage Tank",
+                      "code": "DC-PL-404",
+                      "badge": "10-Year Warranty",
+                      "image": "https://images.unsplash.com/photo-1542013936693-884638332954?auto=format&fit=crop&w=800&q=80",
+                      "description": "Heavy 4-layer virgin food-grade polymer water tank with UV sun shield, heat insulation foam, and microbial prevention inner lining.",
+                      "specs": [
+                            "100% Virgin Food-Grade Polymer",
+                            "UV-Stabilized Outer Sun Shield",
+                            "Anti-Bacterial Active Inner Wall",
+                            "500L / 1000L / 2000L Options"
+                      ],
+                      "whatsappMessage": "ഹലോ ഡോർകാർട്സ്, നിങ്ങളുടെ കാറ്റലോഗിലെ 'Multi-Layer Antibacterial Overhead Water Storage Tank' (മോഡൽ: DC-PL-404)-നെക്കുറിച്ചുള്ള കൂടുതൽ വിവരങ്ങളും ഹോൾസെയിൽ വിലയും അറിയാൻ താല്പര്യമുണ്ട്."
+                }
+          ]
     }
   }
 };
